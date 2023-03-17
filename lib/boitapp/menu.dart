@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:misoa/boitapp/action/actulit.dart';
+
 import 'package:misoa/boitapp/admin.dart';
 import 'package:misoa/boitapp/visite.dart';
 
@@ -14,12 +16,15 @@ class _MenuState extends State<Menu> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
-  static const List<Widget> _widgetoptions = <Widget>[FirstPage(),dashboad()];
+  static const List<Widget> _widgetoptions = <Widget>[
+    FirstPage(),
+    dashboad(),
+    ActulitiPage(),
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-       
         backgroundColor: Colors.red,
         title: const Text(
           'MISOA',
@@ -46,25 +51,23 @@ class _MenuState extends State<Menu> {
             child: GNav(
               rippleColor: Colors.grey[300]!,
               hoverColor: Colors.grey[300]!,
-              gap: 12,
               activeColor: Colors.red,
-              iconSize: 24,
+              iconSize: 34,
               padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.white,
-              color: Colors.black,
+              tabBackgroundColor: Colors.grey,
+              color: Colors.grey,
+              curve: Curves.easeInCubic,
               tabs: const [
                 GButton(
                   icon: Icons.home,
-                  text: 'Accueil',
+                ),
+                GButton(
+                  icon: Icons.home_repair_service,
                 ),
                 GButton(
                   icon: Icons.newspaper_outlined,
                   text: 'Actualité',
-                ),
-                GButton(
-                  icon: Icons.home_repair_service,
-                  text: 'Service',
                 ),
                 GButton(
                   icon: Icons.help_center,

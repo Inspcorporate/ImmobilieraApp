@@ -36,16 +36,33 @@ class _RegisterPageState extends State<RegisterPage> {
                     repeat: ImageRepeat.noRepeat,
                   ),
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.only(left: 100, top: 20),
-                  child: Text(
-                    'CREER UN COMPTE',
-                    style: TextStyle(
-                      fontFamily: 'beroKC',
-                      color: Colors.white,
-                      fontSize: 20,
+                child: Row(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(),
+                        child: IconButton(
+                          onPressed: () {
+                            Navigator.pop(
+                                context); // Retourne à la page précédente
+                          },
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            size: 40,
+                            color: Colors.white,
+                          ),
+                        )),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 50, top: 20),
+                      child: Text(
+                        'CREER UN COMPTE',
+                        style: TextStyle(
+                          fontFamily: 'beroKC',
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
               ),
               const SizedBox(

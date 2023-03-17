@@ -40,16 +40,33 @@ class _LoginPageState extends State<LoginPage> {
                   repeat: ImageRepeat.noRepeat,
                 ),
               ),
-              child: const Padding(
-                padding: EdgeInsets.only(left: 120, top: 30),
-                child: Text(
-                  'CONNEXION',
-                  style: TextStyle(
-                    fontFamily: 'beroKC',
-                    color: Colors.white,
-                    fontSize: 20,
+              child: Row(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(
+                              context); // Retourne à la page précédente
+                        },
+                        icon: Icon(
+                          Icons.arrow_back,
+                          size: 40,
+                          color: Colors.white,
+                        ),
+                      )),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 50, top: 20),
+                    child: Text(
+                      'CONNEXION',
+                      style: TextStyle(
+                        fontFamily: 'beroKC',
+                        color: Colors.white,
+                        fontSize: 25,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             const SizedBox(

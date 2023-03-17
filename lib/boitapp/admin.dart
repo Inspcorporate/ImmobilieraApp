@@ -21,7 +21,7 @@ class _dashboadState extends State<dashboad> {
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('images/blan.jpg'),
+              image: AssetImage('images/t.jpg'),
               fit: BoxFit.cover,
               opacity: 1.0,
               repeat: ImageRepeat.noRepeat,
@@ -33,7 +33,7 @@ class _dashboadState extends State<dashboad> {
               children: [
                 // Empty space
 
-                const SizedBox(height: 170), // Empty space
+                const SizedBox(height: 300), // Empty space
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -50,8 +50,8 @@ class _dashboadState extends State<dashboad> {
                           },
                           child: const Image(
                               image: AssetImage('images/rel.png'),
-                              height: 200,
-                              width: 200),
+                              height: 150,
+                              width: 150),
                         ),
                         SizedBox(height: 10), // Empty space
                       ],
@@ -69,8 +69,8 @@ class _dashboadState extends State<dashboad> {
                           },
                           child: const Image(
                               image: AssetImage('images/ven.png'),
-                              height: 200,
-                              width: 200),
+                              height: 150,
+                              width: 150),
                         ), // Icon color
                         // Icon size
 
@@ -98,8 +98,8 @@ class _dashboadState extends State<dashboad> {
                           },
                           child: const Image(
                               image: AssetImage('images/loc.png'),
-                              height: 200,
-                              width: 200),
+                              height: 150,
+                              width: 150),
                         ),
                         const SizedBox(height: 10), // Empty space
                       ],
@@ -116,10 +116,9 @@ class _dashboadState extends State<dashboad> {
                             );
                           },
                           child: const Image(
-                            image: AssetImage('images/ach.png'),
-                            height: 200,
-                            width: 200,
-                          ),
+                              image: AssetImage('images/ach.png'),
+                              height: 150,
+                              width: 150),
                         ),
                         const SizedBox(height: 10), // Empty space
                       ],
@@ -183,7 +182,7 @@ class _waitingState extends State<waiting> {
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const Relooking(),
+          builder: (context) => const Location(),
         ),
       ),
     );
@@ -215,7 +214,7 @@ class _wainting1State extends State<wainting1> {
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => Vendre(),
+          builder: (context) => Relooking(),
         ),
       ),
     );
@@ -247,7 +246,7 @@ class _wainting2State extends State<wainting2> {
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const Location(),
+          builder: (context) => const Vendre(),
         ),
       ),
     );

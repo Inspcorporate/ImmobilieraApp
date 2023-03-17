@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/action/paye.dart';
+import 'package:misoa/boitapp/view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MODIFER extends StatelessWidget {
@@ -18,33 +19,20 @@ class MODIFER extends StatelessWidget {
       body: ListView(
         children: [
           SizedBox(
-            child: SizedBox(
-                height: 40,
-                child: Container(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(),
-                    child: const Text('Mon desir'),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Payement()),
-                      );
-                    },
-                  ),
-                )),
+            child: SizedBox(height: 40, child: Container()),
           ),
           // Bloc Villa
           _buildBlock(
             title: "Villa",
             images: [
-              {
-                "image":
-                    "https://lh3.googleusercontent.com/qgq-Kn3chOIxnFC6KPxBPdHr-emRWAwbAFIZGQtxu-37kbhjc2UQFzdmHz-4psU5sUKwyoNHaDvFDk34buhEyjCG1SspMso7NhvPDWrc",
-                "description": "Belle villa avec piscine",
-                "localisation": "Nice, France",
-                "prix": "800 000 €",
-                "status": "À vendre",
-              },
+              // {
+              //   "image":
+              //       "https://lh3.googleusercontent.com/qgq-Kn3chOIxnFC6KPxBPdHr-emRWAwbAFIZGQtxu-37kbhjc2UQFzdmHz-4psU5sUKwyoNHaDvFDk34buhEyjCG1SspMso7NhvPDWrc",
+              //   "description": "Belle villa avec piscine",
+              //   "localisation": "Nice, France",
+              //   "prix": "800 000 €",
+              //   "status": "À vendre",
+              // },
               {
                 "image":
                     "https://gandaimmobilier.com/wp-content/uploads/2022/03/villa-meublee-agla-80.jpg.webp",
@@ -84,22 +72,22 @@ class MODIFER extends StatelessWidget {
           _buildBlock(
             title: "Appartement",
             images: [
-              {
-                "image":
-                    "https://scontent.fabj3-2.fna.fbcdn.net/v/t39.30808-6/322877234_1799434137122651_7208144073106585363_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=8hUPm3g86eQAX9oqhzo&_nc_ht=scontent.fabj3-2.fna&oh=00_AfBsKr9sKS7v3qopHUxCMUwWiJQR6cFXh_gZQbzD3eQ-ow&oe=641402B5",
-                "description": "Beau duplex en centre-ville",
-                "localisation": "Paris, France",
-                "prix": "500 000 €",
-                "status": "À vendre",
-              },
-              {
-                "image":
-                    "https://lh3.googleusercontent.com/_MJRYooE6uW8tQbctotyaG-65JdqqtJSDR8LBiMIrTvy_sgoxz-LoZ92sdPbS6xLxbSt9LNh58Ve8LgFsAMNu__oXYF3L_pW5Mk_3MY",
-                "description": "Appartement avec vue sur la Tour Eiffel",
-                "localisation": "Paris, France",
-                "prix": "1 000 000 €",
-                "status": "À vendre",
-              },
+              // {
+              //   "image":
+              //       "https://scontent.fabj3-2.fna.fbcdn.net/v/t39.30808-6/322877234_1799434137122651_7208144073106585363_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=8hUPm3g86eQAX9oqhzo&_nc_ht=scontent.fabj3-2.fna&oh=00_AfBsKr9sKS7v3qopHUxCMUwWiJQR6cFXh_gZQbzD3eQ-ow&oe=641402B5",
+              //   "description": "Beau duplex en centre-ville",
+              //   "localisation": "Paris, France",
+              //   "prix": "500 000 €",
+              //   "status": "À vendre",
+              // },
+              // {
+              //   "image":
+              //       "https://lh3.googleusercontent.com/_MJRYooE6uW8tQbctotyaG-65JdqqtJSDR8LBiMIrTvy_sgoxz-LoZ92sdPbS6xLxbSt9LNh58Ve8LgFsAMNu__oXYF3L_pW5Mk_3MY",
+              //   "description": "Appartement avec vue sur la Tour Eiffel",
+              //   "localisation": "Paris, France",
+              //   "prix": "1 000 000 €",
+              //   "status": "À vendre",
+              // },
               {
                 "image":
                     "https://www.capreit.ca/wp-content/uploads/2021/09/31-27.jpg",
@@ -239,11 +227,24 @@ class MODIFER extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 20),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          images[index]["image"]!,
-                          fit: BoxFit.cover,
-                          height: 340,
-                          width: 320,
+                        child: InkWell(
+                          child: Image.network(
+                            images[index]["image"]!,
+                            fit: BoxFit.cover,
+                            height: 340,
+                            width: 320,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => FullScreenImage(
+                                        imageUrl: images[index]["image"]!,
+                                        descri: images[index]["description"]!,
+                                        loca: images[index]["localisation"]!,
+                                        prix: images[index]["prix"]!,
+                                        status: images[index]["status"]!)));
+                          },
                         ),
                       ),
                     ),

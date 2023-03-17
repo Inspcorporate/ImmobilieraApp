@@ -30,7 +30,7 @@ class _FirstPageState extends State<FirstPage> {
     const Product(
         name: "Appartement",
         image:
-            "https://lh3.googleusercontent.com/qgq-Kn3chOIxnFC6KPxBPdHr-emRWAwbAFIZGQtxu-37kbhjc2UQFzdmHz-4psU5sUKwyoNHaDvFDk34buhEyjCG1SspMso7NhvPDWrc",
+            "https://repere.ci/wp-content/uploads/2022/07/294043735_1460355887711368_424813900704952524_n.jpg",
         description: "Description for Product 1",
         location: "Location for Product 1",
         price: 19.99,
@@ -45,7 +45,7 @@ class _FirstPageState extends State<FirstPage> {
     const Product(
         name: "Terrain",
         image:
-            "https://scontent.fabj3-2.fna.fbcdn.net/v/t39.30808-6/322877234_1799434137122651_7208144073106585363_n.jpg?stp=cp6_dst-jpg&_nc_cat=101&ccb=1-7&_nc_sid=8bfeb9&_nc_ohc=8hUPm3g86eQAX9oqhzo&_nc_ht=scontent.fabj3-2.fna&oh=00_AfBsKr9sKS7v3qopHUxCMUwWiJQR6cFXh_gZQbzD3eQ-ow&oe=641402B5",
+            "https://repere.ci/wp-content/uploads/2022/07/294043735_1460355887711368_424813900704952524_n.jpg",
         description: "Description for Product 2",
         location: "Location for Product 2",
         price: 29.99,
