@@ -84,6 +84,14 @@ class _ActulitiPageState extends State<ActulitiPage> {
                                 fontSize: 16.0,
                               ),
                             ),
+                            SizedBox(width: 5.0),
+                            Text(
+                              price,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16.0,
+                              ),
+                            ),
                           ],
                         ),
                         SizedBox(height: 10.0),

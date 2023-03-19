@@ -265,6 +265,8 @@ class MODIFER extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(left: 100),
                                 child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.grey),
                                     onPressed: () async {
                                       if (await canLaunch(
                                           images[index]["image"]!)) {
@@ -273,7 +275,10 @@ class MODIFER extends StatelessWidget {
                                         throw 'Could not launch ${images[index]["image"]!}';
                                       }
                                     },
-                                    child: Icon(Icons.download)),
+                                    child: const Icon(
+                                      Icons.visibility,
+                                      color: Colors.black,
+                                    )),
                               )
                             ],
                           ),

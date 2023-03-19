@@ -36,7 +36,7 @@ class _FullScreenImageState extends State<FullScreenImage> {
   //   super.initState();
   //   checkConnectivity(); // check connectivity on page initialization
   // }
-
+  bool _isInterested = false;
   @override
   Widget build(BuildContext context) {
     // Check if there is no internet connection and show an error widget
@@ -53,48 +53,74 @@ class _FullScreenImageState extends State<FullScreenImage> {
       appBar: AppBar(
         backgroundColor: Colors.red,
       ),
-      body: Center(
-        child: Card(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Image.network(
-                widget.imageUrl,
-                fit: BoxFit.cover,
-                height: 400,
-                width: 400,
-              ),
-              ListTile(
-                leading: Icon(Icons.description),
-                title: Text('Description'),
-                subtitle: Text(widget.descri),
-              ),
-              ListTile(
-                leading: Icon(Icons.location_on),
-                title: Text('Localisation'),
-                subtitle: Text(widget.loca),
-              ),
-              ListTile(
-                leading: Icon(Icons.attach_money),
-                title: Text('Prix'),
-                subtitle: Text(widget.prix),
-              ),
-              ListTile(
-                leading: Icon(Icons.leave_bags_at_home),
-                title: const Text('status'),
-                subtitle: Text(widget.status),
-              ),
-              ButtonBar(
-                children: <Widget>[
-                  ElevatedButton(
-                    child: const Text('ACHETER'),
-                    onPressed: () {/* ... */},
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                  ),
-                ],
-              ),
-            ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Image.network(
+                  widget.imageUrl,
+                  fit: BoxFit.cover,
+                  height: 400,
+                  width: 400,
+                ),
+                ListTile(
+                  leading: Icon(Icons.description),
+                  title: Text('Description'),
+                  subtitle: Text(widget.descri),
+                ),
+                ListTile(
+                  leading: Icon(Icons.location_on),
+                  title: Text('Localisation'),
+                  subtitle: Text(widget.loca),
+                ),
+                ListTile(
+                  leading: Icon(Icons.attach_money),
+                  title: Text('Prix'),
+                  subtitle: Text(widget.prix),
+                ),
+                ListTile(
+                  leading: Icon(Icons.leave_bags_at_home),
+                  title: const Text('status'),
+                  subtitle: Text(widget.status),
+                ),
+                StatefulBuilder(
+                  builder: (context, setState) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _isInterested = true;
+                        });
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Intéressé'),
+                              content: const Text(
+                                  'Vous êtes maintenant intéressé !'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('OK'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:
+                            _isInterested ? Colors.green : Colors.red,
+                      ),
+                      child: Text(_isInterested ? 'Intéressé !' : 'Intéresser'),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

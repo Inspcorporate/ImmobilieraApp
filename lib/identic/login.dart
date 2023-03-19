@@ -130,6 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                           } else if (value.length < 6) {
                             return 'Le mot de passe doit comporter au moins 6 caractères';
                           }
+                          return null;
                         }),
                     const SizedBox(
                       height: 20,

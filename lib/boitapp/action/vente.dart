@@ -69,17 +69,18 @@ class _VendreState extends State<Vendre> {
                 child: Row(
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(),
-                        child: IconButton(
-                          onPressed: () {
-                            Navigator.pop(
-                                context); // Retourne à la page précédente
-                          },
-                          icon: Icon(
-                            Icons.arrow_back,
-                            size: 30,
-                          ),
-                        )),
+                      padding: EdgeInsets.only(),
+                      child: IconButton(
+                        onPressed: () {
+                          Navigator.pop(
+                              context); // Retourne à la page précédente
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          size: 30,
+                        ),
+                      ),
+                    ),
                     const Padding(
                       padding: EdgeInsets.only(left: 50, top: 20),
                       child: Text(

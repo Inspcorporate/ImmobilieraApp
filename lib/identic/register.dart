@@ -103,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -119,7 +119,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -173,8 +173,9 @@ class _RegisterPageState extends State<RegisterPage> {
                             } else if (value.length < 6) {
                               return 'Le mot de passe doit comporter au moins 6 caractères';
                             }
+                            return null;
                           }),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
