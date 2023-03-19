@@ -67,11 +67,9 @@ class _MenuState extends State<Menu> {
                 ),
                 GButton(
                   icon: Icons.newspaper_outlined,
-                  text: 'Actualité',
                 ),
                 GButton(
                   icon: Icons.help_center,
-                  text: 'Asistance',
                 )
               ],
               selectedIndex: _selectedIndex,
