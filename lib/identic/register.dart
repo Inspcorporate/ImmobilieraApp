@@ -1,5 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:misoa/boitapp/menu.dart';
+import 'package:flutter/services.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -9,6 +14,67 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  TextEditingController pseudo = TextEditingController();
+  TextEditingController nom = TextEditingController();
+  TextEditingController nmero = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  int? userId;
+  String thereponse = "";
+
+  void clear() {
+    pseudo.clear();
+    nom.clear();
+    email.clear();
+    nmero.clear();
+    pass.clear();
+  }
+
+  Future userinf() async {
+    thereponse = "";
+    if (pseudo.text == "" &&
+        nom.text == "" &&
+        email.text == "" &&
+        nmero.text == "" &&
+        pass.text == "") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const RegisterPage()),
+      );
+    } else {
+      final response = await http
+          .post(Uri.parse("https://yakinci.com/misoa/insert.php"), body: {
+        "pseudo": pseudo.text,
+        "nom": nom.text,
+        "email": email.text,
+        "nmero": nmero.text,
+        "pass": pass.text,
+      });
+      setState(() {
+        thereponse = response.body.toString();
+        if (thereponse == "New record created successfully") {
+          clear();
+        }
+      });
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Circular()),
+      );
+    }
+  }
+
+  void error(BuildContext context, String error) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(error),
+        action: SnackBarAction(
+            label: 'OK', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
+
   bool _obscureText = true;
   @override
   Widget build(BuildContext context) {
@@ -65,6 +131,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   ],
                 ),
               ),
+              const Image(
+                image: AssetImage('images/mo.png'),
+              ),
               const SizedBox(
                 height: 20,
               ),
@@ -76,6 +145,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       TextFormField(
                         autocorrect: true,
+                        controller: pseudo,
                         decoration: const InputDecoration(
                           label: Text('PRENOM'),
                           enabledBorder: OutlineInputBorder(),
@@ -87,11 +157,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
                         autocorrect: true,
+                        controller: nom,
                         decoration: const InputDecoration(
                           label: Text('NOM'),
                           enabledBorder: OutlineInputBorder(),
@@ -107,11 +178,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20,
                       ),
                       TextFormField(
+                        controller: nmero,
                         autocorrect: true,
                         decoration: const InputDecoration(
                           label: Text('Numero'),
                           enabledBorder: OutlineInputBorder(),
                         ),
+                        keyboardType: TextInputType.phone,
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Veuillez entrer votre PRENOM svp';
@@ -124,6 +197,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       TextFormField(
                         autocorrect: true,
+                        controller: email,
                         style: const TextStyle(color: Colors.black),
                         decoration: const InputDecoration(
                           labelText: 'Email',
@@ -141,7 +215,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -179,12 +253,13 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20,
                       ),
                       TextFormField(
+                        controller: pass,
                         style: const TextStyle(color: Colors.black),
                         obscureText: true,
                         decoration: InputDecoration(
                           labelText: 'Comfirme Mot de passe',
                           labelStyle: TextStyle(color: Colors.black),
-                          enabledBorder: OutlineInputBorder(
+                          enabledBorder: const OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
                           suffixIcon: IconButton(
@@ -211,7 +286,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Padding(
@@ -232,12 +307,14 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                             ),
                             onPressed: () {
-                              CircularProgressIndicator;
+                              userinf();
+                              clear();
+                              // CircularProgressIndicator;
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Menu()),
-                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(builder: (context) => Menu()),
+                              // );
                             },
                           ),
                         ),
@@ -249,6 +326,69 @@ class _RegisterPageState extends State<RegisterPage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class Circular extends StatefulWidget {
+  const Circular({super.key});
+
+  @override
+  State<Circular> createState() => _CircularState();
+}
+
+class _CircularState extends State<Circular> {
+  Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    checkInternetConnectivity().then((internet) {
+      if (internet == true) {
+        Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Menu(),
+            ),
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("Erreur de connexion"),
+            content:
+                const Text("Vérifiez votre connexion internet et réessayez."),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: CircularProgressIndicator(
+        color: Colors.red,
+        backgroundColor: Colors.blueGrey,
       ),
     );
   }

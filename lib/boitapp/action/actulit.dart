@@ -194,7 +194,7 @@ class _ActulitiPageState extends State<ActulitiPage> {
                               children: [
                                 Image.network(
                                   item['image'],
-                                  width: 100,
+                                  width: 200,
                                   height: 100,
                                 ),
                                 SizedBox(width: 8.0),
@@ -205,7 +205,7 @@ class _ActulitiPageState extends State<ActulitiPage> {
                                     children: [
                                       Text(
                                         item['description'],
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 18.0,
                                           fontWeight: FontWeight.bold,
                                         ),

@@ -78,6 +78,7 @@ class _VendreState extends State<Vendre> {
                         icon: const Icon(
                           Icons.arrow_back,
                           size: 30,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -94,6 +95,9 @@ class _VendreState extends State<Vendre> {
                     ),
                   ],
                 ),
+              ),
+              const Image(
+                image: AssetImage('images/mo.png'),
               ),
               const SizedBox(
                 height: 20,

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:misoa/boitapp/action/actulit.dart';
-
 import 'package:misoa/boitapp/admin.dart';
+import 'package:misoa/boitapp/profil.dart';
 import 'package:misoa/boitapp/visite.dart';
 
 class Menu extends StatefulWidget {
@@ -17,9 +17,10 @@ class _MenuState extends State<Menu> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static const List<Widget> _widgetoptions = <Widget>[
-    FirstPage(),
     dashboad(),
+    FirstPage(),
     ActulitiPage(),
+    ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class _MenuState extends State<Menu> {
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: const Text(
-          'MISOA',
+          '',
           style: TextStyle(color: Colors.white),
         ),
         centerTitle: true,
@@ -69,7 +70,7 @@ class _MenuState extends State<Menu> {
                   icon: Icons.newspaper_outlined,
                 ),
                 GButton(
-                  icon: Icons.help_center,
+                  icon: Icons.person_2_outlined,
                 )
               ],
               selectedIndex: _selectedIndex,

@@ -66,6 +66,9 @@ class _RelookingState extends State<Relooking> {
                   ],
                 ),
               ),
+              const Image(
+                image: AssetImage('images/mo.png'),
+              ),
               const SizedBox(
                 height: 20,
               ),

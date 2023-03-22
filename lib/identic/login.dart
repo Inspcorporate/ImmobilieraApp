@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/menu.dart';
 import 'package:misoa/identic/forget.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,10 +14,41 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  String _errorMessage = '';
   bool isLoggingIn = false; // ajout de cette variable
   static const String _emailKey = 'email';
   bool _isLoading = false;
   bool _obscureText = true;
+
+  String _errorMessag = '';
+
+  Future<void> _login() async {
+    String url = 'https://yakinci.com/misoa/login.php';
+    var response = await http.post(url as Uri, body: {
+      'email': _emailController.text,
+      'password': _passwordController.text
+    });
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      if (data['success']) {
+        // Stocker l'ID de l'utilisateur dans les SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setInt('id_user', data['id_user']);
+        setState(() {
+          _errorMessag = data['message'];
+        });
+      }
+    } else {
+      setState(() {
+        _errorMessag = 'Une erreur s\'est produite lors de la connexion.';
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,6 +103,9 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
             ),
+            const Image(
+              image: AssetImage('images/mo.png'),
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -83,7 +120,6 @@ class _LoginPageState extends State<LoginPage> {
                           height: 20,
                         ),
                         TextFormField(
-                          autocorrect: true,
                           style: const TextStyle(color: Colors.black),
                           decoration: const InputDecoration(
                             labelText: 'Email',
@@ -107,6 +143,7 @@ class _LoginPageState extends State<LoginPage> {
                         TextFormField(
                             style: const TextStyle(color: Colors.black),
                             obscureText: _obscureText,
+                            controller: _passwordController,
                             decoration: InputDecoration(
                               labelText: 'Mot de passe',
                               labelStyle: const TextStyle(color: Colors.black),
@@ -140,16 +177,18 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(280, 50),
-                              backgroundColor: Colors.red),
+                            minimumSize: const Size(280, 50),
+                            backgroundColor: Colors.red,
+                          ),
                           onPressed: _isLoading
                               ? null
                               : () {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState?.validate() ??
+                                      false) {
                                     setState(() {
                                       _isLoading = true;
                                     });
-
+                                    _login();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -179,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const Forgetpage()),
+                                  builder: (context) => const forgetPage()),
                             );
                           },
                         )

@@ -5,6 +5,7 @@ import 'package:misoa/boitapp/achat.dart';
 import 'package:misoa/boitapp/action/Relooking.dart';
 import 'package:misoa/boitapp/action/loaction.dart';
 import 'package:misoa/boitapp/action/vente.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class dashboad extends StatefulWidget {
   const dashboad({super.key});
@@ -142,25 +143,58 @@ class waitingPage extends StatefulWidget {
 }
 
 class _waitingPageState extends State<waitingPage> {
+  Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    Timer(
-      const Duration(seconds: 2),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MODIFER(),
-        ),
-      ),
-    );
+    checkInternetConnectivity().then((internet) {
+      if (internet == true) {
+        Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const MODIFER(),
+            ),
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("Erreur de connexion"),
+            content:
+                const Text("Vérifiez votre connexion internet et réessayez."),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Colors.red,
+          backgroundColor: Colors.blueGrey,
+        ),
       ),
     );
   }
@@ -174,25 +208,58 @@ class waiting extends StatefulWidget {
 }
 
 class _waitingState extends State<waiting> {
+  Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    Timer(
-      const Duration(seconds: 2),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Location(),
-        ),
-      ),
-    );
+    checkInternetConnectivity().then((internet) {
+      if (internet == true) {
+        Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Location(),
+            ),
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("Erreur de connexion"),
+            content:
+                const Text("Vérifiez votre connexion internet et réessayez."),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Colors.red,
+          backgroundColor: Colors.blueGrey,
+        ),
       ),
     );
   }
@@ -206,25 +273,58 @@ class wainting1 extends StatefulWidget {
 }
 
 class _wainting1State extends State<wainting1> {
+  Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    Timer(
-      const Duration(seconds: 2),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Relooking(),
-        ),
-      ),
-    );
+    checkInternetConnectivity().then((internet) {
+      if (internet == true) {
+        Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Relooking(),
+            ),
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("Erreur de connexion"),
+            content:
+                const Text("Vérifiez votre connexion internet et réessayez."),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Colors.red,
+          backgroundColor: Colors.blueGrey,
+        ),
       ),
     );
   }
@@ -238,25 +338,58 @@ class wainting2 extends StatefulWidget {
 }
 
 class _wainting2State extends State<wainting2> {
+  Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    Timer(
-      const Duration(seconds: 2),
-      () => Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Vendre(),
-        ),
-      ),
-    );
+    checkInternetConnectivity().then((internet) {
+      if (internet == true) {
+        Timer(
+          const Duration(seconds: 2),
+          () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Vendre(),
+            ),
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("Erreur de connexion"),
+            content:
+                const Text("Vérifiez votre connexion internet et réessayez."),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(
+          color: Colors.red,
+          backgroundColor: Colors.blueGrey,
+        ),
       ),
     );
   }
