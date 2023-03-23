@@ -33,9 +33,15 @@ Widget _buildLoginForm() {
   Future loginuser() async {
     thereponse = "";
     final reponse = await http
-        .post(Uri.parse("https://yakinci.com/misoa/login.php"), body: {
-      "email": email.text,
+        .post(Uri.parse("https://yakinci.com/misoa/include/index.php"), body: {
+      'email': email.text,
     });
+
+    if (reponse.statusCode == 200) {
+      // Password reset email sent
+    } else {
+      // Password reset failed
+    }
   }
 
   return Form(
@@ -112,7 +118,7 @@ Widget _buildLoginForm() {
                       backgroundColor: Colors.redAccent,
                     ),
                     child: const Text(
-                      "modifier le password",
+                      "Reset Password",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 20,

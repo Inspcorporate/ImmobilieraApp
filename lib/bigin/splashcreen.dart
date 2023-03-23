@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:misoa/bigin/home.dart';
@@ -20,7 +20,7 @@ class _splashcreenState extends State<splashcreen> {
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => const HomePage(),
+          builder: (context) => const Lanceur(),
         ),
       ),
     );
@@ -28,7 +28,7 @@ class _splashcreenState extends State<splashcreen> {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
@@ -37,6 +37,73 @@ class _splashcreenState extends State<splashcreen> {
           ),
         ),
         child: null /* add child content here */,
+      ),
+    );
+  }
+}
+
+class Lanceur extends StatefulWidget {
+  const Lanceur({super.key});
+
+  @override
+  State<Lanceur> createState() => _LanceurState();
+}
+
+class _LanceurState extends State<Lanceur> {
+  Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    checkInternetConnectivity().then((internet) {
+      if (internet == true) {
+        Timer(
+          const Duration(seconds: 3),
+          () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          ),
+        );
+      } else {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: const Text("Erreur de connexion"),
+            content:
+                const Text("Vérifiez votre connexion internet et réessayez."),
+            actions: [
+              TextButton(
+                child: const Text("OK"),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: const Center(
+          child: CircularProgressIndicator(
+            color: Colors.red,
+            backgroundColor: Colors.blueGrey,
+          ),
+        ),
       ),
     );
   }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:misoa/boitapp/action/actulit.dart';
 import 'package:misoa/boitapp/admin.dart';
-import 'package:misoa/boitapp/profil.dart';
+import 'package:misoa/boitapp/proile.dart';
 import 'package:misoa/boitapp/visite.dart';
 
 class Menu extends StatefulWidget {
@@ -20,7 +20,7 @@ class _MenuState extends State<Menu> {
     dashboad(),
     FirstPage(),
     ActulitiPage(),
-    ProfilePage(),
+    Profile(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -38,10 +38,11 @@ class _MenuState extends State<Menu> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              blurRadius: 20,
+              blurRadius: 2,
               color: Colors.black.withOpacity(1),
             ),
           ],
@@ -50,24 +51,25 @@ class _MenuState extends State<Menu> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
             child: GNav(
-              rippleColor: Colors.grey[300]!,
-              hoverColor: Colors.grey[300]!,
               activeColor: Colors.red,
-              iconSize: 34,
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              iconSize: 30,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
               duration: Duration(milliseconds: 400),
-              tabBackgroundColor: Colors.grey,
               color: Colors.grey,
               curve: Curves.easeInCubic,
+             
               tabs: const [
                 GButton(
                   icon: Icons.home,
+                  text: 'home',
                 ),
                 GButton(
                   icon: Icons.home_repair_service,
+                  text: 'Proprieté',
                 ),
                 GButton(
                   icon: Icons.newspaper_outlined,
+                  text: 'News',
                 ),
                 GButton(
                   icon: Icons.person_2_outlined,
