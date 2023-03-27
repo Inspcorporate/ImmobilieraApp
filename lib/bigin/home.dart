@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:misoa/boitapp/menu.dart';
 import 'package:misoa/identic/login.dart';
 import 'package:misoa/identic/register.dart';
-import 'package:misoa/makets/visite.dart';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 class HomePage extends StatefulWidget {
@@ -50,7 +50,8 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => wainting1()),
+                      MaterialPageRoute(
+                          builder: (context) => const wainting1()),
                     );
                   },
                 ),
@@ -73,11 +74,11 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => waiting()),
+                      MaterialPageRoute(builder: (context) => const waiting()),
                     );
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 const SizedBox(
@@ -89,8 +90,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 OutlinedButton(
                   style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.white,
                       minimumSize: const Size(280, 50),
-                      primary: Colors.white,
                       side: const BorderSide(color: Colors.white)),
                   onPressed: () {
                     Navigator.push(
@@ -300,13 +301,11 @@ class _wainting1State extends State<wainting1> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: const Center(
-          child: CircularProgressIndicator(
-            color: Colors.red,
-            backgroundColor: Colors.blueGrey,
-          ),
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(
+          color: Colors.red,
+          backgroundColor: Colors.blueGrey,
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
-
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class ActulitiPage extends StatefulWidget {
@@ -80,8 +80,28 @@ class _ActulitiPageState extends State<ActulitiPage> {
     },
   ];
 
+  bool _isConnected = true; // assume there's an internet connection at first
+
+  @override
+  void initState() {
+    super.initState();
+    _checkInternetConnectivity();
+  }
+
+  Future<void> _checkInternetConnectivity() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() => _isConnected = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!_isConnected) {
+      return const Center(
+        child: Text('No internet connection.'),
+      );
+    }
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(

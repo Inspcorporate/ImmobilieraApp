@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/menu.dart';
 import 'package:misoa/identic/forget.dart';
@@ -28,6 +30,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _loadSavedEmail() async {
     final prefs = await SharedPreferences.getInstance();
     final email = prefs.getString('email');
+    prefs.setBool('isConnected', true);
     if (email != null) {
       setState(() {
         _emailController.text = email;
@@ -38,6 +41,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _saveEmail(String email) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('email', email);
+    prefs.setBool('isConnected', true);
   }
 
   Future<void> _sendForm() async {
@@ -60,6 +64,7 @@ class _LoginPageState extends State<LoginPage> {
       // Save the email in SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('email', email);
+      prefs.setBool('isConnected', true);
 
       Navigator.push(
         context,
@@ -71,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(responseData['message']),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.green,
         ),
       );
     }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class Product {
   final String name;
@@ -82,8 +83,29 @@ class _FirstPageState extends State<FirstPage> {
     });
   }
 
+  bool _isConnected = true; // assume there's an internet connection at first
+
+  @override
+  void intState() {
+    super.initState();
+    _checkInternetConnectivity();
+  }
+
+  Future<void> _checkInternetConnectivity() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.none) {
+      setState(() => _isConnected = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (!_isConnected) {
+      return const Center(
+        child: Text('No internet connection.'),
+      );
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Scaffold(
