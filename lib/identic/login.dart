@@ -13,40 +13,72 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  String _errorMessage = '';
-  bool isLoggingIn = false; // ajout de cette variable
-  static const String _emailKey = 'email';
-  bool _isLoading = false;
   bool _obscureText = true;
+  bool _isLoading = false;
 
-  String _errorMessag = '';
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedEmail();
+  }
 
-  Future<void> _login() async {
-    String url = 'https://yakinci.com/misoa/login.php';
-    var response = await http.post(url as Uri, body: {
-      'email': _emailController.text,
-      'password': _passwordController.text
-    });
-
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      if (data['success']) {
-        // Stocker l'ID de l'utilisateur dans les SharedPreferences
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        await prefs.setInt('id_user', data['id_user']);
-        setState(() {
-          _errorMessag = data['message'];
-        });
-      }
-    } else {
+  Future<void> _loadSavedEmail() async {
+    final prefs = await SharedPreferences.getInstance();
+    final email = prefs.getString('email');
+    if (email != null) {
       setState(() {
-        _errorMessag = 'Une erreur s\'est produite lors de la connexion.';
+        _emailController.text = email;
       });
     }
+  }
+
+  Future<void> _saveEmail(String email) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', email);
+  }
+
+  Future<void> _sendForm() async {
+    // Collect data from fields
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    // Prepare data to be sent in the request
+    final data = {'email': email, 'password': password};
+
+    // Send the data to the API
+    final response = await http.post(
+      Uri.parse('https://yakinci.com/misoa/login.php'),
+      body: data,
+    );
+
+    // Decode the response and show the result
+    final responseData = jsonDecode(response.body);
+    if (responseData['success']) {
+      // Save the email in SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('email', email);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Menu(),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(responseData['message']),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 
   @override
@@ -115,11 +147,13 @@ class _LoginPageState extends State<LoginPage> {
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Form(
+                      key: _formKey,
                       child: Column(children: [
                         const SizedBox(
                           height: 20,
                         ),
                         TextFormField(
+                          controller: _emailController,
                           style: const TextStyle(color: Colors.black),
                           decoration: const InputDecoration(
                             labelText: 'Email',
@@ -182,17 +216,19 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           onPressed: _isLoading
                               ? null
-                              : () {
+                              : () async {
                                   if (_formKey.currentState?.validate() ??
                                       false) {
                                     setState(() {
                                       _isLoading = true;
                                     });
-                                    _login();
+                                    _saveEmail(_emailController.text);
+                                    await _sendForm();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => const Menu()),
+                                        builder: (context) => const Menu(),
+                                      ),
                                     ).then((value) {
                                       setState(() {
                                         _isLoading = false;

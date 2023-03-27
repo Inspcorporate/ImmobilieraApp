@@ -1,10 +1,10 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:misoa/boitapp/menu.dart';
 import 'package:flutter/services.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:misoa/identic/mybtn.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -14,6 +14,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool isActive = false;
   TextEditingController pseudo = TextEditingController();
   TextEditingController nom = TextEditingController();
   TextEditingController nmero = TextEditingController();
@@ -76,6 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   bool _obscureText = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -288,6 +290,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const SizedBox(
                         height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            children: const [
+                              Text(
+                                  "J'accepte tout les conditions d'utilisation "),
+                            ],
+                          ),
+                          Mybton(),
+                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 20),

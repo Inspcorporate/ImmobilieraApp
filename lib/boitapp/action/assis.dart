@@ -24,7 +24,7 @@ class _assistPageState extends State<assistPage> {
         child: ListView(
           children: <Widget>[
             const SizedBox(
-              height: 200,
+              height: 300,
             ),
             Row(
               children: [

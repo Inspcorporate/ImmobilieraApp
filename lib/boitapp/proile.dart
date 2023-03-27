@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:misoa/boitapp/action/assis.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -100,6 +101,29 @@ class _ProfileState extends State<Profile> {
                   ),
                   child: const Text(
                     'Interêt',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const assistPage(),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: _selectedIndex == 2 ? Colors.red : Colors.grey,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Text(
+                    'Assistance',
                     style: TextStyle(
                       color: Colors.white,
                     ),

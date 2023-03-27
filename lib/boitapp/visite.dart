@@ -85,75 +85,123 @@ class _FirstPageState extends State<FirstPage> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Scaffold(
-            body: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: searchController,
-              onChanged: (query) {
-                filterProducts(query);
-              },
-              decoration: const InputDecoration(
-                labelText: "Rechercher un bien immobilier",
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Scaffold(
+        body: Column(
+          children: [
+            Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemCount: filteredProducts.length,
-                itemBuilder: (context, index) {
-                  final product = filteredProducts[index];
-                  return Padding(
-                    padding:
-                        const EdgeInsets.only(left: 30, right: 30, top: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(product.name,
-                            style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'beroKC')),
-                        const SizedBox(height: 10),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.network(
-                            product.image,
-                            width: 400,
-                            height: 500,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(product.description,
-                            style: TextStyle(fontSize: 18)),
-                        const SizedBox(height: 5),
-                        Text(product.location, style: TextStyle(fontSize: 16)),
-                        SizedBox(height: 5),
-                        Text(
-                          "${product.price.toStringAsFixed(2)}",
-                          style: const TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          product.status,
-                          style: const TextStyle(color: Colors.green),
-                        ),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                            onPressed: () {}, child: const Text('Autres'))
-                      ],
-                    ),
-                  );
+              child: TextField(
+                controller: searchController,
+                onChanged: (query) {
+                  filterProducts(query);
                 },
+                decoration: InputDecoration(
+                  labelText: "Rechercher un bien immobilier",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                ),
               ),
             ),
-          ),
-        ])));
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                  itemCount: filteredProducts.length,
+                  itemBuilder: (context, index) {
+                    final product = filteredProducts[index];
+                    return Padding(
+                      padding:
+                          const EdgeInsets.only(left: 30, right: 30, top: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(product.name,
+                              style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'beroKC')),
+                          const SizedBox(height: 10),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Stack(
+                              children: [
+                                Image.network(
+                                  product.image,
+                                  width: 400,
+                                  height: 500,
+                                  fit: BoxFit.cover,
+                                ),
+                                Positioned(
+                                  bottom: 20.0,
+                                  left: 20.0,
+                                  right: 20.0,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        product.description,
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(height: 5),
+                                      Text(
+                                        product.location,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            "${product.price.toStringAsFixed(2)}",
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            product.status,
+                                            style: const TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    Colors.redAccent,
+                                              ),
+                                              onPressed: () {},
+                                              child: const Text('Autres'))
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

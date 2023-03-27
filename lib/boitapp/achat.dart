@@ -198,7 +198,7 @@ class MODIFER extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Padding(
@@ -213,7 +213,7 @@ class MODIFER extends StatelessWidget {
           height: 10,
         ),
         SizedBox(
-          height: 500,
+          height: 360,
           width: 500,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -227,62 +227,147 @@ class MODIFER extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 20),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: InkWell(
-                          child: Image.network(
-                            images[index]["image"]!,
-                            fit: BoxFit.cover,
-                            height: 340,
-                            width: 320,
-                          ),
-                          onTap: () {
-                            Navigator.push(
+                        child: Stack(children: [
+                          InkWell(
+                            child: Image.network(
+                              images[index]["image"]!,
+                              fit: BoxFit.cover,
+                              height: 340,
+                              width: 320,
+                            ),
+                            onTap: () {
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => FullScreenImage(
-                                        imageUrl: images[index]["image"]!,
-                                        descri: images[index]["description"]!,
-                                        loca: images[index]["localisation"]!,
-                                        prix: images[index]["prix"]!,
-                                        status: images[index]["status"]!)));
-                          },
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            images[index]["description"]!,
-                            style: const TextStyle(fontWeight: FontWeight.bold),
+                                  builder: (context) => FullScreenImage(
+                                      imageUrl: images[index]["image"]!,
+                                      descri: images[index]["description"]!,
+                                      loca: images[index]["localisation"]!,
+                                      prix: images[index]["prix"]!,
+                                      status: images[index]["status"]!),
+                                ),
+                              );
+                            },
                           ),
-                          Text(images[index]["localisation"]!),
-                          Text(images[index]["prix"]!),
-                          Row(
-                            children: [
-                              Text(images[index]["status"]!),
+                          Positioned(
+                            bottom: 20.0,
+                            left: 20.0,
+                            child: Column(children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 100),
-                                child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.grey),
-                                    onPressed: () async {
-                                      if (await canLaunch(
-                                          images[index]["image"]!)) {
-                                        await launch(images[index]["image"]!);
-                                      } else {
-                                        throw 'Could not launch ${images[index]["image"]!}';
-                                      }
-                                    },
-                                    child: const Icon(
-                                      Icons.visibility,
-                                      color: Colors.black,
-                                    )),
-                              )
-                            ],
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.lightBlue),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => FullScreenImage(
+                                                              imageUrl: images[
+                                                                      index]
+                                                                  ["image"]!,
+                                                              descri: images[index][
+                                                                  "description"]!,
+                                                              loca: images[index]
+                                                                  [
+                                                                  "localisation"]!,
+                                                              prix:
+                                                                  images[index]
+                                                                      ["prix"]!,
+                                                              status: images[
+                                                                      index]
+                                                                  ["status"]!)));
+                                                },
+                                                child: const Text('Detail')),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.red),
+                                                onPressed: () {},
+                                                child: const Text('Je veux'))
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Row(
+                                              children: const [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow,
+                                                ),
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow,
+                                                ),
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow,
+                                                ),
+                                                Icon(Icons.star_half,
+                                                    color: Colors.yellow),
+                                                Icon(
+                                                  Icons.star_border_outlined,
+                                                  color: Colors.yellow,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.location_on,
+                                                  color: Colors.white,
+                                                ),
+                                                Text(
+                                                    images[index]
+                                                        ["localisation"]!,
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white)),
+                                                // Text(images[index]["status"]!),
+                                                // Padding(
+                                                //   padding: const EdgeInsets.only(
+                                                //       left: 100),
+                                                //   child: ElevatedButton(
+                                                //       style:
+                                                //           ElevatedButton.styleFrom(
+                                                //               backgroundColor:
+                                                //                   Colors.red),
+                                                //       onPressed: () async {
+                                                //         if (await canLaunch(
+                                                //             images[index]
+                                                //                 ["image"]!)) {
+                                                //           await launch(images[index]
+                                                //               ["image"]!);
+                                                //         } else {
+                                                //           throw 'Could not launch ${images[index]["image"]!}';
+                                                //         }
+                                                //       },
+                                                //       child: const Icon(
+                                                //         Icons.visibility,
+                                                //         color: Colors.black,
+                                                //       )),
+                                                // )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]),
                           ),
-                        ],
+                        ]),
                       ),
                     ),
                   ],
