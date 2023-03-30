@@ -12,6 +12,7 @@ class splashcreen extends StatefulWidget {
 }
 
 class _splashcreenState extends State<splashcreen> {
+  @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);

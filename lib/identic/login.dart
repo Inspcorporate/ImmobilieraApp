@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/menu.dart';
 import 'package:misoa/identic/forget.dart';
@@ -8,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -20,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
   bool _isLoading = false;
+  int? iduser;
 
   @override
   void initState() {
@@ -30,7 +30,6 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _loadSavedEmail() async {
     final prefs = await SharedPreferences.getInstance();
     final email = prefs.getString('email');
-    prefs.setBool('isConnected', true);
     if (email != null) {
       setState(() {
         _emailController.text = email;
@@ -38,13 +37,11 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  Future<void> _saveEmail(String email) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('email', email);
-    prefs.setBool('isConnected', true);
-  }
+  // Future<void> _saveUserId() async {
 
-  Future<void> _sendForm() async {
+  // }
+
+  Future<void> _sendForm(BuildContext context) async {
     // Collect data from fields
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
@@ -61,11 +58,8 @@ class _LoginPageState extends State<LoginPage> {
     // Decode the response and show the result
     final responseData = jsonDecode(response.body);
     if (responseData['success']) {
-      // Save the email in SharedPreferences
       final prefs = await SharedPreferences.getInstance();
-      await prefs.setString('email', email);
       prefs.setBool('isConnected', true);
-
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -76,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(responseData['message']),
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.red,
         ),
       );
     }
@@ -227,8 +221,8 @@ class _LoginPageState extends State<LoginPage> {
                                     setState(() {
                                       _isLoading = true;
                                     });
-                                    _saveEmail(_emailController.text);
-                                    await _sendForm();
+
+                                    await _sendForm(context);
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

@@ -17,7 +17,7 @@ class _LocationState extends State<Location> {
   TextEditingController localisation = TextEditingController();
   TextEditingController description = TextEditingController();
 
-  void insertLocation(String nom, String typeBien, String localisation,
+  void insertLocation(String nom, String _selectedOption, String localisation,
       String description) async {
     // URL du fichier PHP d'insertion dans la base de données
     var url = Uri.parse('http://votre_site.com/insert_location.php');
@@ -25,7 +25,7 @@ class _LocationState extends State<Location> {
     // Envoi de la requête POST avec les données du formulaire
     var response = await http.post(url, body: {
       'nom': nom,
-      'type_bien': typeBien,
+      'type_bien': _selectedOption,
       'localisation': localisation,
       'description': description
     });
@@ -35,7 +35,12 @@ class _LocationState extends State<Location> {
   }
 
   String _selectedOption = 'Louer un(e)';
-  List<String> _options = ['Louer un(e)', 'Appartement', 'Villa', 'Autres'];
+  final List<String> _options = [
+    'Louer un(e)',
+    'Appartement',
+    'Villa',
+    'Autres'
+  ];
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
@@ -110,6 +115,7 @@ class _LocationState extends State<Location> {
                           children: [
                             TextFormField(
                               autocorrect: true,
+                              controller: nom,
                               decoration: const InputDecoration(
                                 label: Text('Votre Nom complét'),
                                 enabledBorder: OutlineInputBorder(),
@@ -148,6 +154,7 @@ class _LocationState extends State<Location> {
                               height: 20,
                             ),
                             TextFormField(
+                              controller: localisation,
                               autocorrect: true,
                               decoration: const InputDecoration(
                                 label: Text('Localisation du Bien'),
@@ -165,6 +172,7 @@ class _LocationState extends State<Location> {
                             ),
                             TextFormField(
                               autocorrect: true,
+                              controller: description,
                               style: const TextStyle(color: Colors.black),
                               decoration: const InputDecoration(
                                 labelText: 'Description Du Bien',
@@ -202,10 +210,31 @@ class _LocationState extends State<Location> {
                                     ),
                                   ),
                                   onPressed: () {
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(builder: (context) => Menu()),
-                                    // );
+                                    if (Form.of(context).validate()) {
+                                      // if form is valid, call insertLocation with form data
+                                      String nomValue = nom.text;
+                                      String typebienValue = _selectedOption;
+                                      String localisationValue =
+                                          localisation.text;
+                                      String descriptionValue =
+                                          description.text;
+
+                                      insertLocation(nomValue, typebienValue,
+                                          localisationValue, descriptionValue);
+
+                                      // clear form data
+                                      nom.clear();
+                                      localisation.clear();
+                                      description.clear();
+
+                                      // navigate to previous screen
+                                      Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const Menu(),
+                                        ),
+                                      );
+                                    }
                                   },
                                 ),
                               ),

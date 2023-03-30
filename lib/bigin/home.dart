@@ -189,6 +189,7 @@ class waiting extends StatefulWidget {
   State<waiting> createState() => _waitingState();
 }
 
+// ignore: camel_case_types
 class _waitingState extends State<waiting> {
   Future<bool> checkInternetConnectivity() async {
     var connectivityResult = await Connectivity().checkConnectivity();

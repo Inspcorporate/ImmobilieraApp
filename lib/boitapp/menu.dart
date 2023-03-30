@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:misoa/boitapp/action/actulit.dart';
+import 'package:misoa/boitapp/action/wait.dart';
 import 'package:misoa/boitapp/admin.dart';
 import 'package:misoa/boitapp/proile.dart';
-import 'package:misoa/boitapp/visite.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -14,25 +14,15 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.w600);
   static const List<Widget> _widgetoptions = <Widget>[
     dashboad(),
-    FirstPage(),
+    Tour(),
     ActulitiPage(),
     Profile(),
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.red,
-        title: const Text(
-          '',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-      ),
       body: Center(
         child: _widgetoptions.elementAt(_selectedIndex),
       ),
@@ -54,10 +44,9 @@ class _MenuState extends State<Menu> {
               activeColor: Colors.red,
               iconSize: 30,
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-              duration: Duration(milliseconds: 400),
+              duration: const Duration(milliseconds: 400),
               color: Colors.grey,
               curve: Curves.easeInCubic,
-             
               tabs: const [
                 GButton(
                   icon: Icons.home,
