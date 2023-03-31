@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/admin.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -11,21 +13,51 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  String _username = "";
+  String prenom = "";
+  String numero = "";
+  String email = "";
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int userId = prefs.getInt("userId") ?? -1;
+
+    final response = await http.post(
+      Uri.parse("https://yakinci.com/misoa/mobile.php"),
+      body: {
+        "id": userId.toString(),
+      },
+    );
+
+    final data = jsonDecode(response.body);
+
+    setState(() {
+      _username = data["username"];
+      prenom = data["prenom"];
+      numero = data["numero"];
+      email = data["email"];
+    });
+  }
+
   void disconnectUser(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
 
     Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => waiting()),
-  );
+      context,
+      MaterialPageRoute(builder: (context) => waiting()),
+    );
   }
 
   int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -43,9 +75,9 @@ class _ProfileState extends State<Profile> {
             ),
           ),
           const SizedBox(height: 20),
-          const Text(
-            'John Doe',
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          Text(
+            '$prenom',
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 10),
@@ -139,9 +171,9 @@ class _ProfileState extends State<Profile> {
                           ),
                           Row(
                             children: [
-                              const Text(
-                                ' KONAN KOUDIO',
-                                style: TextStyle(
+                              Text(
+                                ' Mr $_username',
+                                style: const TextStyle(
                                     color: Colors.black, fontSize: 20),
                               ),
                               const SizedBox(
@@ -161,9 +193,9 @@ class _ProfileState extends State<Profile> {
                               const SizedBox(
                                 height: 30,
                               ),
-                              const Text(
-                                'tel: 22507562219783',
-                                style: TextStyle(
+                              Text(
+                                'tel: 225 $numero',
+                                style: const TextStyle(
                                     color: Colors.black, fontSize: 20),
                               ),
                               const SizedBox(
@@ -180,9 +212,9 @@ class _ProfileState extends State<Profile> {
                           ),
                           Row(
                             children: [
-                              const Text(
-                                'kasseberangerkonan@gmail.com',
-                                style: TextStyle(
+                              Text(
+                                '$email',
+                                style: const TextStyle(
                                     color: Colors.black, fontSize: 20),
                               ),
                               const SizedBox(

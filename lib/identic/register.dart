@@ -299,7 +299,6 @@ class _RegisterPageState extends State<RegisterPage> {
                                   "J'accepte tout les conditions d'utilisation "),
                             ],
                           ),
-                          Mybton(),
                         ],
                       ),
                       Padding(

@@ -26,11 +26,13 @@ class _RelookingState extends State<Relooking> {
   bool _isLoading = false;
 
   Future<void> submitForm() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int userId = prefs.getInt("userId") ?? -1;
     const url = 'https://yakinci.com/misoa/relook.php';
     final response = await http.post(
       Uri.parse(url),
       body: jsonEncode({
-        'name': _nameController.text,
+        'name':userId.toString() ,
         'propertyType': _selectedOption,
         'location': _locationController.text,
         'description': _descriptionController.text,

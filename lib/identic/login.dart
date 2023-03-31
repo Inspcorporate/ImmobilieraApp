@@ -1,4 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/menu.dart';
 import 'package:misoa/identic/forget.dart';
@@ -7,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -19,65 +20,46 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
   bool _isLoading = false;
-  int? iduser;
 
-  @override
-  void initState() {
-    super.initState();
-    _loadSavedEmail();
-  }
-
-  Future<void> _loadSavedEmail() async {
-    final prefs = await SharedPreferences.getInstance();
-    final email = prefs.getString('email');
-    if (email != null) {
-      setState(() {
-        _emailController.text = email;
-      });
-    }
-  }
-
-  // Future<void> _saveUserId() async {
-
-  // }
-
-  Future<void> _sendForm(BuildContext context) async {
-    // Collect data from fields
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
-
-    // Prepare data to be sent in the request
-    final data = {'email': email, 'password': password};
-
-    // Send the data to the API
+  Future<void> _login() async {
+    setState(() {
+      _isLoading = true;
+    });
     final response = await http.post(
-      Uri.parse('https://yakinci.com/misoa/login.php'),
-      body: data,
+      Uri.parse("https://yakinci.com/misoa/loginn.php"),
+      body: {
+        "email": _emailController.text,
+        "password": _passwordController.text,
+      },
     );
-
-    // Decode the response and show the result
-    final responseData = jsonDecode(response.body);
-    if (responseData['success']) {
-      final prefs = await SharedPreferences.getInstance();
-      prefs.setBool('isConnected', true);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const Menu(),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(responseData['message']),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
+    final data = jsonDecode(response.body);
 
     setState(() {
       _isLoading = false;
     });
+    if (data["success"] == 1) {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setInt("userId", data["id"]);
+      prefs.setBool('isConnected', true);
+    } else {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Erreur"),
+            content: const Text("Identifiants invalides"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -222,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                                       _isLoading = true;
                                     });
 
-                                    await _sendForm(context);
+                                    await _login();
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

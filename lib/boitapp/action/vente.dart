@@ -121,7 +121,7 @@ class _VendreState extends State<Vendre> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -137,7 +137,7 @@ class _VendreState extends State<Vendre> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -153,7 +153,7 @@ class _VendreState extends State<Vendre> {
                           return null;
                         },
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       TextFormField(
@@ -196,7 +196,7 @@ class _VendreState extends State<Vendre> {
                                     ),
                                   ),
                                 ),
-                          SizedBox(
+                          const SizedBox(
                             width: 30,
                           ),
                           file != null

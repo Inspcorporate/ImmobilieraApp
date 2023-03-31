@@ -12,35 +12,40 @@ class Location extends StatefulWidget {
 }
 
 class _LocationState extends State<Location> {
-  TextEditingController nom = TextEditingController();
-  TextEditingController typebien = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  TextEditingController locat = TextEditingController();
   TextEditingController localisation = TextEditingController();
   TextEditingController description = TextEditingController();
-
-  void insertLocation(String nom, String _selectedOption, String localisation,
-      String description) async {
-    // URL du fichier PHP d'insertion dans la base de données
-    var url = Uri.parse('http://votre_site.com/insert_location.php');
-
-    // Envoi de la requête POST avec les données du formulaire
-    var response = await http.post(url, body: {
-      'nom': nom,
-      'type_bien': _selectedOption,
-      'localisation': localisation,
-      'description': description
-    });
-
-    // Affichage de la réponse du serveur
-    print('Réponse du serveur : ${response.body}');
+  bool _isLoading = false;
+  String thereponse = "";
+  void clear() {
+    locat.clear();
+    localisation.clear();
+    description.clear();
   }
 
-  String _selectedOption = 'Louer un(e)';
-  final List<String> _options = [
-    'Louer un(e)',
-    'Appartement',
-    'Villa',
-    'Autres'
-  ];
+  Future location() async {
+    final prefs = await SharedPreferences.getInstance();
+    final int userId = prefs.getInt("userId") ?? -1;
+
+    final response = await http
+        .post(Uri.parse("https://yakinci.com/misoa/louer.php"), body: {
+      "nom": userId.toString(),
+      "locale": locat.text,
+      "maping": localisation.text,
+      "descrip": description.text,
+    });
+    setState(() {
+      thereponse = response.body.toString();
+      if (thereponse == "demande envoyer") {
+        clear();
+      }
+    });
+  }
+
+  String loca = '';
+  String localisatio = '';
+  String descriptio = '';
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
@@ -111,44 +116,22 @@ class _LocationState extends State<Location> {
                         child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Form(
+                        key: _formKey,
                         child: Column(
                           children: [
                             TextFormField(
                               autocorrect: true,
-                              controller: nom,
+                              controller: locat,
                               decoration: const InputDecoration(
-                                label: Text('Votre Nom complét'),
+                                label: Text('Que voullez louer'),
                                 enabledBorder: OutlineInputBorder(),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Veuillez entrer votre Nom svp';
+                                  return 'Veuillez Exprimer votre desire';
                                 }
                                 return null;
                               },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              height: 60,
-                              width: 350,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black)),
-                              child: DropdownButton<String>(
-                                value: _selectedOption,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedOption = newValue!;
-                                  });
-                                },
-                                items: _options.map((String option) {
-                                  return DropdownMenuItem<String>(
-                                    value: option,
-                                    child: Text(option),
-                                  );
-                                }).toList(),
-                              ),
                             ),
                             const SizedBox(
                               height: 20,
@@ -195,49 +178,164 @@ class _LocationState extends State<Location> {
                             Padding(
                               padding: const EdgeInsets.only(left: 20),
                               child: Container(
-                                height: 50,
-                                width: 300,
-                                color: Colors.red,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red),
-                                  child: const Text(
-                                    "VALIDER",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontFamily: 'beroKC',
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    if (Form.of(context).validate()) {
-                                      // if form is valid, call insertLocation with form data
-                                      String nomValue = nom.text;
-                                      String typebienValue = _selectedOption;
-                                      String localisationValue =
-                                          localisation.text;
-                                      String descriptionValue =
-                                          description.text;
+                                  height: 50,
+                                  width: 300,
+                                  color: Colors.red,
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red),
+                                      onPressed: _isLoading
+                                          ? null
+                                          : () async {
+                                              if (_formKey.currentState
+                                                      ?.validate() ??
+                                                  false) {
+                                                setState(() {
+                                                  _isLoading = true;
+                                                });
+                                                loca = locat.text;
+                                                localisatio = localisation.text;
+                                                descriptio = description.text;
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      AlertDialog(
+                                                    title: const Text(
+                                                        'Recapitulatif'),
+                                                    content: Text(
+                                                        "Ci-dessous les informations communiquées a MISOA : Location d'un(e) : $loca ; lacaliser à: $localisatio; decri comme suit: $descriptio. Cliquez sur suivant si vous êtres sure de la veracité de ceux-ci sinon cliquez sur précédent pour aller les corriger"),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop(false),
+                                                        child: const Text(
+                                                          'Précédent',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.red),
+                                                        ),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop(true),
+                                                        child: const Text(
+                                                          'Suivant',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.green),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ).then(
+                                                  (confirmed) {
+                                                    if (confirmed != null &&
+                                                        confirmed) {
+                                                      showDialog(
+                                                        context: context,
+                                                        builder: (context) =>
+                                                            AlertDialog(
+                                                          title: const Text(
+                                                            'Confidencialité',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .green,
+                                                                fontSize: 20),
+                                                          ),
+                                                          content: const Text(
+                                                              "La politique de confidencialité de MISOA lui permet de garder vos données, MISOA vous demande l'autorisation d'utiliser vos données personnelles afin d'améliorer votre expérience client"),
+                                                          actions: [
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop(
+                                                                          false),
+                                                              child: const Text(
+                                                                'Annuler',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .red),
+                                                              ),
+                                                            ),
+                                                            TextButton(
+                                                              onPressed: () =>
+                                                                  Navigator.of(
+                                                                          context)
+                                                                      .pop(
+                                                                          true),
+                                                              child: const Text(
+                                                                'Valider',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .green),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                          elevation: 30,
+                                                          buttonPadding:
+                                                              EdgeInsets.all(
+                                                                  20),
+                                                        ),
+                                                      ).then(
+                                                        (confirmed) {
+                                                          if (confirmed !=
+                                                                  null &&
+                                                              confirmed) {
+                                                            showDialog(
+                                                              context: context,
+                                                              builder: (context) =>
+                                                                  const AlertDialog(
+                                                                title: Text(
+                                                                  'Vous serez Contacté par le service Client',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .green,
+                                                                      fontSize:
+                                                                          20),
+                                                                ),
+                                                                content: Icon(
+                                                                  Icons
+                                                                      .check_circle,
+                                                                  color: Colors
+                                                                      .green,
+                                                                  size: 69,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          }
+                                                        },
+                                                      );
+                                                    }
+                                                  },
+                                                );
 
-                                      insertLocation(nomValue, typebienValue,
-                                          localisationValue, descriptionValue);
+                                                await location();
+                                                // clear form data
 
-                                      // clear form data
-                                      nom.clear();
-                                      localisation.clear();
-                                      description.clear();
-
-                                      // navigate to previous screen
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => const Menu(),
+                                                // navigate to previous screen
+                                                // ignore: use_build_context_synchronously
+                                                Navigator.pushReplacement(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const Menu(),
+                                                  ),
+                                                );
+                                              }
+                                            },
+                                      child: const Text(
+                                        "VALIDER",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontFamily: 'beroKC',
                                         ),
-                                      );
-                                    }
-                                  },
-                                ),
-                              ),
+                                      ))),
                             ),
                           ],
                         ),
