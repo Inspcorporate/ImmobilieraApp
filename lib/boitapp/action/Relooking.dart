@@ -1,6 +1,8 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:misoa/identic/login.dart';
-import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,18 +14,19 @@ class Relooking extends StatefulWidget {
 }
 
 class _RelookingState extends State<Relooking> {
-  String _selectedOption = 'Relooker un(e)';
-  final List<String> _options = [
-    'Relooker un(e)',
-    'Appartement',
-    'Villa',
-    'Autre'
-  ];
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController budget = TextEditingController();
   bool _isLoading = false;
+
+  void clear() {
+    _nameController.clear();
+    _locationController.clear();
+    _descriptionController.clear();
+    budget.clear();
+  }
 
   Future<void> submitForm() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -31,16 +34,17 @@ class _RelookingState extends State<Relooking> {
     const url = 'https://yakinci.com/misoa/relook.php';
     final response = await http.post(
       Uri.parse(url),
-      body: jsonEncode({
-        'name':userId.toString() ,
-        'propertyType': _selectedOption,
+      body: {
+        'name': userId.toString(),
+        'louer': _nameController.text,
         'location': _locationController.text,
         'description': _descriptionController.text,
-      }),
-      headers: {'Content-Type': 'application/json'},
+        'budget': budget.text,
+      },
     );
     if (response.statusCode == 200) {
       // Insert successful, do something
+      clear();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Setion Valider vous serez contacté'),
@@ -135,38 +139,15 @@ class _RelookingState extends State<Relooking> {
                               controller: _nameController,
                               autocorrect: true,
                               decoration: const InputDecoration(
-                                label: Text('Votre Nom complét'),
+                                label: Text('Louer un(e)'),
                                 enabledBorder: OutlineInputBorder(),
                               ),
                               validator: (value) {
                                 if (value!.isEmpty) {
-                                  return 'Veuillez entrer votre PRENOM svp';
+                                  return 'Veuillez entrer votre desire svp';
                                 }
                                 return null;
                               },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              height: 60,
-                              width: 400,
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black)),
-                              child: DropdownButton<String>(
-                                value: _selectedOption,
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _selectedOption = newValue!;
-                                  });
-                                },
-                                items: _options.map((String option) {
-                                  return DropdownMenuItem<String>(
-                                    value: option,
-                                    child: Text(option),
-                                  );
-                                }).toList(),
-                              ),
                             ),
                             const SizedBox(
                               height: 20,
@@ -176,6 +157,7 @@ class _RelookingState extends State<Relooking> {
                               autocorrect: true,
                               decoration: const InputDecoration(
                                 label: Text('Localisation'),
+                                hintText: 'Ou voulez vous avoir votre bien?',
                                 enabledBorder: OutlineInputBorder(),
                               ),
                               validator: (value) {
@@ -207,6 +189,22 @@ class _RelookingState extends State<Relooking> {
                             const SizedBox(
                               height: 20,
                             ),
+                            TextFormField(
+                              controller: budget,
+                              keyboardType: TextInputType.phone,
+                              decoration: const InputDecoration(
+                                  label: Text('Saisir votre budget'),
+                                  enabledBorder: OutlineInputBorder()),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Veuillez entrer votre budget svp';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
                             Padding(
                               padding: const EdgeInsets.only(left: 10),
                               child: Container(
@@ -230,6 +228,7 @@ class _RelookingState extends State<Relooking> {
                                               _isLoading = true;
                                             });
                                             submitForm();
+                                            clear();
                                           }
                                           setState(() {
                                             _isLoading = false;

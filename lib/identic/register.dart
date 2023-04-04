@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:misoa/boitapp/menu.dart';
 import 'package:flutter/services.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:misoa/identic/login.dart';
 import 'package:misoa/identic/mybtn.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -372,7 +373,7 @@ class _CircularState extends State<Circular> {
           () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const Menu(),
+              builder: (context) => const LoginPage(),
             ),
           ),
         );

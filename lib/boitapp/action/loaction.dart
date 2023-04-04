@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:misoa/boitapp/achat.dart';
 import 'package:misoa/boitapp/menu.dart';
 import 'package:http/http.dart' as http;
 import 'package:misoa/identic/login.dart';
@@ -16,15 +17,18 @@ class _LocationState extends State<Location> {
   TextEditingController locat = TextEditingController();
   TextEditingController localisation = TextEditingController();
   TextEditingController description = TextEditingController();
+  TextEditingController budget = TextEditingController();
   bool _isLoading = false;
   String thereponse = "";
   void clear() {
     locat.clear();
     localisation.clear();
     description.clear();
+    budget.clear();
   }
 
   Future location() async {
+    thereponse = '';
     final prefs = await SharedPreferences.getInstance();
     final int userId = prefs.getInt("userId") ?? -1;
 
@@ -34,6 +38,7 @@ class _LocationState extends State<Location> {
       "locale": locat.text,
       "maping": localisation.text,
       "descrip": description.text,
+      "budget": budget.text,
     });
     setState(() {
       thereponse = response.body.toString();
@@ -46,6 +51,7 @@ class _LocationState extends State<Location> {
   String loca = '';
   String localisatio = '';
   String descriptio = '';
+  String argent = '';
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
@@ -109,6 +115,9 @@ class _LocationState extends State<Location> {
                         ],
                       ),
                     ),
+                    const Image(
+                      image: AssetImage('images/mo.png'),
+                    ),
                     const SizedBox(
                       height: 20,
                     ),
@@ -123,7 +132,7 @@ class _LocationState extends State<Location> {
                               autocorrect: true,
                               controller: locat,
                               decoration: const InputDecoration(
-                                label: Text('Que voullez louer'),
+                                label: Text('Vous desiez louer un(e)'),
                                 enabledBorder: OutlineInputBorder(),
                               ),
                               validator: (value) {
@@ -172,6 +181,13 @@ class _LocationState extends State<Location> {
                             const SizedBox(
                               height: 20,
                             ),
+                            TextFormField(
+                              controller: budget,
+                              keyboardType: TextInputType.phone,
+                              decoration: const InputDecoration(
+                                  label: Text('Saisir Votre Budget'),
+                                  enabledBorder: OutlineInputBorder()),
+                            ),
                             const SizedBox(
                               height: 20,
                             ),
@@ -193,6 +209,7 @@ class _LocationState extends State<Location> {
                                                 setState(() {
                                                   _isLoading = true;
                                                 });
+                                                location();
                                                 loca = locat.text;
                                                 localisatio = localisation.text;
                                                 descriptio = description.text;
@@ -278,8 +295,8 @@ class _LocationState extends State<Location> {
                                                           ],
                                                           elevation: 30,
                                                           buttonPadding:
-                                                              EdgeInsets.all(
-                                                                  20),
+                                                              const EdgeInsets
+                                                                  .all(20),
                                                         ),
                                                       ).then(
                                                         (confirmed) {
@@ -305,6 +322,7 @@ class _LocationState extends State<Location> {
                                                                       .green,
                                                                   size: 69,
                                                                 ),
+                                                                actions: [],
                                                               ),
                                                             );
                                                           }
@@ -314,18 +332,12 @@ class _LocationState extends State<Location> {
                                                   },
                                                 );
 
-                                                await location();
+                                                location();
+                                                clear();
                                                 // clear form data
 
                                                 // navigate to previous screen
                                                 // ignore: use_build_context_synchronously
-                                                Navigator.pushReplacement(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const Menu(),
-                                                  ),
-                                                );
                                               }
                                             },
                                       child: const Text(

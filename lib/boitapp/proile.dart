@@ -36,21 +36,22 @@ class _ProfileState extends State<Profile> {
 
     final data = jsonDecode(response.body);
 
-    setState(() {
-      _username = data["username"];
-      prenom = data["prenom"];
-      numero = data["numero"];
-      email = data["email"];
-    });
+  setState(() {
+    _username = data["username"] ?? '';
+    prenom = data["prenom"] ?? '';
+    numero = data["numero"] ?? '';
+    email = data["email"] ?? '';
+  });
   }
 
   void disconnectUser(BuildContext context) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
 
+    // ignore: use_build_context_synchronously
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => waiting()),
+      MaterialPageRoute(builder: (context) => const waiting()),
     );
   }
 
@@ -180,7 +181,7 @@ class _ProfileState extends State<Profile> {
                                 width: 50,
                               ),
                               InkWell(
-                                child: Icon(Icons.edit),
+                                child: const Icon(Icons.edit),
                                 onTap: () {},
                               )
                             ],
@@ -202,7 +203,7 @@ class _ProfileState extends State<Profile> {
                                 width: 50,
                               ),
                               InkWell(
-                                child: Icon(Icons.edit),
+                                child: const Icon(Icons.edit),
                                 onTap: () {},
                               )
                             ],
@@ -221,7 +222,7 @@ class _ProfileState extends State<Profile> {
                                 width: 10,
                               ),
                               InkWell(
-                                child: Icon(Icons.edit),
+                                child: const Icon(Icons.edit),
                                 onTap: () {},
                               )
                             ],

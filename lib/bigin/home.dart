@@ -6,6 +6,7 @@ import 'package:misoa/identic/login.dart';
 import 'package:misoa/identic/register.dart';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,105 +18,123 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('images/bak.jpg'),
-            fit: BoxFit.cover,
-            opacity: 1.0,
-            repeat: ImageRepeat.noRepeat,
-          ),
-        ),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const SizedBox(
-                  height: 400,
+    return FutureBuilder<int>(
+      future: checkConnection(),
+      builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+        if (snapshot.hasData && snapshot.data != null) {
+          return Circular();
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          return Scaffold(
+            body: Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/bak.jpg'),
+                  fit: BoxFit.cover,
+                  opacity: 1.0,
+                  repeat: ImageRepeat.noRepeat,
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(280, 50),
-                      backgroundColor: Colors.white),
-                  child: const Text(
-                    "S'INSCRIRE",
-                    style: TextStyle(
-                      fontFamily: 'beroKC',
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const wainting1()),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(280, 50),
-                    backgroundColor: Colors.white,
-                  ),
-                  child: const Text(
-                    "SE CONNECTER",
-                    style: TextStyle(
-                      fontFamily: 'beroKC',
-                      color: Colors.black,
-                      fontSize: 20,
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const waiting()),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const SizedBox(
-                  height: 30.0,
-                  child: Text(
-                    'OU',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      minimumSize: const Size(280, 50),
-                      side: const BorderSide(color: Colors.white)),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Circular(),
+              ),
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const SizedBox(
+                        height: 400,
                       ),
-                    );
-                  },
-                  child: const Text(
-                    "CONSULTER",
-                    style: TextStyle(
-                      fontFamily: 'beroKC',
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(280, 50),
+                            backgroundColor: Colors.white),
+                        child: const Text(
+                          "S'INSCRIRE",
+                          style: TextStyle(
+                            fontFamily: 'beroKC',
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const wainting1()),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(280, 50),
+                          backgroundColor: Colors.white,
+                        ),
+                        child: const Text(
+                          "SE CONNECTER",
+                          style: TextStyle(
+                            fontFamily: 'beroKC',
+                            color: Colors.black,
+                            fontSize: 20,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const waiting()),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const SizedBox(
+                        height: 30.0,
+                        child: Text(
+                          'OU',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            minimumSize: const Size(280, 50),
+                            side: const BorderSide(color: Colors.white)),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Circular(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          "CONSULTER",
+                          style: TextStyle(
+                            fontFamily: 'beroKC',
+                            color: Colors.white,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
+          );
+          ;
+        }
+      },
     );
+  }
+
+  Future<int> checkConnection() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final int userId = prefs.getInt("userId") ?? -1;
+    return userId;
   }
 }
 

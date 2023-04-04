@@ -41,13 +41,23 @@ class _LoginPageState extends State<LoginPage> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setInt("userId", data["id"]);
       prefs.setBool('isConnected', true);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const Menu(),
+        ),
+      );
     } else {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Erreur"),
-            content: const Text("Identifiants invalides"),
+            backgroundColor: Colors.red,
+            title: const Text("Echec de la connexion"),
+            content: const Text(
+              "L'email ou le mot de pass est incorrect",
+              style: TextStyle(color: Colors.white),
+            ),
             actions: [
               TextButton(
                 onPressed: () {
@@ -64,190 +74,203 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/blan.jpg'),
-              fit: BoxFit.cover,
-              opacity: 1.0,
-              repeat: ImageRepeat.noRepeat,
-            ),
-          ),
-          child: Column(children: [
-            Container(
-              height: 90,
-              width: 420,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('images/bkgr.jpg'),
-                  fit: BoxFit.cover,
-                  opacity: 1.0,
-                  repeat: ImageRepeat.noRepeat,
+    return FutureBuilder<bool>(
+      future: checkConnection(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData && snapshot.data!) {
+          return Scaffold(
+            body: SingleChildScrollView(
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('images/blan.jpg'),
+                    fit: BoxFit.cover,
+                    opacity: 1.0,
+                    repeat: ImageRepeat.noRepeat,
+                  ),
                 ),
-              ),
-              child: Row(
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(
-                              context); // Retourne à la page précédente
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          size: 40,
-                          color: Colors.white,
-                        ),
-                      )),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 50, top: 20),
-                    child: Text(
-                      'CONNEXION',
-                      style: TextStyle(
-                        fontFamily: 'beroKC',
-                        color: Colors.white,
-                        fontSize: 25,
+                child: Column(children: [
+                  Container(
+                    height: 90,
+                    width: 420,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('images/bkgr.jpg'),
+                        fit: BoxFit.cover,
+                        opacity: 1.0,
+                        repeat: ImageRepeat.noRepeat,
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const Image(
-              image: AssetImage('images/mo.png'),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          controller: _emailController,
-                          style: const TextStyle(color: Colors.black),
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            labelStyle: TextStyle(color: Colors.black),
-                            enabledBorder: OutlineInputBorder(),
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Veuillez entrer votre email';
-                            } else if (!RegExp(
-                                    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                .hasMatch(value)) {
-                              return 'Veuillez entrer un email valide';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                            style: const TextStyle(color: Colors.black),
-                            obscureText: _obscureText,
-                            controller: _passwordController,
-                            decoration: InputDecoration(
-                              labelText: 'Mot de passe',
-                              labelStyle: const TextStyle(color: Colors.black),
-                              enabledBorder: const OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
+                    child: Row(
+                      children: [
+                        Padding(
+                            padding: EdgeInsets.only(),
+                            child: IconButton(
+                              onPressed: () {
+                                Navigator.pop(
+                                    context); // Retourne à la page précédente
+                              },
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                size: 40,
+                                color: Colors.white,
                               ),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _obscureText = !_obscureText;
-                                  });
-                                },
-                                icon: Icon(
-                                  _obscureText
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return 'Veuillez entrer votre mot de passe';
-                              } else if (value.length < 6) {
-                                return 'Le mot de passe doit comporter au moins 6 caractères';
-                              }
-                              return null;
-                            }),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(280, 50),
-                            backgroundColor: Colors.red,
-                          ),
-                          onPressed: _isLoading
-                              ? null
-                              : () async {
-                                  if (_formKey.currentState?.validate() ??
-                                      false) {
-                                    setState(() {
-                                      _isLoading = true;
-                                    });
-
-                                    await _login();
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const Menu(),
-                                      ),
-                                    ).then((value) {
-                                      setState(() {
-                                        _isLoading = false;
-                                      });
-                                    });
-                                  }
-                                },
-                          child: _isLoading
-                              ? const CircularProgressIndicator()
-                              : const Text('Se connecter'),
-                        ),
-                        SizedBox(height: 20),
-                        InkWell(
-                          child: const Text(
-                            "Mot de pass oublié",
+                            )),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 50, top: 20),
+                          child: Text(
+                            'CONNEXION',
                             style: TextStyle(
-                              color: Colors.black,
                               fontFamily: 'beroKC',
-                              fontSize: 22,
+                              color: Colors.white,
+                              fontSize: 25,
                             ),
                           ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const forgetPage()),
-                            );
-                          },
-                        )
-                      ]),
+                        ),
+                      ],
                     ),
                   ),
-                ],
+                  const Image(
+                    image: AssetImage('images/mo.png'),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(children: [
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                controller: _emailController,
+                                style: const TextStyle(color: Colors.black),
+                                decoration: const InputDecoration(
+                                  labelText: 'Email',
+                                  labelStyle: TextStyle(color: Colors.black),
+                                  enabledBorder: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Veuillez entrer votre email';
+                                  } else if (!RegExp(
+                                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                      .hasMatch(value)) {
+                                    return 'Veuillez entrer un email valide';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                  style: const TextStyle(color: Colors.black),
+                                  obscureText: _obscureText,
+                                  controller: _passwordController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Mot de passe',
+                                    labelStyle:
+                                        const TextStyle(color: Colors.black),
+                                    enabledBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscureText = !_obscureText;
+                                        });
+                                      },
+                                      icon: Icon(
+                                        _obscureText
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Veuillez entrer votre mot de passe';
+                                    } else if (value.length < 6) {
+                                      return 'Le mot de passe doit comporter au moins 6 caractères';
+                                    }
+                                    return null;
+                                  }),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  minimumSize: const Size(280, 50),
+                                  backgroundColor: Colors.red,
+                                ),
+                                onPressed: _isLoading
+                                    ? null
+                                    : () async {
+                                        if (_formKey.currentState?.validate() ??
+                                            false) {
+                                          setState(() {
+                                            _isLoading = true;
+                                          });
+
+                                          await _login().then((value) {
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                          });
+                                        }
+                                      },
+                                child: _isLoading
+                                    ? const CircularProgressIndicator()
+                                    : const Text('Se connecter'),
+                              ),
+                              SizedBox(height: 20),
+                              InkWell(
+                                child: const Text(
+                                  "Mot de pass oublié",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontFamily: 'beroKC',
+                                    fontSize: 22,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const forgetPage()),
+                                  );
+                                },
+                              )
+                            ]),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ]),
               ),
-            )
-          ]),
-        ),
-      ),
+            ),
+          );
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          return const Menu();
+        }
+      },
     );
+  }
+
+  Future<bool> checkConnection() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool isConnected = prefs.getBool('isConnected') ?? true;
+    return isConnected;
   }
 }
