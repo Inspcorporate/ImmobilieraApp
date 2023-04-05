@@ -42,9 +42,7 @@ class _LocationState extends State<Location> {
     });
     setState(() {
       thereponse = response.body.toString();
-      if (thereponse == "demande envoyer") {
-        clear();
-      }
+      if (thereponse == "demande envoyer") {}
     });
   }
 
@@ -209,7 +207,9 @@ class _LocationState extends State<Location> {
                                                 setState(() {
                                                   _isLoading = true;
                                                 });
+
                                                 location();
+                                                clear();
                                                 loca = locat.text;
                                                 localisatio = localisation.text;
                                                 descriptio = description.text;
@@ -332,8 +332,6 @@ class _LocationState extends State<Location> {
                                                   },
                                                 );
 
-                                                location();
-                                                clear();
                                                 // clear form data
 
                                                 // navigate to previous screen

@@ -85,7 +85,6 @@ class _FirstPageState extends State<FirstPage> {
 
   bool _isConnected = true; // assume there's an internet connection at first
 
-  @override
   void intState() {
     super.initState();
     _checkInternetConnectivity();
