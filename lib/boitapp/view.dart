@@ -19,36 +19,11 @@ class FullScreenImage extends StatefulWidget {
 }
 
 class _FullScreenImageState extends State<FullScreenImage> {
-  // bool _isConnected = true; // initial connectivity status
 
-  // Future<void> checkConnectivity() async {
-  //   final ConnectivityResult connectivityResult =
-  //       await Connectivity().checkConnectivity();
-  //   if (connectivityResult == ConnectivityResult.none) {
-  //     setState(() {
-  //       _isConnected = false;
-  //     });
-  //   }
-  // }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   checkConnectivity(); // check connectivity on page initialization
-  // }
   bool _isInterested = false;
   @override
   Widget build(BuildContext context) {
-    // Check if there is no internet connection and show an error widget
-    // if (!_isConnected) {
-    //   return Scaffold(
-    //     body: Center(
-    //       child: Text('Erreur 404: Aucune connexion internet'),
-    //     ),
-    //   );
-    // }
-
-    // If there is an internet connection, show the page content
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red,
@@ -66,22 +41,22 @@ class _FullScreenImageState extends State<FullScreenImage> {
                   width: 400,
                 ),
                 ListTile(
-                  leading: Icon(Icons.description),
-                  title: Text('Description'),
+                  leading: const Icon(Icons.description),
+                  title: const Text('Description'),
                   subtitle: Text(widget.descri),
                 ),
                 ListTile(
-                  leading: Icon(Icons.location_on),
-                  title: Text('Localisation'),
+                  leading: const Icon(Icons.location_on),
+                  title: const Text('Localisation'),
                   subtitle: Text(widget.loca),
                 ),
                 ListTile(
-                  leading: Icon(Icons.attach_money),
-                  title: Text('Prix'),
+                  leading: const Icon(Icons.attach_money),
+                  title: const Text('Prix'),
                   subtitle: Text(widget.prix),
                 ),
                 ListTile(
-                  leading: Icon(Icons.leave_bags_at_home),
+                  leading: const Icon(Icons.leave_bags_at_home),
                   title: const Text('status'),
                   subtitle: Text(widget.status),
                 ),

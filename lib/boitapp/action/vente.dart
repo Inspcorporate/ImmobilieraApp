@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:misoa/boitapp/menu.dart';
 import 'package:misoa/identic/login.dart';
 import 'dart:io' as Io;
 
@@ -78,10 +79,43 @@ class _VendreState extends State<Vendre> {
     var response = await request.send();
 
     if (response.statusCode == 200) {
-      print('Data sent successfully!');
+       _showCongratulationsDialog();
     } else {
       print('Error sending data: ${response.reasonPhrase}');
     }
+  }
+  
+  void _showCongratulationsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.green,
+          title: const Text(
+            'Félicitations!',
+            style: TextStyle(fontSize: 20, fontFamily: 'devKC'),
+          ),
+          content: const Text(
+            'Vous venez de lancer une Procedure Vente de Bien vous serez Contacté;.',
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Menu()),
+                );
+              },
+              child: const Icon(
+                Icons.arrow_back,
+                size: 30,
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void clear() {
@@ -114,48 +148,22 @@ class _VendreState extends State<Vendre> {
                 child: Column(
                   children: [
                     Container(
-                      height: 80,
-                      width: 420,
+                      height: MediaQuery.of(context).size.height * 0.4,
                       decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('images/bkgr.jpg'),
-                          fit: BoxFit.cover,
-                          opacity: 1.0,
-                          repeat: ImageRepeat.noRepeat,
+                        gradient: LinearGradient(
+                            colors: [Colors.red, Colors.redAccent],
+                            end: Alignment.bottomCenter,
+                            begin: Alignment.topCenter),
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(100),
+                            bottomRight: Radius.circular(100)),
+                      ),
+                      child: Center(
+                        child: Image.network(
+                          "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
+                          height: 200,
                         ),
                       ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(),
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(
-                                    context); // Retourne à la page précédente
-                              },
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                size: 30,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 50, top: 20),
-                            child: Text(
-                              'Vendre du Bien',
-                              style: TextStyle(
-                                fontFamily: 'beroKC',
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Image(
-                      image: AssetImage('images/mo.png'),
                     ),
                     const SizedBox(
                       height: 20,

@@ -15,7 +15,7 @@ class _ActulitiPageState extends State<ActulitiPage> {
   final List<String> _imagesList = [
     'https://res.cloudinary.com/degicbg12/image/upload/v1680107686/app_erg023.jpg',
     'https://res.cloudinary.com/degicbg12/image/upload/v1680108152/viila_unzt86.jpg',
-    'https://immobilier.pratik.ci/wp-content/uploads/2019/11/Anan-1-3-1200x683.jpg',
+    'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png',
   ];
   final List<String> _namesList = [
     'Appartement 3pieèces',
@@ -38,7 +38,7 @@ class _ActulitiPageState extends State<ActulitiPage> {
   final List<Map<String, dynamic>> itemList = [
     {
       'image':
-          'https://res.cloudinary.com/degicbg12/image/upload/v1680108152/viila_unzt86.jpg',
+          'https://res.cloudinary.com/degicbg12/image/upload/v1680107686/app_erg023.jpg',
       'description': 'Villa Basse 5pièces ',
       'localisation': 'Rivera Faya,Cocody',
       'prix': 3000000,
@@ -52,28 +52,28 @@ class _ActulitiPageState extends State<ActulitiPage> {
     },
     {
       'image':
-          'https://immobilier.pratik.ci/wp-content/uploads/2019/11/Anan-1-3-1200x683.jpg',
+          'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680697182/1_tqqgp6.png',
       'description': 'Description 3',
       'localisation': 'Localisation 3',
       'prix': 30.99,
     },
     {
       'image':
-          'https://immobilier.pratik.ci/wp-content/uploads/2019/11/Anan-1-3-1200x683.jpg',
+          'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png',
       'description': 'Description 4',
       'localisation': 'Localisation 4',
       'prix': 40.99,
     },
     {
       'image':
-          'https://immobilier.pratik.ci/wp-content/uploads/2019/11/Anan-1-3-1200x683.jpg',
+          'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700810/4_ipbyxy.png',
       'description': 'Description 5',
       'localisation': 'Localisation 5',
       'prix': 50.99,
     },
     {
       'image':
-          'https://immobilier.pratik.ci/wp-content/uploads/2019/11/Anan-1-3-1200x683.jpg',
+          'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png',
       'description': 'Description 6',
       'localisation': 'Localisation 6',
       'prix': 60.99,
@@ -217,33 +217,37 @@ class _ActulitiPageState extends State<ActulitiPage> {
                               ),
                               SizedBox(width: 8.0),
                               Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item['description'],
-                                      style: const TextStyle(
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        item['description'],
+                                        style: const TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 4.0),
-                                    Row(
-                                      children: [
-                                        Icon(Icons.location_on, size: 16.0),
-                                        SizedBox(width: 4.0),
-                                        Text(item['localisation']),
-                                      ],
-                                    ),
-                                    SizedBox(height: 4.0),
-                                    Text(
-                                      '\$${item['prix']}',
-                                      style: const TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold,
+                                      SizedBox(height: 4.0),
+                                      Row(
+                                        children: [
+                                          Icon(Icons.location_on, size: 16.0),
+                                          SizedBox(width: 4.0),
+                                          Text(item['localisation']),
+                                        ],
                                       ),
-                                    ),
-                                  ],
+                                      SizedBox(height: 4.0),
+                                      Text(
+                                        '\$${item['prix']}',
+                                        style: const TextStyle(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

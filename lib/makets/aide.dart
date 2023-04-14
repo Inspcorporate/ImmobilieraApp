@@ -17,10 +17,11 @@ class _assistPageState extends State<assistPage> {
         leading: IconButton(
           onPressed: () {
             Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const Menu(),
-                ));
+              context,
+              MaterialPageRoute(
+                builder: (context) => const Menu(),
+              ),
+            );
           },
           icon: const Icon(
             Icons.arrow_back,
@@ -29,7 +30,8 @@ class _assistPageState extends State<assistPage> {
           ),
         ),
         centerTitle: true,
-        title: const Text('ASSISTANCE'),
+        backgroundColor: Colors.red,
+        title: const Text("Assistance"),
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -43,7 +45,7 @@ class _assistPageState extends State<assistPage> {
         child: ListView(
           children: <Widget>[
             const SizedBox(
-              height: 300,
+              height: 200,
             ),
             Row(
               children: [

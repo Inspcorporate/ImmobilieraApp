@@ -18,117 +18,142 @@ class _dashboadState extends State<dashboad> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/t.jpg'),
-              fit: BoxFit.cover,
-              opacity: 1.0,
-              repeat: ImageRepeat.noRepeat,
-            ),
-          ),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Empty space
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            Opacity(
+              opacity: 1,
+              child: Image(
+                image: AssetImage('images/co.jpg'),
 
-                const SizedBox(height: 300), // Empty space
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                fit: BoxFit.cover,
+                height: MediaQuery.of(context)
+                    .size
+                    .height, // Set the opacity value between 0.0 to 1.0
+              ),
+            ),
+            Column(children: [
+              Container(
+                  height: MediaQuery.of(context).size.height * 0.3,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                        colors: [Colors.red, Colors.redAccent],
+                        end: Alignment.bottomCenter,
+                        begin: Alignment.topCenter),
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(100),
+                        bottomRight: Radius.circular(100)),
+                  ),
+                  child: Center(
+                    child: Image.network(
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
+                      height: 200,
+                    ),
+                  )),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Column(
+                    // Empty space
+
+                    // Empty space
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const wainting1(),
-                              ),
-                            );
-                          },
-                          child: const Image(
-                              image: AssetImage('images/rel.png'),
-                              height: 150,
-                              width: 150),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const wainting1(),
+                                  ),
+                                );
+                              },
+                              child: Image(
+                                  image: const AssetImage('images/rel.png'),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.18,
+                                  width: 150),
+                            ),
+                            // Empty space
+                          ],
                         ),
-                        SizedBox(height: 10), // Empty space
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const wainting2(),
+                                  ),
+                                );
+                              },
+                              child: Image(
+                                  image: const AssetImage('images/ven.png'),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.18,
+                                  width: 150),
+                            ), // Icon color
+                            // Icon size
+                          ],
+                        ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const wainting2(),
-                              ),
-                            );
-                          },
-                          child: const Image(
-                              image: AssetImage('images/ven.png'),
-                              height: 150,
-                              width: 150),
-                        ), // Icon color
-                        // Icon size
 
-                        const SizedBox(height: 10), // Empty space
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const waiting(),
+                                  ),
+                                );
+                              },
+                              child: Image(
+                                  image: const AssetImage('images/loc.png'),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.18,
+                                  width: 150),
+                            ),
+                            const SizedBox(height: 10), // Empty space
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const waitingPage(),
+                                  ),
+                                );
+                              },
+                              child: Image(
+                                  image: const AssetImage('images/ach.png'),
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.18,
+                                  width: 150),
+                            ),
+                            // Empty space
+                          ],
+                        ),
                       ],
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const waiting(),
-                              ),
-                            );
-                          },
-                          child: const Image(
-                              image: AssetImage('images/loc.png'),
-                              height: 150,
-                              width: 150),
-                        ),
-                        const SizedBox(height: 10), // Empty space
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const waitingPage(),
-                              ),
-                            );
-                          },
-                          child: const Image(
-                              image: AssetImage('images/ach.png'),
-                              height: 150,
-                              width: 150),
-                        ),
-                        const SizedBox(height: 10), // Empty space
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+              ),
+            ]),
+          ],
         ),
       ),
     );
@@ -229,7 +254,7 @@ class _waitingState extends State<waiting> {
           () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const Location(),
+              builder: (context) => const Locatio(),
             ),
           ),
         );

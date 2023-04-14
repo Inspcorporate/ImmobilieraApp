@@ -21,8 +21,8 @@ class _HomePageState extends State<HomePage> {
     return FutureBuilder<int>(
       future: checkConnection(),
       builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-        if (snapshot.hasData && snapshot.data != null) {
-          return Circular();
+        if (snapshot.hasData && snapshot.data != -1) {
+          return const Circular();
         } else {
           // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
           return Scaffold(
@@ -125,7 +125,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           );
-          ;
         }
       },
     );
@@ -192,12 +191,13 @@ class _CircularState extends State<Circular> {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return const Scaffold(
+        body: Center(
       child: CircularProgressIndicator(
         color: Colors.red,
         backgroundColor: Colors.blueGrey,
       ),
-    );
+    ));
   }
 }
 

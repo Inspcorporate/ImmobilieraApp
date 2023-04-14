@@ -1,6 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:misoa/boitapp/menu.dart';
 import 'package:misoa/identic/login.dart';
 
 import 'package:http/http.dart' as http;
@@ -51,6 +52,7 @@ class _RelookingState extends State<Relooking> {
           backgroundColor: Colors.green,
         ),
       );
+      _showCongratulationsDialog();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -60,6 +62,39 @@ class _RelookingState extends State<Relooking> {
       );
       // Insert failed, handle error
     }
+  }
+
+  void _showCongratulationsDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.green,
+          title: const Text(
+            'Félicitations!',
+            style: TextStyle(fontSize: 20, fontFamily: 'devKC'),
+          ),
+          content: const Text(
+            'Vous venez de lancer une Procedure de Relooking de bien.',
+            style: TextStyle(color: Colors.white),
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Menu()),
+                );
+              },
+              child: const Icon(
+                Icons.arrow_back,
+                size: 30,
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -82,49 +117,22 @@ class _RelookingState extends State<Relooking> {
                 child: Column(
                   children: [
                     Container(
-                      height: 80,
-                      width: 420,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('images/bkgr.jpg'),
-                          fit: BoxFit.cover,
-                          opacity: 1.0,
-                          repeat: ImageRepeat.noRepeat,
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        decoration: const BoxDecoration(
+                          gradient: LinearGradient(
+                              colors: [Colors.red, Colors.redAccent],
+                              end: Alignment.bottomCenter,
+                              begin: Alignment.topCenter),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(100),
+                              bottomRight: Radius.circular(100)),
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(),
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.pop(
-                                    context); // Retourne à la page précédente
-                              },
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                size: 30,
-                                color: Colors.white,
-                              ),
-                            ),
+                        child: Center(
+                          child: Image.network(
+                            "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
+                            height: 200,
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 50, top: 20),
-                            child: Text(
-                              'Relooking',
-                              style: TextStyle(
-                                fontFamily: 'beroKC',
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Image(
-                      image: AssetImage('images/mo.png'),
-                    ),
+                        )),
                     const SizedBox(
                       height: 20,
                     ),
@@ -139,7 +147,7 @@ class _RelookingState extends State<Relooking> {
                               controller: _nameController,
                               autocorrect: true,
                               decoration: const InputDecoration(
-                                label: Text('Louer un(e)'),
+                                label: Text('Relooker un(e)'),
                                 enabledBorder: OutlineInputBorder(),
                               ),
                               validator: (value) {

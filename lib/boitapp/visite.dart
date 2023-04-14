@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:misoa/boitapp/view.dart';
 
 class Product {
   final String name;
@@ -38,7 +39,8 @@ class _FirstPageState extends State<FirstPage> {
         status: "vendu"),
     const Product(
         name: "residence",
-        image: "https://beninhouse.com/wp-content/uploads/2021/03/Emap-4.jpeg",
+        image:
+            "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png",
         description: "Description for Product 2",
         location: "Location for Product 2",
         price: 29.99,
@@ -108,7 +110,8 @@ class _FirstPageState extends State<FirstPage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Scaffold(
-        body: Column(
+          body: SingleChildScrollView(
+        child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
@@ -124,9 +127,10 @@ class _FirstPageState extends State<FirstPage> {
                 ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.8,
                 child: ListView.builder(
                   itemCount: filteredProducts.length,
                   itemBuilder: (context, index) {
@@ -137,80 +141,88 @@ class _FirstPageState extends State<FirstPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(product.name,
-                              style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'beroKC')),
+                          Text(
+                            product.name,
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.05,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'beroKC'),
+                          ),
                           const SizedBox(height: 10),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Stack(
-                              children: [
-                                Image.network(
-                                  product.image,
-                                  width: 400,
-                                  height: 500,
-                                  fit: BoxFit.cover,
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FullScreenImage(
+                                      imageUrl: product.image,
+                                      descri: product.description,
+                                      loca: product.location,
+                                      prix: product.price.toString(),
+                                      status: product.status),
                                 ),
-                                Positioned(
-                                  bottom: 20.0,
-                                  left: 20.0,
-                                  right: 20.0,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        product.description,
-                                        style: const TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
-                                      Text(
-                                        product.location,
-                                        style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "${product.price.toStringAsFixed(2)}",
-                                            style: const TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            product.status,
-                                            style: const TextStyle(
-                                              color: Colors.green,
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                backgroundColor:
-                                                    Colors.redAccent,
-                                              ),
-                                              onPressed: () {},
-                                              child: const Text('Autres'))
-                                        ],
-                                      ),
-                                    ],
+                              );
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Stack(
+                                children: [
+                                  Image.network(
+                                    product.image,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.4,
+                                    fit: BoxFit.cover,
                                   ),
-                                ),
-                              ],
+                                  Positioned(
+                                    bottom: 20.0,
+                                    left: 20.0,
+                                    right: 20.0,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              "${product.price.toStringAsFixed(2)}",
+                                              style: TextStyle(
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.035,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            Text(
+                                              product.status,
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontSize: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.035,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      Colors.redAccent,
+                                                ),
+                                                onPressed: () {},
+                                                child: const Text('Autres'))
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -222,7 +234,7 @@ class _FirstPageState extends State<FirstPage> {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

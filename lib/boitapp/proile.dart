@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:misoa/boitapp/admin.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:misoa/identic/login.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,12 +37,12 @@ class _ProfileState extends State<Profile> {
 
     final data = jsonDecode(response.body);
 
-  setState(() {
-    _username = data["username"] ?? '';
-    prenom = data["prenom"] ?? '';
-    numero = data["numero"] ?? '';
-    email = data["email"] ?? '';
-  });
+    setState(() {
+      _username = data["username"] ?? '';
+      prenom = data["prenom"] ?? '';
+      numero = data["numero"] ?? '';
+      email = data["email"] ?? '';
+    });
   }
 
   void disconnectUser(BuildContext context) async {
@@ -51,7 +52,7 @@ class _ProfileState extends State<Profile> {
     // ignore: use_build_context_synchronously
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const waiting()),
+      MaterialPageRoute(builder: (context) => const LoginPage()),
     );
   }
 
@@ -64,9 +65,15 @@ class _ProfileState extends State<Profile> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            height: 200,
+            height: MediaQuery.of(context).size.height * 0.3,
             decoration: const BoxDecoration(
-              color: Colors.red,
+              gradient: LinearGradient(
+                  colors: [Colors.red, Colors.redAccent],
+                  end: Alignment.bottomCenter,
+                  begin: Alignment.topCenter),
+              borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(100),
+                  bottomRight: Radius.circular(100)),
             ),
             child: const Center(
               child: CircleAvatar(
@@ -77,7 +84,7 @@ class _ProfileState extends State<Profile> {
           ),
           const SizedBox(height: 20),
           Text(
-            '$prenom',
+            '$prenom' '$_username',
             style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
@@ -165,70 +172,156 @@ class _ProfileState extends State<Profile> {
           Expanded(
               child: _selectedIndex == 0
                   ? SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                ' Mr $_username',
-                                style: const TextStyle(
+                      child: _username != null
+                          ? Column(
+                              children: [
+                                const SizedBox(
+                                  height: 30,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Container(
+                                    height: 60,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.phone_callback_outlined,
+                                              size: 30,
+                                              color: Colors.white,
+                                            ),
+                                            Text(
+                                              ' 225 $numero',
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 20),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          width: 50,
+                                        ),
+                                        InkWell(
+                                          child: const Icon(Icons.edit),
+                                          onTap: () {},
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Container(
+                                    height: 60,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.email_outlined,
+                                              color: Colors.white,
+                                              size: 30,
+                                            ),
+                                            Text(
+                                              '$email',
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 15),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Container(
+                                    height: 60,
+                                    decoration: const BoxDecoration(
+                                      color: Colors.grey,
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(
+                                                Icons.exit_to_app,
+                                                color: Colors.redAccent,
+                                              ),
+                                              onPressed: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder:
+                                                      (BuildContext context) {
+                                                    return AlertDialog(
+                                                      title: const Text(
+                                                          'Quitter l\'application?'),
+                                                      content: const Text(
+                                                          'Êtes-vous sûr de vouloir quitter l\'application?'),
+                                                      actions: <Widget>[
+                                                        TextButton(
+                                                          child:
+                                                              Text('Annuler'),
+                                                          onPressed: () {
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                        TextButton(
+                                                          child:
+                                                              Text('Quitter'),
+                                                          onPressed: () {
+                                                            SystemNavigator
+                                                                .pop();
+                                                          },
+                                                        ),
+                                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                            const Text(
+                                              "Quitter l'application",
+                                              style: TextStyle(fontSize: 20),
+                                            )
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const Center(
+                              child: Text(
+                                'Username does not exist',
+                                style: TextStyle(
                                     color: Colors.black, fontSize: 20),
                               ),
-                              const SizedBox(
-                                width: 50,
-                              ),
-                              InkWell(
-                                child: const Icon(Icons.edit),
-                                onTap: () {},
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Row(
-                            children: [
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              Text(
-                                'tel: 225 $numero',
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 20),
-                              ),
-                              const SizedBox(
-                                width: 50,
-                              ),
-                              InkWell(
-                                child: const Icon(Icons.edit),
-                                onTap: () {},
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                '$email',
-                                style: const TextStyle(
-                                    color: Colors.black, fontSize: 20),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              InkWell(
-                                child: const Icon(Icons.edit),
-                                onTap: () {},
-                              )
-                            ],
-                          )
-                        ],
-                      ),
+                            ),
                     )
                   : _selectedIndex == 1
                       ? Row(

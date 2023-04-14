@@ -1,372 +1,399 @@
 import 'package:flutter/material.dart';
-import 'package:misoa/boitapp/achat.dart';
 import 'package:misoa/boitapp/menu.dart';
-import 'package:http/http.dart' as http;
-import 'package:misoa/identic/login.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:misoa/boitapp/profil.dart';
+import 'package:misoa/boitapp/view.dart';
 
-class Location extends StatefulWidget {
-  const Location({super.key});
+class Locatio extends StatefulWidget {
+  const Locatio({super.key});
 
   @override
-  State<Location> createState() => _LocationState();
+  State<Locatio> createState() => _LocatioState();
 }
 
-class _LocationState extends State<Location> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController locat = TextEditingController();
-  TextEditingController localisation = TextEditingController();
-  TextEditingController description = TextEditingController();
-  TextEditingController budget = TextEditingController();
-  bool _isLoading = false;
-  String thereponse = "";
-  void clear() {
-    locat.clear();
-    localisation.clear();
-    description.clear();
-    budget.clear();
-  }
-
-  Future location() async {
-    thereponse = '';
-    final prefs = await SharedPreferences.getInstance();
-    final int userId = prefs.getInt("userId") ?? -1;
-
-    final response = await http
-        .post(Uri.parse("https://yakinci.com/misoa/louer.php"), body: {
-      "nom": userId.toString(),
-      "locale": locat.text,
-      "maping": localisation.text,
-      "descrip": description.text,
-      "budget": budget.text,
-    });
-    setState(() {
-      thereponse = response.body.toString();
-      if (thereponse == "demande envoyer") {}
-    });
-  }
-
-  String loca = '';
-  String localisatio = '';
-  String descriptio = '';
-  String argent = '';
+class _LocatioState extends State<Locatio> {
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: checkConnection(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.hasData && snapshot.data!) {
-          return Scaffold(
-            body: SingleChildScrollView(
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('images/blan.jpg'),
-                    fit: BoxFit.cover,
-                    opacity: 1.0,
-                    repeat: ImageRepeat.noRepeat,
-                  ),
+    return Scaffold(
+      body: SafeArea(
+        child: ListView(
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('images/blan.jpg'),
+                  fit: BoxFit.cover,
+                  opacity: 1.0,
+                  repeat: ImageRepeat.noRepeat,
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 80,
-                      width: 420,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('images/bkgr.jpg'),
-                          fit: BoxFit.cover,
-                          opacity: 1.0,
-                          repeat: ImageRepeat.noRepeat,
-                        ),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    height: 80,
+                    width: 420,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('images/bkgr.jpg'),
+                        fit: BoxFit.cover,
+                        opacity: 1.0,
+                        repeat: ImageRepeat.noRepeat,
                       ),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(),
-                            child: IconButton(
-                              onPressed: () {
-                                Navigator.pushReplacement(
+                    ),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(),
+                          child: IconButton(
+                            onPressed: () {
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => const Menu(),
-                                  ),
-                                ); // Retourne à la page précédente
-                              },
-                              icon: const Icon(
-                                Icons.arrow_back,
-                                size: 30,
-                              ),
+                                  ));
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              size: 30,
+                              color: Colors.white,
                             ),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(left: 50, top: 20),
-                            child: Text(
-                              'Location',
-                              style: TextStyle(
-                                fontFamily: 'beroKC',
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Image(
-                      image: AssetImage('images/mo.png'),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SingleChildScrollView(
-                        child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              autocorrect: true,
-                              controller: locat,
-                              decoration: const InputDecoration(
-                                label: Text('Vous desiez louer un(e)'),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez Exprimer votre desire';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: localisation,
-                              autocorrect: true,
-                              decoration: const InputDecoration(
-                                label: Text('Localisation du Bien'),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez entrer la Localisation svp';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              autocorrect: true,
-                              controller: description,
-                              style: const TextStyle(color: Colors.black),
-                              decoration: const InputDecoration(
-                                labelText: 'Description Du Bien',
-                                labelStyle: TextStyle(color: Colors.black),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez decrire  votre bien svp';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: budget,
-                              keyboardType: TextInputType.phone,
-                              decoration: const InputDecoration(
-                                  label: Text('Saisir Votre Budget'),
-                                  enabledBorder: OutlineInputBorder()),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: Container(
-                                  height: 50,
-                                  width: 300,
-                                  color: Colors.red,
-                                  child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.red),
-                                      onPressed: _isLoading
-                                          ? null
-                                          : () async {
-                                              if (_formKey.currentState
-                                                      ?.validate() ??
-                                                  false) {
-                                                setState(() {
-                                                  _isLoading = true;
-                                                });
-
-                                                location();
-                                                clear();
-                                                loca = locat.text;
-                                                localisatio = localisation.text;
-                                                descriptio = description.text;
-                                                showDialog(
-                                                  context: context,
-                                                  builder: (context) =>
-                                                      AlertDialog(
-                                                    title: const Text(
-                                                        'Recapitulatif'),
-                                                    content: Text(
-                                                        "Ci-dessous les informations communiquées a MISOA : Location d'un(e) : $loca ; lacaliser à: $localisatio; decri comme suit: $descriptio. Cliquez sur suivant si vous êtres sure de la veracité de ceux-ci sinon cliquez sur précédent pour aller les corriger"),
-                                                    actions: [
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop(false),
-                                                        child: const Text(
-                                                          'Précédent',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.red),
-                                                        ),
-                                                      ),
-                                                      TextButton(
-                                                        onPressed: () =>
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop(true),
-                                                        child: const Text(
-                                                          'Suivant',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.green),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ).then(
-                                                  (confirmed) {
-                                                    if (confirmed != null &&
-                                                        confirmed) {
-                                                      showDialog(
-                                                        context: context,
-                                                        builder: (context) =>
-                                                            AlertDialog(
-                                                          title: const Text(
-                                                            'Confidencialité',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .green,
-                                                                fontSize: 20),
-                                                          ),
-                                                          content: const Text(
-                                                              "La politique de confidencialité de MISOA lui permet de garder vos données, MISOA vous demande l'autorisation d'utiliser vos données personnelles afin d'améliorer votre expérience client"),
-                                                          actions: [
-                                                            TextButton(
-                                                              onPressed: () =>
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop(
-                                                                          false),
-                                                              child: const Text(
-                                                                'Annuler',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .red),
-                                                              ),
-                                                            ),
-                                                            TextButton(
-                                                              onPressed: () =>
-                                                                  Navigator.of(
-                                                                          context)
-                                                                      .pop(
-                                                                          true),
-                                                              child: const Text(
-                                                                'Valider',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .green),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                          elevation: 30,
-                                                          buttonPadding:
-                                                              const EdgeInsets
-                                                                  .all(20),
-                                                        ),
-                                                      ).then(
-                                                        (confirmed) {
-                                                          if (confirmed !=
-                                                                  null &&
-                                                              confirmed) {
-                                                            showDialog(
-                                                              context: context,
-                                                              builder: (context) =>
-                                                                  const AlertDialog(
-                                                                title: Text(
-                                                                  'Vous serez Contacté par le service Client',
-                                                                  style: TextStyle(
-                                                                      color: Colors
-                                                                          .green,
-                                                                      fontSize:
-                                                                          20),
-                                                                ),
-                                                                content: Icon(
-                                                                  Icons
-                                                                      .check_circle,
-                                                                  color: Colors
-                                                                      .green,
-                                                                  size: 69,
-                                                                ),
-                                                                actions: [],
-                                                              ),
-                                                            );
-                                                          }
-                                                        },
-                                                      );
-                                                    }
-                                                  },
-                                                );
-
-                                                // clear form data
-
-                                                // navigate to previous screen
-                                                // ignore: use_build_context_synchronously
-                                              }
-                                            },
-                                      child: const Text(
-                                        "VALIDER",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 20,
-                                          fontFamily: 'beroKC',
-                                        ),
-                                      ))),
-                            ),
-                          ],
                         ),
-                      ),
-                    )),
-                  ],
-                ),
+                        const Padding(
+                          padding: EdgeInsets.only(left: 50, top: 20),
+                          child: Text(
+                            'Location de Bien',
+                            style: TextStyle(
+                              fontFamily: 'beroKC',
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
-          );
-        } else {
-          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
-          return const LoginPage();
-        }
-      },
+            SizedBox(
+              child: SizedBox(height: 20, child: Container()),
+            ),
+            _buildBlock(
+              title: "Villa",
+              images: [
+                {
+                  "image":
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700810/4_ipbyxy.png",
+                  "description": "Belle villa avec piscine",
+                  "localisation": "Nice, France",
+                  "prix": "800 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680697182/1_tqqgp6.png",
+                  "description": "Grande villa avec vue sur mer",
+                  "localisation": "Cannes, France",
+                  "prix": "1 200 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png",
+                  "description": "Villa moderne avec jardin",
+                  "localisation": "Marseille, France",
+                  "prix": "900 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://immogroup.ahouefa.com/wp-content/uploads/2022/01/IMG-20220121-WA0024.jpg",
+                  "description": "Villa moderne avec jardin",
+                  "localisation": "Marseille, France",
+                  "prix": "900 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://lanouvelletribune.info/wp-content/uploads/xwc.jpg",
+                  "description": "Villa moderne avec jardin",
+                  "localisation": "Marseille, France",
+                  "prix": "900 000 €",
+                  "status": "Location",
+                },
+              ],
+            ),
+            _buildBlock(
+              title: "Appartement",
+              images: [
+                {
+                  "image":
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700811/5_xsd2r2.png",
+                  "description": "Belle villa avec piscine",
+                  "localisation": "Nice, France",
+                  "prix": "800 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700766/3_vinovt.png",
+                  "description": "Grande villa avec vue sur mer",
+                  "localisation": "Cannes, France",
+                  "prix": "1 200 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://beninhouse.com/wp-content/uploads/2021/03/Emap-4.jpeg",
+                  "description": "Villa moderne avec jardin",
+                  "localisation": "Marseille, France",
+                  "prix": "900 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://immogroup.ahouefa.com/wp-content/uploads/2022/01/IMG-20220121-WA0024.jpg",
+                  "description": "Villa moderne avec jardin",
+                  "localisation": "Marseille, France",
+                  "prix": "900 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://lanouvelletribune.info/wp-content/uploads/xwc.jpg",
+                  "description": "Villa moderne avec jardin",
+                  "localisation": "Marseille, France",
+                  "prix": "900 000 €",
+                  "status": "Location",
+                },
+              ],
+            ),
+            _buildBlock(
+              title: "AUTRES",
+              images: [
+                {
+                  "image":
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681203917/WhatsApp_Image_2023-04-10_%C3%A0_14.14.01_gdsnco.jpg",
+                  "description": "Belle villa avec piscine",
+                  "localisation": "Nice, France",
+                  "prix": "800 000 €",
+                  "status": "À vendre",
+                },
+                {
+                  "image":
+                      "https://gandaimmobilier.com/wp-content/uploads/2022/03/villa-meublee-agla-80.jpg.webp",
+                  "description": "Grande villa avec vue sur mer",
+                  "localisation": "Cannes, France",
+                  "prix": "1 200 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://beninhouse.com/wp-content/uploads/2021/03/Emap-4.jpeg",
+                  "description": "Villa moderne avec jardin",
+                  "localisation": "Marseille, France",
+                  "prix": "900 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://immogroup.ahouefa.com/wp-content/uploads/2022/01/IMG-20220121-WA0024.jpg",
+                  "description": "Villa moderne avec jardin",
+                  "localisation": "Marseille, France",
+                  "prix": "900 000 €",
+                  "status": "Location",
+                },
+                {
+                  "image":
+                      "https://lanouvelletribune.info/wp-content/uploads/xwc.jpg",
+                  "description": "Villa moderne avec jardin",
+                  "localisation": "Marseille, France",
+                  "prix": "900 000 €",
+                  "status": "Location",
+                },
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  Future<bool> checkConnection() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool isConnected = prefs.getBool('isConnected') ?? false;
-    return isConnected;
+  Widget _buildBlock(
+      {required String title, required List<Map<String, String>> images}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 130),
+          child: Text(
+            title.toUpperCase(),
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          height: 360,
+          width: 500,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: images.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Stack(children: [
+                          InkWell(
+                            child: Image.network(
+                              images[index]["image"]!,
+                              fit: BoxFit.cover,
+                              height: 340,
+                              width: 320,
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => FullScreenImage(
+                                      imageUrl: images[index]["image"]!,
+                                      descri: images[index]["description"]!,
+                                      loca: images[index]["localisation"]!,
+                                      prix: images[index]["prix"]!,
+                                      status: images[index]["status"]!),
+                                ),
+                              );
+                            },
+                          ),
+                          Positioned(
+                            bottom: 20.0,
+                            left: 20.0,
+                            child: Column(children: [
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Column(
+                                          children: [
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.lightBlue),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => FullScreenImage(
+                                                              imageUrl: images[
+                                                                      index]
+                                                                  ["image"]!,
+                                                              descri: images[index][
+                                                                  "description"]!,
+                                                              loca: images[index]
+                                                                  [
+                                                                  "localisation"]!,
+                                                              prix:
+                                                                  images[index]
+                                                                      ["prix"]!,
+                                                              status: images[
+                                                                      index]
+                                                                  ["status"]!)));
+                                                },
+                                                child: const Text('Detail')),
+                                            ElevatedButton(
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        Colors.red),
+                                                onPressed: () {
+                                                  Navigator.pushReplacement(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => Location(
+                                                          descri: images[index]
+                                                              ["description"]!,
+                                                          loca: images[index]
+                                                              ["localisation"]!,
+                                                          prix: images[index]
+                                                              ["prix"]!,
+                                                          status: images[index]
+                                                              ["status"]!),
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Text('Je veux'))
+                                          ],
+                                        ),
+                                        Column(
+                                          children: [
+                                            Row(
+                                              children: const [
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow,
+                                                ),
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow,
+                                                ),
+                                                Icon(
+                                                  Icons.star,
+                                                  color: Colors.yellow,
+                                                ),
+                                                Icon(Icons.star_half,
+                                                    color: Colors.yellow),
+                                                Icon(
+                                                  Icons.star_border_outlined,
+                                                  color: Colors.yellow,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.location_on,
+                                                  color: Colors.white,
+                                                ),
+                                                Text(
+                                                    images[index]
+                                                        ["localisation"]!,
+                                                    style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: Colors.white)),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ]),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:misoa/boitapp/menu.dart';
 
 class condiPage extends StatelessWidget {
   const condiPage({super.key});
@@ -7,6 +8,20 @@ class condiPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Menu(),
+                ));
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            size: 30,
+            color: Colors.white,
+          ),
+        ),
         title: const Text("Condition D'utilisation"),
         backgroundColor: Colors.red,
       ),
