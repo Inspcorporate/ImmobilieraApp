@@ -1,4 +1,4 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
+
 import 'package:flutter/material.dart';
 
 class FullScreenImage extends StatefulWidget {
@@ -8,7 +8,7 @@ class FullScreenImage extends StatefulWidget {
   final String prix;
   final String status;
   const FullScreenImage(
-      {required this.imageUrl,
+      {super.key, required this.imageUrl,
       required this.descri,
       required this.loca,
       required this.prix,

@@ -1,3 +1,5 @@
+// ignore_for_file: camel_case_types
+
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/menu.dart';
 import 'package:url_launcher/url_launcher.dart';

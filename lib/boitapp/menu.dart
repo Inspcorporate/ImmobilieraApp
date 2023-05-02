@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:misoa/bigin/utilise.dart';
-
-import 'package:misoa/boitapp/action/actulit.dart';
 import 'package:misoa/boitapp/action/assis.dart';
+import 'package:misoa/boitapp/action/vente.dart';
 import 'package:misoa/boitapp/action/wait.dart';
-
-import 'package:misoa/boitapp/admin.dart';
 import 'package:misoa/boitapp/proile.dart';
 import 'package:misoa/boitapp/search.dart';
 import 'package:misoa/boitapp/visite.dart';
+import 'package:misoa/makets/accueil.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -19,14 +17,8 @@ class Menu extends StatefulWidget {
 
 class _MenuState extends State<Menu> {
   int _selectedIndex = 0;
-  static const List<Widget> _widgetoptions = <Widget>[
-    dashboad(),
-    FirstPage(),
-    ActulitiPage(),
-    Profile(),
-  ];
   final PageStorageBucket bucket = PageStorageBucket();
-  Widget currenScreen = dashboad();
+  Widget currenScreen = const Accueil();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,46 +39,54 @@ class _MenuState extends State<Menu> {
             Container(
               height: 100,
               color: Colors.red,
-              child: const Center(
-                child: Text(
-                  'MISOA',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+              child: Center(
+                child: Row(
+                  children: [
+                    Image.network(
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
+                      height: MediaQuery.of(context).size.height * 0.1,
+                    ),
+                    const Text(
+                      'MISOA',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             ListTile(
               leading: Icon(Icons.home),
-              title: Text('Accueil'),
+              title: const Text('Accueil'),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
-                  currenScreen = dashboad();
+                  currenScreen = Accueil();
                   _selectedIndex = 0;
                 });
               },
             ),
             ListTile(
-              leading: Icon(Icons.search),
+              leading: const Icon(Icons.explore),
               title: const Text('Explore'),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
-                  currenScreen = FirstPage();
+                  currenScreen = const FirstPage();
                   _selectedIndex = 1;
                 });
               },
             ),
             ListTile(
-              leading: const Icon(Icons.notifications),
-              title: Text('Alertes'),
+              leading: const Icon(Icons.sell_outlined),
+              title: const Text('vendre'),
               onTap: () {
                 Navigator.pop(context);
                 setState(() {
-                  currenScreen = ActulitiPage();
+                  currenScreen = Vendre();
                   _selectedIndex = 2;
                 });
               },
@@ -197,7 +197,7 @@ class _MenuState extends State<Menu> {
                       minWidth: 50,
                       onPressed: () {
                         setState(() {
-                          currenScreen = dashboad();
+                          currenScreen = Accueil();
                           _selectedIndex = 0;
                         });
                       },
@@ -246,13 +246,13 @@ class _MenuState extends State<Menu> {
                       ),
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.1,
+                      width: MediaQuery.of(context).size.width * 0.15,
                     ),
                     MaterialButton(
                       minWidth: 40,
                       onPressed: () {
                         setState(() {
-                          currenScreen = const ActulitiPage();
+                          currenScreen = const Vendre();
                           _selectedIndex = 2;
                         });
                       },
@@ -260,12 +260,12 @@ class _MenuState extends State<Menu> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
-                            Icons.notifications,
+                            Icons.sell_rounded,
                             color:
                                 _selectedIndex == 2 ? Colors.red : Colors.grey,
                           ),
                           Text(
-                            'Alerts',
+                            'Vendre',
                             style: TextStyle(
                                 color: _selectedIndex == 2
                                     ? Colors.red

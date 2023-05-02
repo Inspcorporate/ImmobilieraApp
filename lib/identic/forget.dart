@@ -25,15 +25,13 @@ class _forgetPageState extends State<forgetPage> {
 
 Widget _buildLoginForm() {
   TextEditingController email = TextEditingController();
-  String thereponse = "";
   void clear() {
     email.clear();
   }
 
   Future loginuser() async {
-    thereponse = "";
     final reponse = await http
-        .post(Uri.parse("https://yakinci.com/misoa/include/index.php"), body: {
+        .post(Uri.parse("https://s-p4.com/konan/misoa/include/index.php"), body: {
       'email': email.text,
     });
 

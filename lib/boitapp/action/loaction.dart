@@ -318,7 +318,7 @@ class _LocatioState extends State<Locatio> {
                                                     backgroundColor:
                                                         Colors.red),
                                                 onPressed: () {
-                                                  Navigator.pushReplacement(
+                                                  Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) => Location(
@@ -338,8 +338,8 @@ class _LocatioState extends State<Locatio> {
                                         ),
                                         Column(
                                           children: [
-                                            Row(
-                                              children: const [
+                                            const Row(
+                                              children: [
                                                 Icon(
                                                   Icons.star,
                                                   color: Colors.yellow,

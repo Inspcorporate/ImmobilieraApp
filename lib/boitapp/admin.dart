@@ -2,11 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:misoa/boitapp/achat.dart';
-import 'package:misoa/boitapp/action/Relooking.dart';
 import 'package:misoa/boitapp/action/loaction.dart';
 import 'package:misoa/boitapp/action/vente.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:misoa/boitapp/affiche.dart';
 
+// ignore: camel_case_types
 class dashboad extends StatefulWidget {
   const dashboad({super.key});
 
@@ -14,7 +15,29 @@ class dashboad extends StatefulWidget {
   State<dashboad> createState() => _dashboadState();
 }
 
+// ignore: camel_case_types
 class _dashboadState extends State<dashboad> {
+  bool _isConnected = true;
+  Future<bool> checkInternetConnectivity() async {
+    var connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkInternetConnectivity().then((value) {
+      setState(() {
+        _isConnected = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,8 +69,8 @@ class _dashboadState extends State<dashboad> {
                   ),
                   child: Center(
                     child: Image.network(
-                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
-                      height: 200,
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681736417/LOGO_INSP_DEF-12_uhbnni.png",
+                      height: MediaQuery.of(context).size.height,
                     ),
                   )),
               Padding(
@@ -65,12 +88,21 @@ class _dashboadState extends State<dashboad> {
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const wainting1(),
-                                  ),
-                                );
+                                if (_isConnected) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const AffichPage(),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          "No internet connection available"),
+                                    ),
+                                  );
+                                }
                               },
                               child: Image(
                                   image: const AssetImage('images/rel.png'),
@@ -85,12 +117,21 @@ class _dashboadState extends State<dashboad> {
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const wainting2(),
-                                  ),
-                                );
+                                if (_isConnected) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => const Vendre(),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          "No internet connection available"),
+                                    ),
+                                  );
+                                }
                               },
                               child: Image(
                                   image: const AssetImage('images/ven.png'),
@@ -111,7 +152,7 @@ class _dashboadState extends State<dashboad> {
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => const waiting(),
@@ -131,7 +172,7 @@ class _dashboadState extends State<dashboad> {
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.pushReplacement(
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => const waitingPage(),
@@ -160,6 +201,7 @@ class _dashboadState extends State<dashboad> {
   }
 }
 
+// ignore: camel_case_types
 class waitingPage extends StatefulWidget {
   const waitingPage({super.key});
 
@@ -186,7 +228,7 @@ class _waitingPageState extends State<waitingPage> {
       if (internet == true) {
         Timer(
           const Duration(seconds: 2),
-          () => Navigator.pushReplacement(
+          () => Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const MODIFER(),
@@ -251,140 +293,10 @@ class _waitingState extends State<waiting> {
       if (internet == true) {
         Timer(
           const Duration(seconds: 2),
-          () => Navigator.pushReplacement(
+          () => Navigator.push(
             context,
             MaterialPageRoute(
               builder: (context) => const Locatio(),
-            ),
-          ),
-        );
-      } else {
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: const Text("Erreur de connexion"),
-            content:
-                const Text("Vérifiez votre connexion internet et réessayez."),
-            actions: [
-              TextButton(
-                child: const Text("OK"),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(
-          color: Colors.red,
-          backgroundColor: Colors.blueGrey,
-        ),
-      ),
-    );
-  }
-}
-
-class wainting1 extends StatefulWidget {
-  const wainting1({super.key});
-
-  @override
-  State<wainting1> createState() => _wainting1State();
-}
-
-class _wainting1State extends State<wainting1> {
-  Future<bool> checkInternetConnectivity() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    checkInternetConnectivity().then((internet) {
-      if (internet == true) {
-        Timer(
-          const Duration(seconds: 2),
-          () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Relooking(),
-            ),
-          ),
-        );
-      } else {
-        showDialog(
-          context: context,
-          builder: (_) => AlertDialog(
-            title: const Text("Erreur de connexion"),
-            content:
-                const Text("Vérifiez votre connexion internet et réessayez."),
-            actions: [
-              TextButton(
-                child: const Text("OK"),
-                onPressed: () => Navigator.pop(context),
-              ),
-            ],
-          ),
-        );
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: CircularProgressIndicator(
-          color: Colors.red,
-          backgroundColor: Colors.blueGrey,
-        ),
-      ),
-    );
-  }
-}
-
-class wainting2 extends StatefulWidget {
-  const wainting2({super.key});
-
-  @override
-  State<wainting2> createState() => _wainting2State();
-}
-
-class _wainting2State extends State<wainting2> {
-  Future<bool> checkInternetConnectivity() async {
-    var connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    checkInternetConnectivity().then((internet) {
-      if (internet == true) {
-        Timer(
-          const Duration(seconds: 2),
-          () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Vendre(),
             ),
           ),
         );

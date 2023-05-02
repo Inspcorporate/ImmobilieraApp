@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
     final response = await http.post(
-      Uri.parse("https://yakinci.com/misoa/loginn.php"),
+      Uri.parse("https://s-p4.com/konan/misoa/loginn.php"),
       body: {
         "email": _emailController.text,
         "password": _passwordController.text,
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setInt("userId", data["id"]);
       prefs.setBool('isConnected', true);
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => const Menu(),
@@ -108,8 +108,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         child: Center(
                           child: Image.network(
-                            "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
-                            height: 200,
+                            "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681736417/LOGO_INSP_DEF-12_uhbnni.png",
+                            height: MediaQuery.of(context).size.height,
                           ),
                         )),
                     const SizedBox(

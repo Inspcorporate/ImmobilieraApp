@@ -16,7 +16,7 @@ class _MyPageState extends State<MyPage> {
   bool _isLoading = false;
   String talke = "";
 
-  final String apiUrl = 'https://yakinci.com/misoa/achat.php';
+  final String apiUrl = 'https://s-p4.com/konan/misoa/achat.php';
 
   Future<void> sendData() async {
     talke = "";
@@ -96,8 +96,8 @@ class _MyPageState extends State<MyPage> {
                   ),
                   child: Center(
                     child: Image.network(
-                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
-                      height: 200,
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681736417/LOGO_INSP_DEF-12_uhbnni.png",
+                      height: MediaQuery.of(context).size.height,
                     ),
                   )),
               const SizedBox(height: 20),

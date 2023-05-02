@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/menu.dart';
@@ -19,20 +19,20 @@ class _RelookingState extends State<Relooking> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController budget = TextEditingController();
+  final TextEditingController _budgetController = TextEditingController();
   bool _isLoading = false;
 
   void clear() {
     _nameController.clear();
     _locationController.clear();
     _descriptionController.clear();
-    budget.clear();
+    _budgetController.clear();
   }
 
-  Future<void> submitForm() async {
+  Future<void> _submitForm() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final int userId = prefs.getInt("userId") ?? -1;
-    const url = 'https://yakinci.com/misoa/relook.php';
+    const url = 'https://s-p4.com/konan/misoa/relook.php';
     final response = await http.post(
       Uri.parse(url),
       body: {
@@ -40,27 +40,22 @@ class _RelookingState extends State<Relooking> {
         'louer': _nameController.text,
         'location': _locationController.text,
         'description': _descriptionController.text,
-        'budget': budget.text,
+        'budget': _budgetController.text,
       },
     );
+
     if (response.statusCode == 200) {
-      // Insert successful, do something
-      clear();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Setion Valider vous serez contacté'),
-          backgroundColor: Colors.green,
-        ),
-      );
+      // traitement de la réponse si besoin
+      print(response.body);
       _showCongratulationsDialog();
     } else {
+      // gestion de l'erreur
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Demande Non envoyer . Reprener svp'),
           backgroundColor: Colors.red,
         ),
       );
-      // Insert failed, handle error
     }
   }
 
@@ -103,167 +98,175 @@ class _RelookingState extends State<Relooking> {
       future: checkConnection(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData && snapshot.data!) {
-          return Scaffold(
-            body: SingleChildScrollView(
-              child: Container(
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('images/blan.jpg'),
-                    fit: BoxFit.cover,
-                    opacity: 1.0,
-                    repeat: ImageRepeat.noRepeat,
-                  ),
-                ),
-                child: Column(
-                  children: [
-                    Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [Colors.red, Colors.redAccent],
-                              end: Alignment.bottomCenter,
-                              begin: Alignment.topCenter),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(100),
-                              bottomRight: Radius.circular(100)),
-                        ),
-                        child: Center(
-                          child: Image.network(
-                            "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
-                            height: 200,
-                          ),
-                        )),
-                    const SizedBox(
-                      height: 20,
+          return SafeArea(
+            child: Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: const Text('Relooking'),
+              ),
+              body: SingleChildScrollView(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('images/blan.jpg'),
+                      fit: BoxFit.cover,
+                      opacity: 1.0,
+                      repeat: ImageRepeat.noRepeat,
                     ),
-                    SingleChildScrollView(
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                          height: MediaQuery.of(context).size.height * 0.4,
+                          decoration: const BoxDecoration(
+                            gradient: LinearGradient(
+                                colors: [Colors.red, Colors.redAccent],
+                                end: Alignment.bottomCenter,
+                                begin: Alignment.topCenter),
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(100),
+                                bottomRight: Radius.circular(100)),
+                          ),
+                          child: Center(
+                            child: Image.network(
+                              "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681736417/LOGO_INSP_DEF-12_uhbnni.png",
+                              height: MediaQuery.of(context).size.height,
+                            ),
+                          )),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SingleChildScrollView(
                         child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: _nameController,
-                              autocorrect: true,
-                              decoration: const InputDecoration(
-                                label: Text('Relooker un(e)'),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez entrer votre desire svp';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: _locationController,
-                              autocorrect: true,
-                              decoration: const InputDecoration(
-                                label: Text('Localisation'),
-                                hintText: 'Ou voulez vous avoir votre bien?',
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez entrer la Localisation svp';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: _descriptionController,
-                              autocorrect: true,
-                              style: const TextStyle(color: Colors.black),
-                              decoration: const InputDecoration(
-                                labelText: 'Description',
-                                labelStyle: TextStyle(color: Colors.black),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez decrire  votre bien svp';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: budget,
-                              keyboardType: TextInputType.phone,
-                              decoration: const InputDecoration(
-                                  label: Text('Saisir votre budget'),
-                                  enabledBorder: OutlineInputBorder()),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez entrer votre budget svp';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Container(
-                                height: 50,
-                                width: 300,
-                                color: Colors.red,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.red,
+                          padding: const EdgeInsets.all(20.0),
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                TextFormField(
+                                  controller: _nameController,
+                                  autocorrect: true,
+                                  decoration: const InputDecoration(
+                                    label: Text('Relooker un(e)'),
+                                    enabledBorder: OutlineInputBorder(),
                                   ),
-                                  onPressed: _isLoading
-                                      ? null
-                                      : () async {
-                                          setState(() {
-                                            _isLoading = true;
-                                          });
-                                          if (_formKey.currentState != null &&
-                                              _formKey.currentState!
-                                                  .validate()) {
-                                            setState(() {
-                                              _isLoading = true;
-                                            });
-                                            submitForm();
-                                            clear();
-                                          }
-                                          setState(() {
-                                            _isLoading = false;
-                                          });
-                                        },
-                                  child: _isLoading
-                                      ? const CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                                  Colors.white),
-                                        )
-                                      : const Text(
-                                          "VALIDER",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                            fontFamily: 'beroKC',
-                                          ),
-                                        ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Veuillez entrer votre désir svp';
+                                    }
+                                    return null;
+                                  },
                                 ),
-                              ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: _locationController,
+                                  autocorrect: true,
+                                  decoration: const InputDecoration(
+                                    label: Text('Localisation'),
+                                    hintText:
+                                        'Où voulez-vous avoir votre bien ?',
+                                    enabledBorder: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Veuillez entrer la localisation svp';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: _descriptionController,
+                                  autocorrect: true,
+                                  style: const TextStyle(color: Colors.black),
+                                  decoration: const InputDecoration(
+                                    labelText: 'Description',
+                                    labelStyle: TextStyle(color: Colors.black),
+                                    enabledBorder: OutlineInputBorder(),
+                                  ),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Veuillez décrire votre bien svp';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                TextFormField(
+                                  controller: _budgetController,
+                                  keyboardType: TextInputType.phone,
+                                  decoration: const InputDecoration(
+                                      label: Text('Saisir votre budget'),
+                                      enabledBorder: OutlineInputBorder()),
+                                  validator: (value) {
+                                    if (value!.isEmpty) {
+                                      return 'Veuillez entrer votre budget svp';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Container(
+                                    height: 50,
+                                    width: 300,
+                                    color: Colors.red,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.red,
+                                      ),
+                                      onPressed: _isLoading
+                                          ? null
+                                          : () async {
+                                              setState(() {
+                                                _isLoading = true;
+                                              });
+                                              if (_formKey.currentState !=
+                                                      null &&
+                                                  _formKey.currentState!
+                                                      .validate()) {
+                                                setState(() {
+                                                  _isLoading = true;
+                                                });
+                                                _submitForm();
+                                              }
+                                              setState(() {
+                                                _isLoading = false;
+                                              });
+                                            },
+                                      child: _isLoading
+                                          ? const CircularProgressIndicator(
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
+                                                      Colors.white),
+                                            )
+                                          : const Text(
+                                              "VALIDER",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                                fontFamily: 'beroKC',
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    )),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

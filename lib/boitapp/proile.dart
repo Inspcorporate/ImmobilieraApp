@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison, use_build_context_synchronously, unnecessary_string_interpolations
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -29,7 +31,7 @@ class _ProfileState extends State<Profile> {
     final int userId = prefs.getInt("userId") ?? -1;
 
     final response = await http.post(
-      Uri.parse("https://yakinci.com/misoa/mobile.php"),
+      Uri.parse("https://s-p4.com/konan/misoa/mobile.php"),
       body: {
         "id": userId.toString(),
       },
@@ -49,8 +51,7 @@ class _ProfileState extends State<Profile> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
 
-    // ignore: use_build_context_synchronously
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const LoginPage()),
     );
@@ -198,20 +199,16 @@ class _ProfileState extends State<Profile> {
                                               color: Colors.white,
                                             ),
                                             Text(
-                                              ' 225 $numero',
+                                              ' $numero',
                                               style: const TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 20),
+                                                  fontSize: 17),
                                             ),
                                           ],
                                         ),
                                         const SizedBox(
                                           width: 50,
                                         ),
-                                        InkWell(
-                                          child: const Icon(Icons.edit),
-                                          onTap: () {},
-                                        )
                                       ],
                                     ),
                                   ),
@@ -239,7 +236,7 @@ class _ProfileState extends State<Profile> {
                                               '$email',
                                               style: const TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 15),
+                                                  fontSize: 17),
                                             ),
                                           ],
                                         ),

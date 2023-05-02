@@ -46,7 +46,7 @@ class _LocationState extends State<Location> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final int userId = prefs.getInt("userId") ?? -1;
 
-    const url = 'https://yakinci.com/misoa/louer.php';
+    const url = 'https://s-p4.com/konan/misoa/louer.php';
     final response = await http.post(Uri.parse(url), body: {
       "id": userId.toString(),
       'descri': widget.descri,
@@ -157,7 +157,7 @@ class _LocationState extends State<Location> {
                                             ),
                                             child: const Text('Retour'),
                                             onPressed: () {
-                                              Navigator.pushReplacement(
+                                              Navigator.pop(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
@@ -225,7 +225,7 @@ class _LocationState extends State<Location> {
                                                 backgroundColor: Colors.red),
                                             child: const Text('retour'),
                                             onPressed: () {
-                                              Navigator.pushReplacement(
+                                              Navigator.pop(
                                                 context,
                                                 MaterialPageRoute(
                                                   builder: (context) =>
@@ -280,22 +280,13 @@ class _LocationState extends State<Location> {
                                   const SizedBox(height: 20),
                                   Row(
                                     children: [
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green),
-                                        child: Text('Oui'),
-                                        onPressed: () => _insertLocation(),
-                                      ),
-                                      const SizedBox(
-                                        width: 80,
-                                      ),
                                       const SizedBox(height: 10),
                                       ElevatedButton(
                                           style: ElevatedButton.styleFrom(
                                               backgroundColor: Colors.red),
                                           child: const Text('retour'),
                                           onPressed: () {
-                                            Navigator.pushReplacement(
+                                            Navigator.pop(
                                               context,
                                               MaterialPageRoute(
                                                 builder: (context) =>
@@ -303,6 +294,15 @@ class _LocationState extends State<Location> {
                                               ),
                                             );
                                           }),
+                                      const SizedBox(
+                                        width: 80,
+                                      ),
+                                      ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green),
+                                        child: const Text('Oui'),
+                                        onPressed: () => _insertLocation(),
+                                      ),
                                     ],
                                   ),
                                 ],

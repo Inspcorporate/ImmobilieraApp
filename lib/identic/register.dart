@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:misoa/boitapp/menu.dart';
+
 import 'package:flutter/services.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:misoa/identic/login.dart';
-import 'package:misoa/identic/mybtn.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -45,7 +44,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _isLoading = true;
     });
     final response = await http
-        .post(Uri.parse("https://yakinci.com/misoa/insert.php"), body: {
+        .post(Uri.parse("https://s-p4.com/konan/misoa/insert.php"), body: {
       "pseudo": pseudo.text,
       "nom": nom.text,
       "email": email.text,
@@ -113,8 +112,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   child: Center(
                     child: Image.network(
-                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
-                      height: 200,
+                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681736417/LOGO_INSP_DEF-12_uhbnni.png",
+                      height: MediaQuery.of(context).size.height,
                     ),
                   )),
               const SizedBox(
@@ -127,12 +126,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     key: _formKey,
                     child: Column(children: [
                       Container(
-                        margin: EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           color: Colors.white,
                         ),
-                        padding: EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
                           autocorrect: true,
                           controller: pseudo,
@@ -152,12 +151,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20,
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           color: Colors.white,
                         ),
-                        padding: EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
                           autocorrect: true,
                           controller: nom,
@@ -177,12 +176,12 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20,
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 10),
+                        margin: const EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           color: Colors.white,
                         ),
-                        padding: EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10),
                         child: TextFormField(
                           controller: nmero,
                           autocorrect: true,
@@ -193,7 +192,15 @@ class _RegisterPageState extends State<RegisterPage> {
                           keyboardType: TextInputType.phone,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Veuillez entrer votre numero svp';
+                              return 'Veuillez entrer votre numéro svp';
+                            }
+                            if (!value.startsWith("+22501") &&
+                                !value.startsWith("+22505") &&
+                                !value.startsWith("+22507")) {
+                              return 'Le numéro doit commencer par +22501, +22505 ou +22507';
+                            }
+                            if (value.length != 14) {
+                              return 'Le numéro doit contenir 14 caractères au total';
                             }
                             return null;
                           },

@@ -9,14 +9,16 @@ class Product {
   final String location;
   final double price;
   final String status;
+  bool isLiked;
 
-  const Product({
+   Product({
     required this.name,
     required this.image,
     required this.description,
     required this.location,
     required this.price,
     required this.status,
+    this.isLiked = false,
   });
 }
 
@@ -28,8 +30,9 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
+  bool change = false;
   final List<Product> products = [
-    const Product(
+     Product(
         name: "Appartement",
         image:
             "https://repere.ci/wp-content/uploads/2022/07/294043735_1460355887711368_424813900704952524_n.jpg",
@@ -37,7 +40,7 @@ class _FirstPageState extends State<FirstPage> {
         location: "Location for Product 1",
         price: 19.99,
         status: "vendu"),
-    const Product(
+     Product(
         name: "residence",
         image:
             "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png",
@@ -45,7 +48,7 @@ class _FirstPageState extends State<FirstPage> {
         location: "Location for Product 2",
         price: 29.99,
         status: "projet"),
-    const Product(
+     Product(
         name: "Terrain",
         image:
             "https://repere.ci/wp-content/uploads/2022/07/294043735_1460355887711368_424813900704952524_n.jpg",
@@ -53,7 +56,7 @@ class _FirstPageState extends State<FirstPage> {
         location: "Location for Product 2",
         price: 29.99,
         status: "disponible"),
-    const Product(
+     Product(
         name: "villa",
         image:
             "https://repere.ci/wp-content/uploads/2022/07/294043735_1460355887711368_424813900704952524_n.jpg",
@@ -137,88 +140,175 @@ class _FirstPageState extends State<FirstPage> {
                     final product = filteredProducts[index];
                     return Padding(
                       padding:
-                          const EdgeInsets.only(left: 30, right: 30, top: 20),
+                          const EdgeInsets.only(left: 10, right: 10, top: 20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            product.name,
-                            style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.05,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'beroKC'),
-                          ),
-                          const SizedBox(height: 10),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FullScreenImage(
-                                      imageUrl: product.image,
-                                      descri: product.description,
-                                      loca: product.location,
-                                      prix: product.price.toString(),
-                                      status: product.status),
-                                ),
-                              );
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Stack(
+                          Card(
+                            clipBehavior: Clip.antiAlias,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            child: Container(
+                              constraints: BoxConstraints(
+                                maxWidth: MediaQuery.of(context).size.width,
+                              ),
+                              child: Column(
                                 children: [
-                                  Image.network(
-                                    product.image,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height *
-                                        0.4,
-                                    fit: BoxFit.cover,
-                                  ),
-                                  Positioned(
-                                    bottom: 20.0,
-                                    left: 20.0,
-                                    right: 20.0,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
+                                  Stack(
+                                    children: [
+                                      Image.network(
+                                        product.image,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.4,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      Positioned(
+                                        top: 10.0,
+                                        left: 10.0,
+                                        child: FloatingActionButton(
+                                          backgroundColor: Colors.greenAccent,
+                                          onPressed: () {
+                                            
+                                          },
+                                          child: const Icon(
+                                            Icons.favorite_border,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: 10.0,
+                                        left: 10.0,
+                                        child: Column(
                                           children: [
-                                            Text(
-                                              "${product.price.toStringAsFixed(2)}",
-                                              style: TextStyle(
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.035,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            Text(
-                                              product.status,
-                                              style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.035,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
                                             ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      Colors.redAccent,
-                                                ),
-                                                onPressed: () {},
-                                                child: const Text('Autres'))
+                                                    backgroundColor:
+                                                        const Color.fromARGB(
+                                                            255, 15, 3, 255)),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FullScreenImage(
+                                                              imageUrl:
+                                                                  product.image,
+                                                              descri:
+                                                                  product
+                                                                      .description,
+                                                              loca: product
+                                                                  .location,
+                                                              prix: product
+                                                                  .price
+                                                                  .toString(),
+                                                              status: product
+                                                                  .status),
+                                                    ),
+                                                  );
+                                                },
+                                                child: const Text('Detail')),
+                                            SizedBox(height: 10.0),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  change = true;
+                                                });
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: change
+                                                    ? Colors.green
+                                                    : Colors.red,
+                                              ),
+                                              child: Text(change
+                                                  ? 'Intéressé !'
+                                                  : 'Intéresser'),
+                                            ),
                                           ],
                                         ),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      const Text('A partir de'),
+                                      const SizedBox(width: 5.0),
+                                      Text(
+                                        product.price.toStringAsFixed(2),
+                                        style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(width: 5.0),
+                                      Text('FCFA')
+                                    ],
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  const Row(
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(
+                                            Icons.location_on,
+                                            color: Colors.grey,
+                                          ),
+                                          SizedBox(width: 5.0),
+                                          Text(
+                                            'Abidjan, Côte d\'Ivoire',
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10.0),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10.0),
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(width: 10.0),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                product.name,
+                                                style: const TextStyle(
+                                                  color: Colors.grey,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const SizedBox(width: 10.0),
+                                        const Icon(Icons.star,
+                                            color: Colors.yellow),
+                                        const Text('4.5'),
                                       ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 5.0),
+                                  Text(
+                                    product.status,
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
+                                              0.035,
+                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],

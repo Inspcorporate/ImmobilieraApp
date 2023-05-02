@@ -215,7 +215,7 @@ class _ActulitiPageState extends State<ActulitiPage> {
                                 height: 100,
                                 width: 150,
                               ),
-                              SizedBox(width: 8.0),
+                              const SizedBox(width: 8.0),
                               Expanded(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
@@ -230,15 +230,15 @@ class _ActulitiPageState extends State<ActulitiPage> {
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                      SizedBox(height: 4.0),
+                                      const SizedBox(height: 4.0),
                                       Row(
                                         children: [
-                                          Icon(Icons.location_on, size: 16.0),
-                                          SizedBox(width: 4.0),
+                                          const Icon(Icons.location_on, size: 16.0),
+                                          const SizedBox(width: 4.0),
                                           Text(item['localisation']),
                                         ],
                                       ),
-                                      SizedBox(height: 4.0),
+                                      const SizedBox(height: 4.0),
                                       Text(
                                         '\$${item['prix']}',
                                         style: const TextStyle(

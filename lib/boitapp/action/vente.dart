@@ -1,9 +1,10 @@
-import 'package:http/http.dart' as http;
+// ignore_for_file: use_build_context_synchronously
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:misoa/boitapp/menu.dart';
+import 'package:misoa/boitapp/affiche.dart';
 import 'package:misoa/identic/login.dart';
 import 'dart:io' as Io;
 
@@ -23,6 +24,7 @@ class _VendreState extends State<Vendre> {
   TextEditingController nature = TextEditingController();
   TextEditingController localist = TextEditingController();
   TextEditingController descrip = TextEditingController();
+  bool _isLoading = false;
 
   Future pickImage() async {
     try {
@@ -41,24 +43,33 @@ class _VendreState extends State<Vendre> {
       final file = await ImagePicker().pickImage(source: ImageSource.gallery);
       if (file == null) return;
 
-      final imageTemporary = Io.File(file.path);
-      setState(() => this.file = imageTemporary);
+      final fileTemporary = Io.File(file.path);
+      setState(() => this.file = fileTemporary);
     } on PlatformException catch (e) {
       print('Failed to $e');
     }
+  }
+
+  void clear() {
+    descrip.clear();
+    localist.clear();
+    nature.clear();
+    setState(() {
+      image = null;
+      file = null;
+    });
   }
 
   void sendData() async {
     final prefs = await SharedPreferences.getInstance();
     final int userId = prefs.getInt("userId") ?? -1;
 
-    var url =
-        'https://yakinci.com/misoa/bien.php'; // Replace with the URL of your PHP API
+    var url = 'https://s-p4.com/konan/misoa/bien.php';
     var request = http.MultipartRequest('POST', Uri.parse(url));
     request.fields['id_user'] = userId.toString();
     request.fields['nature'] = nature.text;
     request.fields['localist'] = localist.text;
-    request.fields['descrip'] = descrip.text;
+    request.fields['descrip'] = descrip.text; 
 
     if (image != null) {
       var imageStream = http.ByteStream(image!.openRead());
@@ -79,12 +90,19 @@ class _VendreState extends State<Vendre> {
     var response = await request.send();
 
     if (response.statusCode == 200) {
-       _showCongratulationsDialog();
+      _showCongratulationsDialog();
+      clear();
     } else {
-      print('Error sending data: ${response.reasonPhrase}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content:
+              Text('La demande n\'a pas pu être envoyée. Veuillez réessayer.'),
+          backgroundColor: Colors.red,
+        ),
+      );
     }
   }
-  
+
   void _showCongratulationsDialog() {
     showDialog(
       context: context,
@@ -96,7 +114,7 @@ class _VendreState extends State<Vendre> {
             style: TextStyle(fontSize: 20, fontFamily: 'devKC'),
           ),
           content: const Text(
-            'Vous venez de lancer une Procedure Vente de Bien vous serez Contacté;.',
+            'Vous venez de lancer une procédure de vente de bien. Vous serez contacté prochainement.',
             style: TextStyle(color: Colors.white),
           ),
           actions: <Widget>[
@@ -104,7 +122,7 @@ class _VendreState extends State<Vendre> {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => const Menu()),
+                  MaterialPageRoute(builder: (context) => const AffichPage()),
                 );
               },
               child: const Icon(
@@ -116,12 +134,6 @@ class _VendreState extends State<Vendre> {
         );
       },
     );
-  }
-
-  void clear() {
-    descrip.clear();
-    localist.clear();
-    nature.clear();
   }
 
   String name = '';
@@ -148,7 +160,7 @@ class _VendreState extends State<Vendre> {
                 child: Column(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.27,
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                             colors: [Colors.red, Colors.redAccent],
@@ -160,8 +172,8 @@ class _VendreState extends State<Vendre> {
                       ),
                       child: Center(
                         child: Image.network(
-                          "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680881810/mo_gwvrih.png",
-                          height: 200,
+                          "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681736417/LOGO_INSP_DEF-12_uhbnni.png",
+                          height: MediaQuery.of(context).size.height,
                         ),
                       ),
                     ),
@@ -169,247 +181,173 @@ class _VendreState extends State<Vendre> {
                       height: 20,
                     ),
                     SingleChildScrollView(
-                        child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: nature,
-                              autocorrect: true,
-                              decoration: const InputDecoration(
-                                label: Text('Nature Du Bien'),
-                                enabledBorder: OutlineInputBorder(),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: [
+                              const SizedBox(
+                                height: 20,
                               ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez entrer La Nature de votre bien svp';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: localist,
-                              autocorrect: true,
-                              decoration: const InputDecoration(
-                                label: Text('Localisation du Bien'),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez entrer la Localisation svp';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            TextFormField(
-                              controller: descrip,
-                              autocorrect: true,
-                              style: const TextStyle(color: Colors.black),
-                              decoration: const InputDecoration(
-                                labelText: 'Description Du Bien',
-                                labelStyle: TextStyle(color: Colors.black),
-                                enabledBorder: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return 'Veuillez decrire  votre bien svp';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Row(
-                              children: [
-                                image != null
-                                    ? Image.file(
-                                        image!,
-                                        width: 170,
-                                        height: 190,
-                                      )
-                                    : GestureDetector(
-                                        onTap: () => pickImage(),
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                              color: Colors.grey),
-                                          width: 80,
-                                          height: 80,
-                                          child: const Icon(
-                                            Icons.camera_alt,
-                                            color: Colors.black,
-                                            size: 40,
-                                          ),
-                                        ),
-                                      ),
-                                const SizedBox(
-                                  width: 30,
+                              TextFormField(
+                                controller: nature,
+                                autocorrect: true,
+                                decoration: const InputDecoration(
+                                  label: Text('Nature Du Bien'),
+                                  enabledBorder: OutlineInputBorder(),
                                 ),
-                                file != null
-                                    ? Image.file(
-                                        file!,
-                                        width: 170,
-                                        height: 190,
-                                      )
-                                    : GestureDetector(
-                                        onTap: () => pickchoose(),
-                                        child: Container(
-                                          decoration: const BoxDecoration(
-                                              color: Colors.grey),
-                                          width: 80,
-                                          height: 80,
-                                          child: const Icon(
-                                            Icons.add,
-                                            color: Colors.black,
-                                            size: 40,
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Veuillez entrer La Nature de votre bien svp';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                controller: localist,
+                                autocorrect: true,
+                                decoration: const InputDecoration(
+                                  label: Text('Localisation du Bien'),
+                                  enabledBorder: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Veuillez entrer la Localisation svp';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              TextFormField(
+                                controller: descrip,
+                                autocorrect: true,
+                                style: const TextStyle(color: Colors.black),
+                                decoration: const InputDecoration(
+                                  labelText: 'Description Du Bien',
+                                  labelStyle: TextStyle(color: Colors.black),
+                                  enabledBorder: OutlineInputBorder(),
+                                ),
+                                validator: (value) {
+                                  if (value!.isEmpty) {
+                                    return 'Veuillez decrire  votre bien svp';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              const Text(
+                                'Ajouter des Justificatifs',
+                                style: TextStyle(
+                                    fontFamily: 'beroKC', fontSize: 20),
+                              ),
+                              Row(
+                                children: [
+                                  image != null
+                                      ? Image.file(
+                                          image!,
+                                          width: 170,
+                                          height: 190,
+                                        )
+                                      : GestureDetector(
+                                          onTap: () => pickImage(),
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                color: Colors.grey),
+                                            width: 80,
+                                            height: 80,
+                                            child: const Icon(
+                                              Icons.camera_alt,
+                                              color: Colors.black,
+                                              size: 40,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 20),
-                              child: Container(
-                                height: 50,
-                                width: 300,
-                                color: Colors.red,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.red),
-                                  child: const Text(
-                                    "VALIDER",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontFamily: 'beroKC',
-                                    ),
+                                  const SizedBox(
+                                    width: 30,
                                   ),
-                                  onPressed: () {
-                                    if (_formKey.currentState!.validate()) {
-                                      sendData();
-                                      name = nature.text;
-                                      nate = localist.text;
-                                      tel = descrip.text;
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => AlertDialog(
-                                          title: const Text('Recapitulatif'),
-                                          content: Text(
-                                              "Ci-dessous les informations communiquées a MISOA :Vente d'un(e): $name ; localisation à : $nate ; decrie comme suite  $tel. Cliquez sur suivant si vous êtres sure de la veracité de ceux-ci sinon cliquez sur précédent pour aller les corriger"),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context)
-                                                      .pop(false),
-                                              child: const Text(
-                                                'précédent',
-                                                style: TextStyle(
-                                                    color: Colors.red),
-                                              ),
+                                  file != null
+                                      ? Image.file(
+                                          file!,
+                                          width: 170,
+                                          height: 190,
+                                        )
+                                      : GestureDetector(
+                                          onTap: () => pickchoose(),
+                                          child: Container(
+                                            decoration: const BoxDecoration(
+                                                color: Colors.grey),
+                                            width: 80,
+                                            height: 80,
+                                            child: const Icon(
+                                              Icons.add,
+                                              color: Colors.black,
+                                              size: 40,
                                             ),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.of(context)
-                                                      .pop(true),
-                                              child: const Text(
-                                                'suivent',
-                                                style: TextStyle(
-                                                    color: Colors.green),
-                                              ),
-                                            ),
-                                          ],
+                                          ),
                                         ),
-                                      ).then(
-                                        (confirmed) {
-                                          if (confirmed != null && confirmed) {
-                                            showDialog(
-                                              context: context,
-                                              builder: (context) => AlertDialog(
-                                                title: const Text(
-                                                  'Confidencialité',
-                                                  style: TextStyle(
-                                                      color: Colors.green,
-                                                      fontSize: 20),
-                                                ),
-                                                content: const Text(
-                                                    "La politique de confidencialité de MISOA lui permet de garder vos données, MISOA vous demande l'autorisation d'utiliser vos données personnelles afin d'améliorer votre expérience client"),
-                                                actions: [
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.of(context)
-                                                            .pop(false),
-                                                    child: const Text(
-                                                      'Annuler',
-                                                      style: TextStyle(
-                                                          color: Colors.red),
-                                                    ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () =>
-                                                        Navigator.of(context)
-                                                            .pop(true),
-                                                    child: const Text(
-                                                      'Valider',
-                                                      style: TextStyle(
-                                                          color: Colors.green),
-                                                    ),
-                                                  ),
-                                                ],
-                                                elevation: 30,
-                                                buttonPadding:
-                                                    EdgeInsets.all(20),
-                                              ),
-                                            ).then(
-                                              (confirmed) {
-                                                if (confirmed != null &&
-                                                    confirmed) {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) =>
-                                                        const AlertDialog(
-                                                      title: Text(
-                                                        'Vous serez Contacté par le service Client',
-                                                        style: TextStyle(
-                                                            color: Colors.green,
-                                                            fontSize: 20),
-                                                      ),
-                                                      content: Icon(
-                                                        Icons.check_circle,
-                                                        color: Colors.green,
-                                                        size: 69,
-                                                      ),
-                                                    ),
-                                                  );
-                                                }
-                                              },
-                                            );
-                                            clear();
-                                          }
-                                        },
-                                      );
-                                    }
-                                  },
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 20),
+                                child: Container(
+                                  height: 50,
+                                  width: 300,
+                                  color: Colors.red,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: Colors.red,
+                                    ),
+                                    onPressed: _isLoading
+                                        ? null
+                                        : () async {
+                                            setState(() {
+                                              _isLoading = true;
+                                            });
+                                            if (_formKey.currentState != null &&
+                                                _formKey.currentState!
+                                                    .validate()) {
+                                              setState(() {
+                                                _isLoading = true;
+                                              });
+                                              sendData();
+                                            }
+                                            setState(() {
+                                              _isLoading = false;
+                                            });
+                                          },
+                                    child: _isLoading
+                                        ? const CircularProgressIndicator(
+                                            valueColor:
+                                                AlwaysStoppedAnimation<Color>(
+                                                    Colors.white),
+                                          )
+                                        : const Text(
+                                            "VALIDER",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                              fontFamily: 'beroKC',
+                                            ),
+                                          ),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                    )),
+                    ),
                   ],
                 ),
               ),
