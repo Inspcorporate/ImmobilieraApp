@@ -24,6 +24,9 @@ class _VendreState extends State<Vendre> {
   TextEditingController nature = TextEditingController();
   TextEditingController localist = TextEditingController();
   TextEditingController descrip = TextEditingController();
+  TextEditingController douche = TextEditingController();
+  TextEditingController chambre = TextEditingController();
+  TextEditingController garage = TextEditingController();
   bool _isLoading = false;
 
   Future pickImage() async {
@@ -54,22 +57,28 @@ class _VendreState extends State<Vendre> {
     descrip.clear();
     localist.clear();
     nature.clear();
-    setState(() {
-      image = null;
-      file = null;
-    });
+    douche.clear();
+    chambre.clear();
+    garage.clear();
+    image = null;
+    file = null;
   }
 
   void sendData() async {
     final prefs = await SharedPreferences.getInstance();
     final int userId = prefs.getInt("userId") ?? -1;
-
+    setState(() {
+      _isLoading = true;
+    });
     var url = 'https://s-p4.com/konan/misoa/bien.php';
     var request = http.MultipartRequest('POST', Uri.parse(url));
     request.fields['id_user'] = userId.toString();
     request.fields['nature'] = nature.text;
     request.fields['localist'] = localist.text;
-    request.fields['descrip'] = descrip.text; 
+    request.fields['descrip'] = descrip.text;
+    request.fields['douche'] = douche.text;
+    request.fields['chambre'] = chambre.text;
+    request.fields['garage'] = garage.text;
 
     if (image != null) {
       var imageStream = http.ByteStream(image!.openRead());
@@ -136,7 +145,7 @@ class _VendreState extends State<Vendre> {
     );
   }
 
-  String name = '';
+  String naturBien = '';
   String nate = '';
   String tel = '';
 
@@ -147,6 +156,9 @@ class _VendreState extends State<Vendre> {
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
         if (snapshot.hasData && snapshot.data!) {
           return Scaffold(
+            appBar: AppBar(
+              backgroundColor: Colors.red,
+            ),
             body: SingleChildScrollView(
               child: Container(
                 decoration: const BoxDecoration(
@@ -159,24 +171,62 @@ class _VendreState extends State<Vendre> {
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.27,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                            colors: [Colors.red, Colors.redAccent],
-                            end: Alignment.bottomCenter,
-                            begin: Alignment.topCenter),
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(100),
-                            bottomRight: Radius.circular(100)),
-                      ),
-                      child: Center(
-                        child: Image.network(
-                          "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681736417/LOGO_INSP_DEF-12_uhbnni.png",
-                          height: MediaQuery.of(context).size.height,
+                    Stack(children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.23,
+                        decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('images/fon.jpg'),
+                              fit: BoxFit.cover,
+                              repeat: ImageRepeat.noRepeat),
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(20),
+                              bottomRight: Radius.circular(20)),
                         ),
                       ),
-                    ),
+                      const Positioned(
+                        top: 30,
+                        left: 40,
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: AssetImage('images/vrai.png'),
+                              radius: 30,
+                            ),
+                            Text(
+                              'MISOA',
+                              style: TextStyle(
+                                  fontFamily: 'beroKC',
+                                  fontSize: 30,
+                                  color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 20,
+                        left: 20,
+                        child: Container(
+                          height: 50,
+                          width: 120,
+                          alignment: Alignment.bottomLeft,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: Colors.white),
+                          child: const Center(
+                            child: Text(
+                              'Vendre',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontFamily: 'beroKC',
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
                     const SizedBox(
                       height: 20,
                     ),
@@ -193,6 +243,11 @@ class _VendreState extends State<Vendre> {
                               TextFormField(
                                 controller: nature,
                                 autocorrect: true,
+                                onChanged: (value) {
+                                  setState(() {
+                                    naturBien = value;
+                                  });
+                                },
                                 decoration: const InputDecoration(
                                   label: Text('Nature Du Bien'),
                                   enabledBorder: OutlineInputBorder(),
@@ -230,6 +285,8 @@ class _VendreState extends State<Vendre> {
                                 style: const TextStyle(color: Colors.black),
                                 decoration: const InputDecoration(
                                   labelText: 'Description Du Bien',
+                                  hintText:
+                                      "Location(caution 200mille*4)/ vente 2millions)",
                                   labelStyle: TextStyle(color: Colors.black),
                                   enabledBorder: OutlineInputBorder(),
                                 ),
@@ -240,6 +297,66 @@ class _VendreState extends State<Vendre> {
                                   return null;
                                 },
                               ),
+                              if (naturBien == 'Appartement' ||
+                                  naturBien == 'Villa')
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Veuillez entrer votre nom svp';
+                                            }
+                                            return null;
+                                          },
+                                          controller: douche,
+                                          decoration: const InputDecoration(
+                                            labelText: 'Douche',
+                                            border: OutlineInputBorder(),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Veuillez entrer ';
+                                            }
+                                            return null;
+                                          },
+                                          controller: chambre,
+                                          decoration: const InputDecoration(
+                                            labelText: 'Chambre',
+                                            border: OutlineInputBorder(),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: TextFormField(
+                                          validator: (value) {
+                                            if (value!.isEmpty) {
+                                              return 'Veuillez entrer votre nom svp';
+                                            }
+                                            return null;
+                                          },
+                                          controller: garage,
+                                          decoration: const InputDecoration(
+                                            labelText: 'Garage',
+                                            border: OutlineInputBorder(),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               const SizedBox(
                                 height: 20,
                               ),
@@ -265,7 +382,8 @@ class _VendreState extends State<Vendre> {
                                             height: 80,
                                             child: const Icon(
                                               Icons.camera_alt,
-                                              color: Colors.black,
+                                              color: Color.fromARGB(
+                                                  255, 249, 249, 249),
                                               size: 40,
                                             ),
                                           ),
@@ -288,7 +406,8 @@ class _VendreState extends State<Vendre> {
                                             height: 80,
                                             child: const Icon(
                                               Icons.add,
-                                              color: Colors.black,
+                                              color: Color.fromARGB(
+                                                  255, 239, 239, 239),
                                               size: 40,
                                             ),
                                           ),
@@ -303,7 +422,8 @@ class _VendreState extends State<Vendre> {
                                 child: Container(
                                   height: 50,
                                   width: 300,
-                                  color: Colors.red,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20)),
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       backgroundColor: Colors.red,
@@ -327,11 +447,7 @@ class _VendreState extends State<Vendre> {
                                             });
                                           },
                                     child: _isLoading
-                                        ? const CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                                    Colors.white),
-                                          )
+                                        ? const CircularProgressIndicator()
                                         : const Text(
                                             "VALIDER",
                                             style: TextStyle(

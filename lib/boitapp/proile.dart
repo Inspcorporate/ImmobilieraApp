@@ -61,524 +61,568 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+    double enhaut = MediaQuery.of(context).size.height;
+    double largeur = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.3,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Colors.red, Colors.redAccent],
-                  end: Alignment.bottomCenter,
-                  begin: Alignment.topCenter),
-              borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(100),
-                  bottomRight: Radius.circular(100)),
-            ),
-            child: const Center(
-              child: CircleAvatar(
-                radius: 60,
-                backgroundImage: AssetImage('images/p.jpg'),
+      body: SizedBox(
+        height: enhaut,
+        width: largeur,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.3,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: [Colors.red, Colors.redAccent],
+                    end: Alignment.bottomCenter,
+                    begin: Alignment.topCenter),
+                borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    bottomRight: Radius.circular(50)),
+              ),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Text(
+                    'Profil',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'beroKC',
+                        color: Colors.white),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Center(
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundImage: AssetImage('images/p.jpg'),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    '$prenom' '$_username',
+                    style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            '$prenom' '$_username',
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 10),
-          Container(
-            height: 1,
-            color: Colors.grey[300],
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-          ),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedIndex = 0;
-                  });
-                },
-                child: Column(
-                  children: [
-                    Icon(Icons.person,
-                        color: _selectedIndex == 0 ? Colors.red : Colors.grey),
-                    Text('Profile',
-                        style: TextStyle(
-                            color:
-                                _selectedIndex == 0 ? Colors.red : Colors.grey))
-                  ],
+            const SizedBox(height: 10),
+            Container(
+              height: 1,
+              color: Colors.grey[300],
+              margin: const EdgeInsets.symmetric(horizontal: 30),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 0;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.person,
+                          color:
+                              _selectedIndex == 0 ? Colors.red : Colors.grey),
+                      Text('Profile',
+                          style: TextStyle(
+                              color: _selectedIndex == 0
+                                  ? Colors.red
+                                  : Colors.grey))
+                    ],
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedIndex = 1;
-                  });
-                },
-                child: Column(
-                  children: [
-                    Icon(Icons.explore,
-                        color: _selectedIndex == 1 ? Colors.red : Colors.grey),
-                    Text('Explore',
-                        style: TextStyle(
-                            color:
-                                _selectedIndex == 1 ? Colors.red : Colors.grey))
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 1;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.explore,
+                          color:
+                              _selectedIndex == 1 ? Colors.red : Colors.grey),
+                      Text('Explore',
+                          style: TextStyle(
+                              color: _selectedIndex == 1
+                                  ? Colors.red
+                                  : Colors.grey))
+                    ],
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedIndex = 2;
-                  });
-                },
-                child: Column(
-                  children: [
-                    Icon(Icons.help_center,
-                        color: _selectedIndex == 2 ? Colors.red : Colors.grey),
-                    Text('Assisance',
-                        style: TextStyle(
-                            color:
-                                _selectedIndex == 2 ? Colors.red : Colors.grey))
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 2;
+                    });
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.help_center,
+                          color:
+                              _selectedIndex == 2 ? Colors.red : Colors.grey),
+                      Text('Assisance',
+                          style: TextStyle(
+                              color: _selectedIndex == 2
+                                  ? Colors.red
+                                  : Colors.grey))
+                    ],
+                  ),
                 ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedIndex = 3;
-                  });
-                  disconnectUser(context);
-                },
-                child: Column(
-                  children: [
-                    Icon(Icons.logout,
-                        color: _selectedIndex == 3 ? Colors.red : Colors.grey),
-                    Text('logout',
-                        style: TextStyle(
-                            color:
-                                _selectedIndex == 3 ? Colors.red : Colors.grey))
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = 3;
+                    });
+                    disconnectUser(context);
+                  },
+                  child: Column(
+                    children: [
+                      Icon(Icons.logout,
+                          color:
+                              _selectedIndex == 3 ? Colors.red : Colors.grey),
+                      Text('logout',
+                          style: TextStyle(
+                              color: _selectedIndex == 3
+                                  ? Colors.red
+                                  : Colors.grey))
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-          Expanded(
-              child: _selectedIndex == 0
-                  ? SingleChildScrollView(
-                      child: _username != null
-                          ? Column(
-                              children: [
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Container(
-                                    height: 60,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.grey,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.phone_callback_outlined,
-                                              size: 30,
-                                              color: Colors.white,
-                                            ),
-                                            Text(
-                                              ' $numero',
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 17),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          width: 50,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Container(
-                                    height: 60,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.grey,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.email_outlined,
-                                              color: Colors.white,
-                                              size: 30,
-                                            ),
-                                            Text(
-                                              '$email',
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 17),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Container(
-                                    height: 60,
-                                    decoration: const BoxDecoration(
-                                      color: Colors.grey,
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(20),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            IconButton(
-                                              icon: const Icon(
-                                                Icons.exit_to_app,
-                                                color: Colors.redAccent,
-                                              ),
-                                              onPressed: () {
-                                                showDialog(
-                                                  context: context,
-                                                  builder:
-                                                      (BuildContext context) {
-                                                    return AlertDialog(
-                                                      title: const Text(
-                                                          'Quitter l\'application?'),
-                                                      content: const Text(
-                                                          'Êtes-vous sûr de vouloir quitter l\'application?'),
-                                                      actions: <Widget>[
-                                                        TextButton(
-                                                          child:
-                                                              Text('Annuler'),
-                                                          onPressed: () {
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                        ),
-                                                        TextButton(
-                                                          child:
-                                                              Text('Quitter'),
-                                                          onPressed: () {
-                                                            SystemNavigator
-                                                                .pop();
-                                                          },
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                            const Text(
-                                              "Quitter l'application",
-                                              style: TextStyle(fontSize: 20),
-                                            )
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          : const Center(
-                              child: Text(
-                                'Username does not exist',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 20),
-                              ),
-                            ),
-                    )
-                  : _selectedIndex == 1
-                      ? Row(
-                          children: const [
-                            Text(
-                              ' aucun interêt',
-                              style: TextStyle(
-                                  color: Colors.black12, fontSize: 20),
-                            ),
-                            SizedBox(
-                              width: 50,
-                            ),
-                          ],
-                        )
-                      : _selectedIndex == 2
-                          ? SingleChildScrollView(
-                              child: Column(
+              ],
+            ),
+            Expanded(
+                child: _selectedIndex == 0
+                    ? SingleChildScrollView(
+                        child: _username != null
+                            ? Column(
                                 children: [
-                                  Row(
-                                    children: [
-                                      const Image(
-                                        image: AssetImage('images/sav.png'),
-                                        height: 150,
-                                        width: 150,
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          // launch('tel//$number');
-                                          // await FlutterPhoneDirectCaller.callNumber(number);
-                                          final Uri url = Uri(
-                                            scheme: 'tel',
-                                            path: "+2250709171734",
-                                          );
-                                          if (await canLaunchUrl(url)) {
-                                            await launchUrl(url);
-                                          } else {
-                                            print('Le numero ne fonction plus');
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 20,
-                                            backgroundColor:
-                                                Colors.transparent),
-                                        child: const Icon(
-                                          Icons.phone,
-                                          size: 40,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 20,
-                                            backgroundColor:
-                                                Colors.transparent),
-                                        onPressed: () async {
-                                          final Uri smsLaunchUri = Uri(
-                                            scheme: 'sms',
-                                            path: "+2250709171734",
-                                          );
-                                          if (await canLaunchUrl(
-                                              smsLaunchUri)) {
-                                            await launchUrl(smsLaunchUri);
-                                          } else {
-                                            print('Le numero ne fonction plus');
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.message,
-                                          size: 40,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 20,
-                                            backgroundColor:
-                                                Colors.transparent),
-                                        onPressed: () async {
-                                          final Uri emailLaunchUri = Uri(
-                                            scheme: 'mailto',
-                                            path:
-                                                "admin&com@inspicorporate.com",
-                                          );
-                                          if (await canLaunchUrl(
-                                              emailLaunchUri)) {
-                                            await launchUrl(emailLaunchUri);
-                                          } else {
-                                            print('Le numero ne fonction plus');
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.email,
-                                          size: 40,
-                                          color: Colors.black,
-                                        ),
-                                      )
-                                    ],
+                                  const SizedBox(
+                                    height: 30,
                                   ),
-                                  Row(
-                                    children: [
-                                      const Image(
-                                        image: AssetImage('images/notaire.png'),
-                                        height: 200,
-                                        width: 150,
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          final Uri url = Uri(
-                                            scheme: 'tel',
-                                            path: "+2250709171734",
-                                          );
-                                          if (await canLaunchUrl(url)) {
-                                            await launchUrl(url);
-                                          } else {
-                                            print('le numero ne fonction plus');
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 20,
-                                            backgroundColor:
-                                                Colors.transparent),
-                                        child: const Icon(
-                                          Icons.phone,
-                                          size: 40,
-                                          color: Colors.black,
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Container(
+                                      height: 60,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(20),
                                         ),
                                       ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 20,
-                                            backgroundColor:
-                                                Colors.transparent),
-                                        onPressed: () async {
-                                          final Uri smsLaunchUri = Uri(
-                                            scheme: 'sms',
-                                            path: "+2250709171734",
-                                          );
-                                          if (await canLaunchUrl(
-                                              smsLaunchUri)) {
-                                            await launchUrl(smsLaunchUri);
-                                          } else {
-                                            print('le numero ne fonction plus');
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.message,
-                                          size: 40,
-                                          color: Colors.black,
-                                        ),
+                                      child: Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.phone_callback_outlined,
+                                                size: 30,
+                                                color: Colors.white,
+                                              ),
+                                              Text(
+                                                ' $numero',
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 17),
+                                              ),
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            width: 50,
+                                          ),
+                                        ],
                                       ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 20,
-                                            backgroundColor:
-                                                Colors.transparent),
-                                        onPressed: () async {
-                                          final Uri emailLaunchUri = Uri(
-                                            scheme: 'mailto',
-                                            path:
-                                                "admin&com@inspicorporate.com",
-                                          );
-                                          if (await canLaunchUrl(
-                                              emailLaunchUri)) {
-                                            await launchUrl(emailLaunchUri);
-                                          } else {
-                                            print('le numero ne fonction plus');
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.email,
-                                          size: 40,
-                                          color: Colors.black,
-                                        ),
-                                      )
-                                    ],
+                                    ),
                                   ),
-                                  Row(
-                                    children: [
-                                      const Image(
-                                        image:
-                                            AssetImage('images/ASSISTANT.png'),
-                                        height: 150,
-                                        width: 150,
-                                      ),
-                                      ElevatedButton(
-                                        onPressed: () async {
-                                          final Uri url = Uri(
-                                            scheme: 'tel',
-                                            path: "+2250709171734",
-                                          );
-                                          if (await canLaunchUrl(url)) {
-                                            await launchUrl(url);
-                                          } else {
-                                            print('le numero ne fonction plus');
-                                          }
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 20,
-                                            backgroundColor:
-                                                Colors.transparent),
-                                        child: const Icon(
-                                          Icons.phone,
-                                          size: 40,
-                                          color: Colors.black,
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Container(
+                                      height: 60,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(20),
                                         ),
                                       ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 20,
-                                            backgroundColor:
-                                                Colors.transparent),
-                                        onPressed: () async {
-                                          final Uri smsLaunchUri = Uri(
-                                            scheme: 'sms',
-                                            path: "+2250709171734",
-                                          );
-                                          if (await canLaunchUrl(
-                                              smsLaunchUri)) {
-                                            await launchUrl(smsLaunchUri);
-                                          } else {
-                                            print('le numero ne fonction plus');
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.message,
-                                          size: 40,
-                                          color: Colors.black,
+                                      child: Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.email_outlined,
+                                                color: Colors.white,
+                                                size: 30,
+                                              ),
+                                              Text(
+                                                '$email',
+                                                style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 17),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Container(
+                                      height: 60,
+                                      decoration: const BoxDecoration(
+                                        color: Colors.grey,
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(20),
                                         ),
                                       ),
-                                      ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                            elevation: 20,
-                                            backgroundColor:
-                                                Colors.transparent),
-                                        onPressed: () async {
-                                          final Uri emailLaunchUri = Uri(
-                                            scheme: 'mailto',
-                                            path:
-                                                "admin&com@inspicorporate.com",
-                                          );
-                                          if (await canLaunchUrl(
-                                              emailLaunchUri)) {
-                                            await launchUrl(emailLaunchUri);
-                                          } else {
-                                            print('le numero ne fonction plus');
-                                          }
-                                        },
-                                        child: const Icon(
-                                          Icons.email,
-                                          size: 40,
-                                          color: Colors.black,
-                                        ),
-                                      )
-                                    ],
+                                      child: Row(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              IconButton(
+                                                icon: const Icon(
+                                                  Icons.exit_to_app,
+                                                  color: Colors.redAccent,
+                                                ),
+                                                onPressed: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder:
+                                                        (BuildContext context) {
+                                                      return AlertDialog(
+                                                        title: const Text(
+                                                            'Quitter l\'application?'),
+                                                        content: const Text(
+                                                            'Êtes-vous sûr de vouloir quitter l\'application?'),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child:
+                                                                Text('Annuler'),
+                                                            onPressed: () {
+                                                              Navigator.of(
+                                                                      context)
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child:
+                                                                Text('Quitter'),
+                                                            onPressed: () {
+                                                              SystemNavigator
+                                                                  .pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                              const Text(
+                                                "Quitter l'application",
+                                                style: TextStyle(fontSize: 20),
+                                              )
+                                            ],
+                                          ),
+                                          const SizedBox(
+                                            width: 10,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
+                              )
+                            : const Center(
+                                child: Text(
+                                  'Username does not exist',
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                ),
                               ),
-                            )
-                          : Row()),
-        ],
+                      )
+                    : _selectedIndex == 1
+                        ? Row(
+                            children: const [
+                              Text(
+                                ' aucun interêt',
+                                style: TextStyle(
+                                    color: Colors.black12, fontSize: 20),
+                              ),
+                              SizedBox(
+                                width: 50,
+                              ),
+                            ],
+                          )
+                        : _selectedIndex == 2
+                            ? SingleChildScrollView(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        const Image(
+                                          image: AssetImage('images/sav.png'),
+                                          height: 150,
+                                          width: 150,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            // launch('tel//$number');
+                                            // await FlutterPhoneDirectCaller.callNumber(number);
+                                            final Uri url = Uri(
+                                              scheme: 'tel',
+                                              path: "+2250709171734",
+                                            );
+                                            if (await canLaunchUrl(url)) {
+                                              await launchUrl(url);
+                                            } else {
+                                              print(
+                                                  'Le numero ne fonction plus');
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 20,
+                                              backgroundColor:
+                                                  Colors.transparent),
+                                          child: const Icon(
+                                            Icons.phone,
+                                            size: 40,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 20,
+                                              backgroundColor:
+                                                  Colors.transparent),
+                                          onPressed: () async {
+                                            final Uri smsLaunchUri = Uri(
+                                              scheme: 'sms',
+                                              path: "+2250709171734",
+                                            );
+                                            if (await canLaunchUrl(
+                                                smsLaunchUri)) {
+                                              await launchUrl(smsLaunchUri);
+                                            } else {
+                                              print(
+                                                  'Le numero ne fonction plus');
+                                            }
+                                          },
+                                          child: const Icon(
+                                            Icons.message,
+                                            size: 40,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 20,
+                                              backgroundColor:
+                                                  Colors.transparent),
+                                          onPressed: () async {
+                                            final Uri emailLaunchUri = Uri(
+                                              scheme: 'mailto',
+                                              path:
+                                                  "admin&com@inspicorporate.com",
+                                            );
+                                            if (await canLaunchUrl(
+                                                emailLaunchUri)) {
+                                              await launchUrl(emailLaunchUri);
+                                            } else {
+                                              print(
+                                                  'Le numero ne fonction plus');
+                                            }
+                                          },
+                                          child: const Icon(
+                                            Icons.email,
+                                            size: 40,
+                                            color: Colors.black,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Image(
+                                          image:
+                                              AssetImage('images/notaire.png'),
+                                          height: 200,
+                                          width: 150,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            final Uri url = Uri(
+                                              scheme: 'tel',
+                                              path: "+2250709171734",
+                                            );
+                                            if (await canLaunchUrl(url)) {
+                                              await launchUrl(url);
+                                            } else {
+                                              print(
+                                                  'le numero ne fonction plus');
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 20,
+                                              backgroundColor:
+                                                  Colors.transparent),
+                                          child: const Icon(
+                                            Icons.phone,
+                                            size: 40,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 20,
+                                              backgroundColor:
+                                                  Colors.transparent),
+                                          onPressed: () async {
+                                            final Uri smsLaunchUri = Uri(
+                                              scheme: 'sms',
+                                              path: "+2250709171734",
+                                            );
+                                            if (await canLaunchUrl(
+                                                smsLaunchUri)) {
+                                              await launchUrl(smsLaunchUri);
+                                            } else {
+                                              print(
+                                                  'le numero ne fonction plus');
+                                            }
+                                          },
+                                          child: const Icon(
+                                            Icons.message,
+                                            size: 40,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 20,
+                                              backgroundColor:
+                                                  Colors.transparent),
+                                          onPressed: () async {
+                                            final Uri emailLaunchUri = Uri(
+                                              scheme: 'mailto',
+                                              path:
+                                                  "admin&com@inspicorporate.com",
+                                            );
+                                            if (await canLaunchUrl(
+                                                emailLaunchUri)) {
+                                              await launchUrl(emailLaunchUri);
+                                            } else {
+                                              print(
+                                                  'le numero ne fonction plus');
+                                            }
+                                          },
+                                          child: const Icon(
+                                            Icons.email,
+                                            size: 40,
+                                            color: Colors.black,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Image(
+                                          image: AssetImage(
+                                              'images/ASSISTANT.png'),
+                                          height: 150,
+                                          width: 150,
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            final Uri url = Uri(
+                                              scheme: 'tel',
+                                              path: "+2250709171734",
+                                            );
+                                            if (await canLaunchUrl(url)) {
+                                              await launchUrl(url);
+                                            } else {
+                                              print(
+                                                  'le numero ne fonction plus');
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 20,
+                                              backgroundColor:
+                                                  Colors.transparent),
+                                          child: const Icon(
+                                            Icons.phone,
+                                            size: 40,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 20,
+                                              backgroundColor:
+                                                  Colors.transparent),
+                                          onPressed: () async {
+                                            final Uri smsLaunchUri = Uri(
+                                              scheme: 'sms',
+                                              path: "+2250709171734",
+                                            );
+                                            if (await canLaunchUrl(
+                                                smsLaunchUri)) {
+                                              await launchUrl(smsLaunchUri);
+                                            } else {
+                                              print(
+                                                  'le numero ne fonction plus');
+                                            }
+                                          },
+                                          child: const Icon(
+                                            Icons.message,
+                                            size: 40,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              elevation: 20,
+                                              backgroundColor:
+                                                  Colors.transparent),
+                                          onPressed: () async {
+                                            final Uri emailLaunchUri = Uri(
+                                              scheme: 'mailto',
+                                              path:
+                                                  "admin&com@inspicorporate.com",
+                                            );
+                                            if (await canLaunchUrl(
+                                                emailLaunchUri)) {
+                                              await launchUrl(emailLaunchUri);
+                                            } else {
+                                              print(
+                                                  'le numero ne fonction plus');
+                                            }
+                                          },
+                                          child: const Icon(
+                                            Icons.email,
+                                            size: 40,
+                                            color: Colors.black,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : Row()),
+          ],
+        ),
       ),
     );
   }

@@ -9,16 +9,14 @@ class Product {
   final String location;
   final double price;
   final String status;
-  bool isLiked;
 
-   Product({
+  Product({
     required this.name,
     required this.image,
     required this.description,
     required this.location,
     required this.price,
     required this.status,
-    this.isLiked = false,
   });
 }
 
@@ -30,38 +28,38 @@ class FirstPage extends StatefulWidget {
 }
 
 class _FirstPageState extends State<FirstPage> {
-  bool change = false;
+  List<bool> change = [false, false, false, false];
   final List<Product> products = [
-     Product(
+    Product(
         name: "Appartement",
         image:
-            "https://repere.ci/wp-content/uploads/2022/07/294043735_1460355887711368_424813900704952524_n.jpg",
+            "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png",
         description: "Description for Product 1",
-        location: "Location for Product 1",
+        location: "Abidjan, Côte d'Ivoire",
         price: 19.99,
         status: "vendu"),
-     Product(
+    Product(
         name: "residence",
         image:
             "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png",
         description: "Description for Product 2",
-        location: "Location for Product 2",
+        location: "Bouaké ,Côte d'ivoire",
         price: 29.99,
         status: "projet"),
-     Product(
+    Product(
         name: "Terrain",
         image:
-            "https://repere.ci/wp-content/uploads/2022/07/294043735_1460355887711368_424813900704952524_n.jpg",
+            "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png",
         description: "Description for Product 2",
-        location: "Location for Product 2",
+        location: "Yamoussoukro,Côte d'ivoire",
         price: 29.99,
         status: "disponible"),
-     Product(
+    Product(
         name: "villa",
         image:
-            "https://repere.ci/wp-content/uploads/2022/07/294043735_1460355887711368_424813900704952524_n.jpg",
+            "https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png",
         description: "Description for Product 3",
-        location: "Location for Product 3",
+        location: "San pedro,Côte d'ivoire",
         price: 39.99,
         status: "projet"),
   ];
@@ -124,7 +122,7 @@ class _FirstPageState extends State<FirstPage> {
                   filterProducts(query);
                 },
                 decoration: InputDecoration(
-                  labelText: "Rechercher un bien immobilier",
+                  labelText: "Rechercher.... ",
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(30)),
                 ),
@@ -139,8 +137,8 @@ class _FirstPageState extends State<FirstPage> {
                   itemBuilder: (context, index) {
                     final product = filteredProducts[index];
                     return Padding(
-                      padding:
-                          const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      padding: const EdgeInsets.only(
+                          left: 10, right: 10, bottom: 40),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -163,22 +161,8 @@ class _FirstPageState extends State<FirstPage> {
                                             MediaQuery.of(context).size.width,
                                         height:
                                             MediaQuery.of(context).size.height *
-                                                0.4,
+                                                0.25,
                                         fit: BoxFit.cover,
-                                      ),
-                                      Positioned(
-                                        top: 10.0,
-                                        left: 10.0,
-                                        child: FloatingActionButton(
-                                          backgroundColor: Colors.greenAccent,
-                                          onPressed: () {
-                                            
-                                          },
-                                          child: const Icon(
-                                            Icons.favorite_border,
-                                            color: Colors.black,
-                                          ),
-                                        ),
                                       ),
                                       Positioned(
                                         bottom: 10.0,
@@ -187,9 +171,11 @@ class _FirstPageState extends State<FirstPage> {
                                           children: [
                                             ElevatedButton(
                                                 style: ElevatedButton.styleFrom(
+                                                    side: const BorderSide(
+                                                        width: 1),
                                                     backgroundColor:
                                                         const Color.fromARGB(
-                                                            255, 15, 3, 255)),
+                                                            18, 12, 11, 19)),
                                                 onPressed: () {
                                                   Navigator.push(
                                                     context,
@@ -216,61 +202,72 @@ class _FirstPageState extends State<FirstPage> {
                                             ElevatedButton(
                                               onPressed: () {
                                                 setState(() {
-                                                  change = true;
+                                                  change[index] =
+                                                      !change[index];
                                                 });
                                               },
                                               style: ElevatedButton.styleFrom(
-                                                backgroundColor: change
-                                                    ? Colors.green
-                                                    : Colors.red,
+                                                side:
+                                                    const BorderSide(width: 1),
+                                                backgroundColor: !change[index]
+                                                    ? const Color.fromARGB(
+                                                        34, 130, 130, 130)
+                                                    : const Color.fromARGB(
+                                                        255, 1, 255, 26),
                                               ),
-                                              child: Text(change
-                                                  ? 'Intéressé !'
-                                                  : 'Intéresser'),
+                                              child: Text(!change[index]
+                                                  ? 'Intéresser'
+                                                  : 'Intéressé !'),
                                             ),
                                           ],
                                         ),
                                       ),
                                     ],
                                   ),
-                                  Row(
-                                    children: [
-                                      const Text('A partir de'),
-                                      const SizedBox(width: 5.0),
-                                      Text(
-                                        product.price.toStringAsFixed(2),
-                                        style: const TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20),
+                                    child: Row(
+                                      children: [
+                                        const Text('A partir de'),
+                                        const SizedBox(width: 5.0),
+                                        Text(
+                                          product.price.toStringAsFixed(2),
+                                          style: const TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
-                                      ),
-                                      SizedBox(width: 5.0),
-                                      Text('FCFA')
-                                    ],
+                                        SizedBox(width: 5.0),
+                                        const Text('FCFA'),
+                                        Spacer(),
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(height: 10.0),
-                                  const Row(
-                                    children: [
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.location_on,
-                                            color: Colors.grey,
-                                          ),
-                                          SizedBox(width: 5.0),
-                                          Text(
-                                            'Abidjan, Côte d\'Ivoire',
-                                            style: TextStyle(
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Row(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.location_on,
                                               color: Colors.grey,
-                                              fontWeight: FontWeight.bold,
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                            SizedBox(width: 5.0),
+                                            Text(
+                                              product.location,
+                                              style: const TextStyle(
+                                                color: Colors.grey,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                   SizedBox(height: 10.0),
                                   Padding(
@@ -290,27 +287,36 @@ class _FirstPageState extends State<FirstPage> {
                                                   color: Colors.grey,
                                                 ),
                                               ),
+                                              const Row(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.bed_rounded),
+                                                      Text('4')
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .shower_outlined),
+                                                      Text('2')
+                                                    ],
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons.car_rental),
+                                                      Text('2')
+                                                    ],
+                                                  )
+                                                ],
+                                              )
                                             ],
                                           ),
                                         ),
-                                        const SizedBox(width: 10.0),
-                                        const Icon(Icons.star,
-                                            color: Colors.yellow),
-                                        const Text('4.5'),
                                       ],
                                     ),
                                   ),
                                   SizedBox(height: 5.0),
-                                  Text(
-                                    product.status,
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                      fontSize:
-                                          MediaQuery.of(context).size.width *
-                                              0.035,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),

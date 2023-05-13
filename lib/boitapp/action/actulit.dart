@@ -150,7 +150,7 @@ class _ActulitiPageState extends State<ActulitiPage> {
                                   fontSize: 16.0,
                                 ),
                               ),
-                              SizedBox(width: 5.0),
+                              const SizedBox(width: 5.0),
                               Text(
                                 price,
                                 style: const TextStyle(
@@ -160,7 +160,7 @@ class _ActulitiPageState extends State<ActulitiPage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 10.0),
+                          const SizedBox(height: 10.0),
                           Text(
                             price,
                             style: const TextStyle(
@@ -192,7 +192,7 @@ class _ActulitiPageState extends State<ActulitiPage> {
                 return Container(
                   width: 8.0,
                   height: 8.0,
-                  margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                  margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: _currentIndex == index

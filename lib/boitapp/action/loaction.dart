@@ -253,138 +253,144 @@ class _LocatioState extends State<Locatio> {
                       padding: const EdgeInsets.only(left: 20),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
-                        child: Stack(children: [
-                          InkWell(
-                            child: Image.network(
-                              images[index]["image"]!,
-                              fit: BoxFit.cover,
-                              height: 340,
-                              width: 320,
+                        child: Stack(
+                          children: [
+                            InkWell(
+                              child: Image.network(
+                                images[index]["image"]!,
+                                fit: BoxFit.cover,
+                                height: 340,
+                                width: 320,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => FullScreenImage(
+                                        imageUrl: images[index]["image"]!,
+                                        descri: images[index]["description"]!,
+                                        loca: images[index]["localisation"]!,
+                                        prix: images[index]["prix"]!,
+                                        status: images[index]["status"]!),
+                                  ),
+                                );
+                              },
                             ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => FullScreenImage(
-                                      imageUrl: images[index]["image"]!,
-                                      descri: images[index]["description"]!,
-                                      loca: images[index]["localisation"]!,
-                                      prix: images[index]["prix"]!,
-                                      status: images[index]["status"]!),
-                                ),
-                              );
-                            },
-                          ),
-                          Positioned(
-                            bottom: 20.0,
-                            left: 20.0,
-                            child: Column(children: [
-                              Padding(
-                                padding: const EdgeInsets.all(20.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Column(
-                                          children: [
-                                            ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        Colors.lightBlue),
-                                                onPressed: () {
-                                                  Navigator.push(
+                            Positioned(
+                              bottom: 20.0,
+                              left: 20.0,
+                              child: Column(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.lightBlue),
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => FullScreenImage(
+                                                                imageUrl: images[index]
+                                                                    ["image"]!,
+                                                                descri: images[
+                                                                        index][
+                                                                    "description"]!,
+                                                                loca: images[index][
+                                                                    "localisation"]!,
+                                                                prix: images[
+                                                                        index]
+                                                                    ["prix"]!,
+                                                                status: images[
+                                                                        index]
+                                                                    ["status"]!)));
+                                                  },
+                                                  child: const Text('Detail')),
+                                              ElevatedButton(
+                                                  style:
+                                                      ElevatedButton.styleFrom(
+                                                          backgroundColor:
+                                                              Colors.red),
+                                                  onPressed: () {
+                                                    Navigator.push(
                                                       context,
                                                       MaterialPageRoute(
-                                                          builder: (context) => FullScreenImage(
-                                                              imageUrl: images[
-                                                                      index]
-                                                                  ["image"]!,
-                                                              descri: images[index][
-                                                                  "description"]!,
-                                                              loca: images[index]
-                                                                  [
-                                                                  "localisation"]!,
-                                                              prix:
-                                                                  images[index]
-                                                                      ["prix"]!,
-                                                              status: images[
-                                                                      index]
-                                                                  ["status"]!)));
-                                                },
-                                                child: const Text('Detail')),
-                                            ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        Colors.red),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) => Location(
-                                                          descri: images[index]
-                                                              ["description"]!,
-                                                          loca: images[index]
-                                                              ["localisation"]!,
-                                                          prix: images[index]
-                                                              ["prix"]!,
-                                                          status: images[index]
-                                                              ["status"]!),
-                                                    ),
-                                                  );
-                                                },
-                                                child: const Text('Je veux'))
-                                          ],
-                                        ),
-                                        Column(
-                                          children: [
-                                            const Row(
-                                              children: [
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.yellow,
-                                                ),
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.yellow,
-                                                ),
-                                                Icon(
-                                                  Icons.star,
-                                                  color: Colors.yellow,
-                                                ),
-                                                Icon(Icons.star_half,
-                                                    color: Colors.yellow),
-                                                Icon(
-                                                  Icons.star_border_outlined,
-                                                  color: Colors.yellow,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.location_on,
-                                                  color: Colors.white,
-                                                ),
-                                                Text(
-                                                    images[index]
-                                                        ["localisation"]!,
-                                                    style: const TextStyle(
-                                                        fontWeight:
-                                                            FontWeight.bold,
-                                                        color: Colors.white)),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                                        builder: (context) => Location(
+                                                            descri: images[
+                                                                    index][
+                                                                "description"]!,
+                                                            loca: images[index][
+                                                                "localisation"]!,
+                                                            prix: images[index]
+                                                                ["prix"]!,
+                                                            status: images[
+                                                                    index]
+                                                                ["status"]!),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: const Text('Je veux'))
+                                            ],
+                                          ),
+                                          Column(
+                                            children: [
+                                              const Row(
+                                                children: [
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: Colors.yellow,
+                                                  ),
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: Colors.yellow,
+                                                  ),
+                                                  Icon(
+                                                    Icons.star,
+                                                    color: Colors.yellow,
+                                                  ),
+                                                  Icon(Icons.star_half,
+                                                      color: Colors.yellow),
+                                                  Icon(
+                                                    Icons.star_border_outlined,
+                                                    color: Colors.yellow,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const Icon(
+                                                    Icons.location_on,
+                                                    color: Colors.white,
+                                                  ),
+                                                  Text(
+                                                      images[index]
+                                                          ["localisation"]!,
+                                                      style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white)),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ]),
-                          ),
-                        ]),
+                              ]),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

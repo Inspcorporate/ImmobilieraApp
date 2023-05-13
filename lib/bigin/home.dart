@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:misoa/boitapp/menu.dart';
 import 'package:misoa/identic/login.dart';
-import 'package:misoa/identic/register.dart';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:misoa/identic/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,99 +28,120 @@ class _HomePageState extends State<HomePage> {
             body: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('images/bak.jpg'),
+                  image: AssetImage('images/user.jpg'),
                   fit: BoxFit.cover,
                   opacity: 1.0,
                   repeat: ImageRepeat.noRepeat,
                 ),
               ),
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const SizedBox(
-                        height: 400,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(280, 50),
-                            backgroundColor: Colors.white),
-                        child: const Text(
-                          "S'INSCRIRE",
-                          style: TextStyle(
-                            fontFamily: 'beroKC',
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const wainting1()),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(280, 50),
-                          backgroundColor: Colors.white,
-                        ),
-                        child: const Text(
-                          "SE CONNECTER",
-                          style: TextStyle(
-                            fontFamily: 'beroKC',
-                            color: Colors.black,
-                            fontSize: 20,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const waiting()),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const SizedBox(
-                        height: 30.0,
-                        child: Text(
-                          'OU',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                      OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            minimumSize: const Size(280, 50),
-                            side: const BorderSide(color: Colors.white)),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const Circular(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          "CONSULTER",
-                          style: TextStyle(
-                            fontFamily: 'beroKC',
-                            color: Colors.white,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ],
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.2,
                   ),
-                ),
+                  const Text(
+                    'MISOA',
+                    style: TextStyle(
+                        fontFamily: 'beroKC',
+                        fontSize: 30,
+                        color: Colors.white),
+                  ),
+                  SizedBox(
+                    height: 6,
+                  ),
+                  const CircleAvatar(
+                    backgroundImage: AssetImage('images/vrai.png'),
+                    radius: 80,
+                  ),
+                  Center(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.2,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(280, 50),
+                                backgroundColor: Colors.white),
+                            child: const Text(
+                              "S'INSCRIRE",
+                              style: TextStyle(
+                                fontFamily: 'beroKC',
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const wainting1()),
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(280, 50),
+                              backgroundColor: Colors.white,
+                            ),
+                            child: const Text(
+                              "SE CONNECTER",
+                              style: TextStyle(
+                                fontFamily: 'beroKC',
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const waiting()),
+                              );
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const SizedBox(
+                            height: 30.0,
+                            child: Text(
+                              'OU',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                minimumSize: const Size(280, 50),
+                                side: const BorderSide(color: Colors.white)),
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Circular(),
+                                ),
+                              );
+                            },
+                            child: const Text(
+                              "CONSULTER",
+                              style: TextStyle(
+                                fontFamily: 'beroKC',
+                                color: Colors.white,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );

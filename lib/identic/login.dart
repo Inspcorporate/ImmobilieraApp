@@ -5,6 +5,7 @@ import 'package:misoa/boitapp/menu.dart';
 import 'package:misoa/identic/forget.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:misoa/identic/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -74,6 +75,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    double hauteur = MediaQuery.of(context).size.height;
+    double largeur = MediaQuery.of(context).size.width;
     return FutureBuilder<bool>(
       future: checkConnection(),
       builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -86,34 +89,34 @@ class _LoginPageState extends State<LoginPage> {
               ),
               body: SingleChildScrollView(
                 child: Container(
+                  height: hauteur,
+                  width: largeur,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage('images/blan.jpg'),
+                      image: AssetImage('images/user.jpg'),
                       fit: BoxFit.cover,
                       opacity: 1.0,
                       repeat: ImageRepeat.noRepeat,
                     ),
                   ),
                   child: Column(children: [
-                    Container(
-                        height: MediaQuery.of(context).size.height * 0.4,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                              colors: [Colors.red, Colors.redAccent],
-                              end: Alignment.bottomCenter,
-                              begin: Alignment.topCenter),
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(100),
-                              bottomRight: Radius.circular(100)),
-                        ),
-                        child: Center(
-                          child: Image.network(
-                            "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681736417/LOGO_INSP_DEF-12_uhbnni.png",
-                            height: MediaQuery.of(context).size.height,
-                          ),
-                        )),
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: hauteur * 0.1,
+                    ),
+                    const Text(
+                      'MISOA',
+                      style: TextStyle(
+                          fontFamily: 'beroKC',
+                          fontSize: 30,
+                          color: Colors.white),
+                    ),
+                    const CircleAvatar(
+                      backgroundImage: NetworkImage(
+                          'https://res.cloudinary.com/dgpmogg2w/image/upload/v1683569192/vrai_vsctog.png'),
+                      radius: 70,
+                    ),
+                    SizedBox(
+                      height: hauteur * 0.1,
                     ),
                     SingleChildScrollView(
                       child: Column(
@@ -127,21 +130,25 @@ class _LoginPageState extends State<LoginPage> {
                                   height: 20,
                                 ),
                                 Container(
+                                  width: largeur * 0.8,
+                                  height: largeur * 0.13,
                                   margin: EdgeInsets.only(top: 10),
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                    color: Colors.white,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: Colors.white),
+                                    color: Color.fromARGB(255, 253, 41, 41),
                                   ),
                                   padding: EdgeInsets.only(left: 10),
                                   child: TextFormField(
                                     controller: _emailController,
-                                    style: const TextStyle(color: Colors.black),
+                                    style: const TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255)),
                                     decoration: const InputDecoration(
                                       labelText: 'Email',
-                                      labelStyle:
-                                          TextStyle(color: Colors.black),
-                                      enabledBorder: OutlineInputBorder(),
+                                      labelStyle: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255)),
                                     ),
                                     validator: (value) {
                                       if (value!.isEmpty) {
@@ -156,29 +163,29 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                                 const SizedBox(
-                                  height: 20,
+                                  height: 10,
                                 ),
                                 Container(
+                                  width: largeur * 0.8,
+                                  height: largeur * 0.13,
                                   margin: EdgeInsets.only(top: 10),
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                    color: Colors.white,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                        width: 1, color: Colors.white),
+                                    color: Color.fromARGB(255, 253, 41, 41),
                                   ),
                                   padding: EdgeInsets.only(left: 10),
                                   child: TextFormField(
-                                      style:
-                                          const TextStyle(color: Colors.black),
+                                      style: const TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 255, 255, 255)),
                                       obscureText: _obscureText,
                                       controller: _passwordController,
                                       decoration: InputDecoration(
                                         labelText: 'Mot de passe',
                                         labelStyle: const TextStyle(
-                                            color: Colors.black),
-                                        enabledBorder: const OutlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
+                                            color: Color.fromARGB(
+                                                255, 255, 255, 255)),
                                         suffixIcon: IconButton(
                                           onPressed: () {
                                             setState(() {
@@ -189,7 +196,8 @@ class _LoginPageState extends State<LoginPage> {
                                             _obscureText
                                                 ? Icons.visibility
                                                 : Icons.visibility_off,
-                                            color: Colors.black,
+                                            color: const Color.fromARGB(
+                                                255, 255, 255, 255),
                                           ),
                                         ),
                                       ),
@@ -205,20 +213,17 @@ class _LoginPageState extends State<LoginPage> {
                                       }),
                                 ),
                                 const SizedBox(
-                                  height: 20,
+                                  height: 10,
                                 ),
                                 Container(
+                                  width: largeur * 0.8,
+                                  height: largeur * 0.13,
                                   margin: EdgeInsets.only(top: 10),
-                                  decoration: const BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20)),
-                                    color: Colors.white,
-                                  ),
                                   padding: EdgeInsets.only(left: 10),
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      minimumSize: const Size(280, 50),
-                                      backgroundColor: Colors.red,
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 255, 255, 255),
                                     ),
                                     onPressed: _isLoading
                                         ? null
@@ -241,18 +246,19 @@ class _LoginPageState extends State<LoginPage> {
                                         ? const CircularProgressIndicator()
                                         : const Text('Se connecter',
                                             style: TextStyle(
+                                                color: Colors.black,
                                                 fontSize: 20,
-                                                fontFamily: 'devKC')),
+                                                fontFamily: 'beroKC')),
                                   ),
                                 ),
-                                SizedBox(height: 20),
+                                SizedBox(height: 10),
                                 InkWell(
                                   child: const Text(
-                                    "Mot de pass oublié",
+                                    "Mot de pass oublié?",
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: Color.fromARGB(255, 253, 253, 253),
                                       fontFamily: 'beroKC',
-                                      fontSize: 22,
+                                      fontSize: 15,
                                     ),
                                   ),
                                   onTap: () {
@@ -263,6 +269,58 @@ class _LoginPageState extends State<LoginPage> {
                                               const forgetPage()),
                                     );
                                   },
+                                ),
+                                const SizedBox(height: 10),
+                                InkWell(
+                                  child: const Text(
+                                    "Je suis nouveau",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 253, 253, 253),
+                                      fontFamily: 'beroKC',
+                                      fontSize: 15,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RegisterPage()),
+                                    );
+                                  },
+                                ),
+                                const SizedBox(height: 20),
+                                const Row(
+                                  children: [
+                                    SizedBox(width: 60),
+                                    InkWell(
+                                      child: CircleAvatar(
+                                        backgroundImage:
+                                            AssetImage('images/ikon.png'),
+                                      ),
+                                    ),
+                                    SizedBox(width: 20),
+                                    InkWell(
+                                      child: CircleAvatar(
+                                        backgroundImage:
+                                            AssetImage('images/insta.png'),
+                                      ),
+                                    ),
+                                    SizedBox(width: 20),
+                                    InkWell(
+                                      child: CircleAvatar(
+                                        backgroundImage:
+                                            AssetImage('images/in.png'),
+                                      ),
+                                    ),
+                                    SizedBox(width: 20),
+                                    InkWell(
+                                      child: CircleAvatar(
+                                        backgroundImage:
+                                            AssetImage('images/go.png'),
+                                      ),
+                                    )
+                                  ],
                                 )
                               ]),
                             ),

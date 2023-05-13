@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -17,6 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool isDark = false;
   bool isActive = false;
   TextEditingController pseudo = TextEditingController();
+  TextEditingController localisa = TextEditingController();
   TextEditingController nom = TextEditingController();
   TextEditingController nmero = TextEditingController();
   TextEditingController email = TextEditingController();
@@ -29,6 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
   bool _isLoading = false;
 
   void clear() {
+    localisa.clear();
     pseudo.clear();
     nom.clear();
     email.clear();
@@ -46,6 +50,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final response = await http
         .post(Uri.parse("https://s-p4.com/konan/misoa/insert.php"), body: {
       "pseudo": pseudo.text,
+      "localisa": localisa.text,
       "nom": nom.text,
       "email": email.text,
       "nmero": nmero.text,
@@ -64,7 +69,6 @@ class _RegisterPageState extends State<RegisterPage> {
       }
     });
 
-    // ignore: use_build_context_synchronously
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const Circular()),
@@ -83,10 +87,22 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   bool _obscureText = true;
+  bool _ferme = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Inscription',
+          style: TextStyle(
+              color: Colors.white,
+              fontFamily: 'beroKC',
+              fontSize: 20,
+              fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           decoration: const BoxDecoration(
@@ -99,26 +115,47 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           child: Column(
             children: [
-              Container(
-                  height: MediaQuery.of(context).size.height * 0.3,
+              Stack(children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.17,
                   decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                        colors: [Colors.red, Colors.redAccent],
-                        end: Alignment.bottomCenter,
-                        begin: Alignment.topCenter),
+                    image: DecorationImage(
+                        image: AssetImage('images/fon.jpg'),
+                        fit: BoxFit.cover,
+                        repeat: ImageRepeat.noRepeat),
                     borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(100),
-                        bottomRight: Radius.circular(100)),
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20)),
                   ),
-                  child: Center(
-                    child: Image.network(
-                      "https://res.cloudinary.com/dgpmogg2w/image/upload/v1681736417/LOGO_INSP_DEF-12_uhbnni.png",
-                      height: MediaQuery.of(context).size.height,
+                ),
+                const Positioned(
+                  top: 0,
+                  left: 0,
+                  child: Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 100, vertical: 50),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            CircleAvatar(
+                              backgroundImage: AssetImage('images/vrai.png'),
+                              radius: 23,
+                            ),
+                            Text(
+                              'MISOA',
+                              style: TextStyle(
+                                  fontFamily: 'beroKC',
+                                  fontSize: 30,
+                                  color: Colors.white),
+                            )
+                          ],
+                        ),
+                      ],
                     ),
-                  )),
-              const SizedBox(
-                height: 20,
-              ),
+                  ),
+                )
+              ]),
               SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -126,6 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     key: _formKey,
                     child: Column(children: [
                       Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
                         margin: const EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -151,6 +189,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20,
                       ),
                       Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
                         margin: const EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -176,6 +215,34 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20,
                       ),
                       Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        margin: const EdgeInsets.only(top: 10),
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          color: Colors.white,
+                        ),
+                        padding: const EdgeInsets.only(left: 10),
+                        child: TextFormField(
+                          autocorrect: true,
+                          controller: localisa,
+                          decoration: const InputDecoration(
+                            label: Text('Localisation'),
+                            hintText: 'Abidjan,Côte D\'Ivoire',
+                            enabledBorder: OutlineInputBorder(),
+                          ),
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return 'Veuillez entrer une localisation svp';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
                         margin: const EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -210,6 +277,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20,
                       ),
                       Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
                         margin: EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -241,6 +309,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20,
                       ),
                       Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
                         margin: const EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -286,6 +355,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         height: 20,
                       ),
                       Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
                         margin: EdgeInsets.only(top: 10),
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -305,11 +375,11 @@ class _RegisterPageState extends State<RegisterPage> {
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
-                                  _obscureText = !_obscureText;
+                                  _ferme = !_ferme;
                                 });
                               },
                               icon: Icon(
-                                _obscureText
+                                _ferme
                                     ? Icons.visibility
                                     : Icons.visibility_off,
                                 color: Colors.black,
@@ -345,10 +415,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         },
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.only(left: 10),
                         child: Container(
-                          height: 50,
-                          width: 300,
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.8,
                           color: Colors.red,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -374,7 +444,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 : const Text(
                                     "S'inscrire",
                                     style: TextStyle(
-                                        fontSize: 20, fontFamily: 'devKC'),
+                                        fontSize: 20, fontFamily: 'beroKC'),
                                   ),
                           ),
                         ),

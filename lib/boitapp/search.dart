@@ -214,7 +214,7 @@ class _MyPageState extends State<MyPage> {
                       },
                 child: _isLoading
                     ? const CircularProgressIndicator()
-                    : const Text('Se connecter',
+                    : const Text('envoyer',
                         style: TextStyle(fontSize: 20, fontFamily: 'devKC')),
               ),
             ],
