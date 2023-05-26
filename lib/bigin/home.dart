@@ -26,118 +26,103 @@ class _HomePageState extends State<HomePage> {
           // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
           return Scaffold(
             body: Container(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('images/user.jpg'),
                   fit: BoxFit.cover,
-                  opacity: 1.0,
-                  repeat: ImageRepeat.noRepeat,
                 ),
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.2,
-                  ),
                   const Text(
                     'MISOA',
                     style: TextStyle(
-                        fontFamily: 'beroKC',
-                        fontSize: 30,
-                        color: Colors.white),
+                      fontFamily: 'beroKC',
+                      fontSize: 30,
+                      color: Colors.white,
+                    ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 6,
                   ),
                   const CircleAvatar(
                     backgroundImage: AssetImage('images/vrai.png'),
                     radius: 80,
                   ),
-                  Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.2,
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(280, 50),
-                                backgroundColor: Colors.white),
-                            child: const Text(
-                              "S'INSCRIRE",
-                              style: TextStyle(
-                                fontFamily: 'beroKC',
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const wainting1()),
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(280, 50),
-                              backgroundColor: Colors.white,
-                            ),
-                            child: const Text(
-                              "SE CONNECTER",
-                              style: TextStyle(
-                                fontFamily: 'beroKC',
-                                color: Colors.black,
-                                fontSize: 20,
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const waiting()),
-                              );
-                            },
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          const SizedBox(
-                            height: 30.0,
-                            child: Text(
-                              'OU',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                          OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.white,
-                                minimumSize: const Size(280, 50),
-                                side: const BorderSide(color: Colors.white)),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Circular(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              "CONSULTER",
-                              style: TextStyle(
-                                fontFamily: 'beroKC',
-                                color: Colors.white,
-                                fontSize: 15,
-                              ),
-                            ),
-                          ),
-                        ],
+                  const SizedBox(height: 40),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(280, 50),
+                      primary: Colors.white,
+                    ),
+                    child: const Text(
+                      "S'INSCRIRE",
+                      style: TextStyle(
+                        fontFamily: 'beroKC',
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const wainting1()),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 30),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(280, 50),
+                      primary: Colors.white,
+                    ),
+                    child: const Text(
+                      "SE CONNECTER",
+                      style: TextStyle(
+                        fontFamily: 'beroKC',
+                        color: Colors.black,
+                        fontSize: 20,
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const waiting()),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  const SizedBox(
+                    height: 30.0,
+                    child: Text(
+                      'OU',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size(280, 50),
+                      side: const BorderSide(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Circular()),
+                      );
+                    },
+                    child: const Text(
+                      "CONSULTER",
+                      style: TextStyle(
+                        fontFamily: 'beroKC',
+                        color: Colors.white,
+                        fontSize: 15,
                       ),
                     ),
                   ),

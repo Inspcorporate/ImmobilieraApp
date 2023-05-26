@@ -99,13 +99,11 @@ class _LanceurState extends State<Lanceur> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: const Center(
-          child: CircularProgressIndicator(
-            color: Colors.red,
-            backgroundColor: Colors.blueGrey,
-          ),
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(
+          color: Colors.red,
+          backgroundColor: Colors.blueGrey,
         ),
       ),
     );

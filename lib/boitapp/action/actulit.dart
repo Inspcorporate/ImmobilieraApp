@@ -1,264 +1,417 @@
-import 'dart:async';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:misoa/boitapp/affiche.dart';
+import 'package:misoa/identic/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
-class ActulitiPage extends StatefulWidget {
-  const ActulitiPage({super.key});
+class AchatPages extends StatefulWidget {
+  const AchatPages({Key? key});
 
   @override
-  State<ActulitiPage> createState() => _ActulitiPageState();
+  State<AchatPages> createState() => _AchatPagesState();
 }
 
-class _ActulitiPageState extends State<ActulitiPage> {
-  int _currentIndex = 0;
-  final List<String> _imagesList = [
-    'https://res.cloudinary.com/degicbg12/image/upload/v1680107686/app_erg023.jpg',
-    'https://res.cloudinary.com/degicbg12/image/upload/v1680108152/viila_unzt86.jpg',
-    'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png',
-  ];
-  final List<String> _namesList = [
-    'Appartement 3pieèces',
-    'Villa Basse 5pièces  ',
-    'residense meublée',
-  ];
-
-  final List<String> _locationsList = [
-    'Bassam',
-    'Rivera Faya,Cocody',
-    'Bassam',
-  ];
-
-  final List<String> _pricesList = [
-    '\ XOF3000000',
-    '\ XOF3000000',
-    '\ XOF3000000',
-  ];
-
-  final List<Map<String, dynamic>> itemList = [
-    {
-      'image':
-          'https://res.cloudinary.com/degicbg12/image/upload/v1680107686/app_erg023.jpg',
-      'description': 'Villa Basse 5pièces ',
-      'localisation': 'Rivera Faya,Cocody',
-      'prix': 3000000,
-    },
-    {
-      'image':
-          'https://res.cloudinary.com/degicbg12/image/upload/v1680107686/app_erg023.jpg',
-      'description': 'Description 2',
-      'localisation': 'Localisation 2',
-      'prix': 20.99,
-    },
-    {
-      'image':
-          'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680697182/1_tqqgp6.png',
-      'description': 'Description 3',
-      'localisation': 'Localisation 3',
-      'prix': 30.99,
-    },
-    {
-      'image':
-          'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png',
-      'description': 'Description 4',
-      'localisation': 'Localisation 4',
-      'prix': 40.99,
-    },
-    {
-      'image':
-          'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700810/4_ipbyxy.png',
-      'description': 'Description 5',
-      'localisation': 'Localisation 5',
-      'prix': 50.99,
-    },
-    {
-      'image':
-          'https://res.cloudinary.com/dgpmogg2w/image/upload/v1680700666/2_e1qage.png',
-      'description': 'Description 6',
-      'localisation': 'Localisation 6',
-      'prix': 60.99,
-    },
-  ];
-
-  bool _isConnected = true; // assume there's an internet connection at first
-
-  @override
-  void initState() {
-    super.initState();
-    _checkInternetConnectivity();
-  }
-
-  Future<void> _checkInternetConnectivity() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.none) {
-      setState(() => _isConnected = false);
-    }
-  }
-
+class _AchatPagesState extends State<AchatPages> {
+  String selectedOption = '';
   @override
   Widget build(BuildContext context) {
-    if (!_isConnected) {
-      return const Center(
-        child: Text('No internet connection.'),
-      );
-    }
+    double hauteur = MediaQuery.of(context).size.height;
+    double largeur = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: SingleChildScrollView(
+      body: SizedBox(
+        height: hauteur,
+        width: largeur,
         child: Column(
           children: [
-            CarouselSlider.builder(
-              itemCount: _imagesList.length,
-              itemBuilder: (BuildContext context, int index, int realIndex) {
-                final url = _imagesList[index];
-                final name = _namesList[index];
-                final location = _locationsList[index];
-                final price = _pricesList[index];
-                return Stack(
-                  children: [
-                    Image.network(
-                      url,
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                    ),
-                    Positioned(
-                      bottom: 20.0,
-                      left: 20.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            name,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 10.0),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.location_on,
-                                color: Colors.white,
-                                size: 16.0,
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                location,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                              const SizedBox(width: 5.0),
-                              Text(
-                                price,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10.0),
-                          Text(
-                            price,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.0,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-              options: CarouselOptions(
-                autoPlay: true,
-                enlargeCenterPage: true,
-                aspectRatio: 16 / 9,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
-            ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: _imagesList.map((url) {
-                int index = _imagesList.indexOf(url);
-                return Container(
-                  width: 8.0,
-                  height: 8.0,
-                  margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: _currentIndex == index
-                        ? Colors.blueAccent
-                        : Colors.grey,
-                  ),
-                );
-              }).toList(),
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                RoundedButton(
+                  text: 'Appartement',
+                  selected: selectedOption == 'Appartement',
+                  onTap: () {
+                    setState(() {
+                      selectedOption = 'Appartement';
+                    });
+                  },
+                ),
+                RoundedButton(
+                  text: 'Terrain',
+                  selected: selectedOption == 'Terrain',
+                  onTap: () {
+                    setState(() {
+                      selectedOption = 'Terrain';
+                    });
+                  },
+                ),
+                RoundedButton(
+                  text: 'Villa',
+                  selected: selectedOption == 'Villa',
+                  onTap: () {
+                    setState(() {
+                      selectedOption = 'Villa';
+                    });
+                  },
+                ),
+              ],
             ),
-            SingleChildScrollView(
-              child: Column(
-                children: itemList
-                    .map((item) => Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Image.network(
-                                item['image'],
-                                height: 100,
-                                width: 150,
-                              ),
-                              const SizedBox(width: 8.0),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        item['description'],
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const SizedBox(height: 4.0),
-                                      Row(
-                                        children: [
-                                          const Icon(Icons.location_on, size: 16.0),
-                                          const SizedBox(width: 4.0),
-                                          Text(item['localisation']),
-                                        ],
-                                      ),
-                                      const SizedBox(height: 4.0),
-                                      Text(
-                                        '\$${item['prix']}',
-                                        style: const TextStyle(
-                                          fontSize: 16.0,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ))
-                    .toList(),
-              ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: BottomBar(selectedOption: selectedOption),
             ),
           ],
         ),
       ),
     );
   }
+}
+
+class RoundedButton extends StatelessWidget {
+  final String text;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const RoundedButton({
+    required this.text,
+    required this.selected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 100,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: selected ? Colors.red.shade200 : Colors.transparent,
+        ),
+        child: Center(
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: selected ? Colors.white : Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class BottomBar extends StatelessWidget {
+  final String selectedOption;
+
+  const BottomBar({required this.selectedOption});
+
+  @override
+  Widget build(BuildContext context) {
+    Widget content;
+    if (selectedOption == 'Appartement') {
+      content = Column(
+        children: [
+          const SizedBox(height: 100),
+          ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                'NORD',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Ouest',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+              const SizedBox(width: 100),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Centre',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+            ],
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AffichPage()));
+              },
+              child: const Text(
+                'SUD',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+        ],
+      );
+    } else if (selectedOption == 'Terrain') {
+      content = Column(
+        children: [
+          ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                'NORD',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Ouest',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+              const SizedBox(width: 100),
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Centre',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+            ],
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AffichPage()));
+              },
+              child: const Text('SUD')),
+        ],
+      );
+    } else if (selectedOption == 'Villa') {
+      content = Column(
+        children: [
+          const SizedBox(height: 100),
+          ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                'Centre',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'l\'Ouest',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+              const SizedBox(width: 100),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AffichPage()));
+                  },
+                  child: const Text(
+                    'SUD',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+            ],
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+              onPressed: () {},
+              child: const Text(
+                'Nord',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+        ],
+      );
+    } else {
+      content = Container(
+        color: Colors.grey.shade200,
+        padding: const EdgeInsets.all(16.0),
+        child: const Text(
+          'Aucune option sélectionnée',
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      );
+    }
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: content,
+    );
+  }
+}
+
+class RelookPge extends StatefulWidget {
+  const RelookPge({super.key});
+
+  @override
+  State<RelookPge> createState() => _RelookPgeState();
+}
+
+class _RelookPgeState extends State<RelookPge> {
+  TextEditingController inform = TextEditingController();
+  final _formKey = GlobalKey();
+  void relook() async {
+    final prefs = await SharedPreferences.getInstance();
+    final int userId = prefs.getInt("userId") ?? -1;
+    var url = 'https://s-p4.com/konan/misoa/bien.php';
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+    request.fields['id_user'] = userId.toString();
+    request.fields['inform'] = inform.text;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: checkConnection(),
+      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        if (snapshot.hasData && snapshot.data!) {
+          return Scaffold(
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Form(
+                      key: _formKey,
+                      child: TextFormField(
+                        controller: inform,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Veuillez entrer votre nom svp';
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.grey)),
+                          labelText: 'Vous souhaitez relooker?',
+                        ),
+                      )),
+                  const SizedBox(height: 16.0),
+                  ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        maximumSize: const Size(100, 50),
+                        backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
+                      ),
+                      onPressed: () {
+                        relook();
+                      },
+                      child: const Text(
+                        'Valider',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ))
+                ],
+              ),
+            ),
+          );
+        } else {
+          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
+          return const LoginPage();
+        }
+      },
+    );
+  }
+
+  Future<bool> checkConnection() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool isConnected = prefs.getBool('isConnected') ?? false;
+    return isConnected;
+  }
+}
+
+class FackPage extends StatelessWidget {
+  final List<Faq> faqs = [
+    Faq(
+      question: 'Rechercher un Conseiller Immobilier?',
+      answer: '+2250708171734',
+    ),
+    Faq(
+      question: 'Recherche un Notaire ?',
+      answer: '+225 0708171734',
+    ),
+    Faq(
+      question: 'Autre?',
+      answer: '+225 0708171734',
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20.0),
+        child: Scaffold(
+          body: ListView.builder(
+            itemCount: faqs.length,
+            itemBuilder: (context, index) {
+              return ExpansionTile(
+                textColor: Colors.grey,
+                title: Text(faqs[index].question),
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Text(faqs[index].answer),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Faq {
+  final String question;
+  final String answer;
+
+  Faq({required this.question, required this.answer});
 }

@@ -286,7 +286,7 @@ class _VendreState extends State<Vendre> {
                                 decoration: const InputDecoration(
                                   labelText: 'Description Du Bien',
                                   hintText:
-                                      "Location(caution 200mille*4)/ vente 2millions)",
+                                      "Location(caution 200mille*4),vente 2millions)",
                                   labelStyle: TextStyle(color: Colors.black),
                                   enabledBorder: OutlineInputBorder(),
                                 ),
@@ -367,51 +367,73 @@ class _VendreState extends State<Vendre> {
                               ),
                               Row(
                                 children: [
-                                  image != null
-                                      ? Image.file(
-                                          image!,
-                                          width: 170,
-                                          height: 190,
-                                        )
-                                      : GestureDetector(
-                                          onTap: () => pickImage(),
-                                          child: Container(
-                                            decoration: const BoxDecoration(
-                                                color: Colors.grey),
-                                            width: 80,
-                                            height: 80,
-                                            child: const Icon(
-                                              Icons.camera_alt,
-                                              color: Color.fromARGB(
-                                                  255, 249, 249, 249),
-                                              size: 40,
+                                  Column(
+                                    children: [
+                                      image != null
+                                          ? Image.file(
+                                              image!,
+                                              width: 170,
+                                              height: 190,
+                                            )
+                                          : GestureDetector(
+                                              onTap: () => pickImage(),
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.grey),
+                                                width: 80,
+                                                height: 80,
+                                                child: const Icon(
+                                                  Icons.camera_alt,
+                                                  color: Color.fromARGB(
+                                                      255, 249, 249, 249),
+                                                  size: 40,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                      const Text(
+                                        "document du\n Bien",
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
                                         ),
+                                      )
+                                    ],
+                                  ),
                                   const SizedBox(
                                     width: 30,
                                   ),
-                                  file != null
-                                      ? Image.file(
-                                          file!,
-                                          width: 170,
-                                          height: 190,
-                                        )
-                                      : GestureDetector(
-                                          onTap: () => pickchoose(),
-                                          child: Container(
-                                            decoration: const BoxDecoration(
-                                                color: Colors.grey),
-                                            width: 80,
-                                            height: 80,
-                                            child: const Icon(
-                                              Icons.add,
-                                              color: Color.fromARGB(
-                                                  255, 239, 239, 239),
-                                              size: 40,
+                                  Column(
+                                    children: [
+                                      file != null
+                                          ? Image.file(
+                                              file!,
+                                              width: 170,
+                                              height: 190,
+                                            )
+                                          : GestureDetector(
+                                              onTap: () => pickchoose(),
+                                              child: Container(
+                                                decoration: const BoxDecoration(
+                                                    color: Colors.grey),
+                                                width: 80,
+                                                height: 80,
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  color: Color.fromARGB(
+                                                      255, 239, 239, 239),
+                                                  size: 40,
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                      const Text(
+                                        ' l\' image du \n Bien',
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold,
                                         ),
+                                      )
+                                    ],
+                                  )
                                 ],
                               ),
                               const SizedBox(

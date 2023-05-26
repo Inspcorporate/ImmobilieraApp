@@ -14,6 +14,9 @@ class assistPage extends StatefulWidget {
 class _assistPageState extends State<assistPage> {
   @override
   Widget build(BuildContext context) {
+    double hauteur = MediaQuery.of(context).size.height;
+    double largeur = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -49,10 +52,10 @@ class _assistPageState extends State<assistPage> {
             ),
             Row(
               children: [
-                const Image(
+                Image(
                   image: AssetImage('images/sav.png'),
-                  height: 150,
-                  width: 150,
+                  height: hauteur * 0.3,
+                  width: largeur * 0.3,
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -120,10 +123,10 @@ class _assistPageState extends State<assistPage> {
             ),
             Row(
               children: [
-                const Image(
+                Image(
                   image: AssetImage('images/notaire.png'),
-                  height: 200,
-                  width: 150,
+                  height: hauteur * 0.3,
+                  width: largeur * 0.3,
                 ),
                 ElevatedButton(
                   onPressed: () async {
@@ -189,10 +192,10 @@ class _assistPageState extends State<assistPage> {
             ),
             Row(
               children: [
-                const Image(
+                Image(
                   image: AssetImage('images/ASSISTANT.png'),
-                  height: 150,
-                  width: 150,
+                  height: hauteur * 0.3,
+                  width: largeur * 0.3,
                 ),
                 ElevatedButton(
                   onPressed: () async {

@@ -130,6 +130,39 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _areNotificationsEnabled = true;
   String _selectedLanguage = 'Français';
 
+  void _showPrivacyAndSecurityDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Confidentialité et Sécurité'),
+          content: const SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Ajoutez ici les informations sur la confidentialité et la sécurité
+                Text(
+                    'Chez Misoa, nous priorisons la confidentialité et la sécurité des informations de nos utilisateurs. Nous nous engageons à protéger la vie privée de toutes les personnes qui interagissent avec notre application d\'immobilité. Cette déclaration de confidentialité décrit notre approche pour protéger les données sensibles et garantir les normes de confidentialité les plus élevées..'),
+                Text(
+                    'Mesures de protection des données :\n Nous mettons en œuvre des mesures de sécurité robustes pour protéger les données personnelles et sensibles contre tout accès, modification, divulgation ou destruction non autorisés.\n Nous utilisons des techniques de cryptage standard de l\'industrie pour assurer la confidentialité de la transmission des données entre les utilisateurs et nos serveurs.\n L\'accès aux données de l\'utilisateur est strictement limité au personnel autorisé qui en a besoin pour effectuer les tâches qui lui sont assignées.'),
+                Text(
+                    'Collecte et utilisation des informations :Nous recueillons uniquement les informations nécessaires pour fournir efficacement nos services d\'immobilité.Les données personnelles, telles que les noms, adresses et coordonnées, sont collectées avec le consentement explicite de l\'utilisateur et sont utilisées uniquement dans le but de fournir les services demandés.Nous ne partageons, vendons ou louons aucune donnée personnelle à des tiers, sauf autorisation explicite de l\'utilisateur ou requise par la loi.'),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Fermer'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -191,6 +224,55 @@ class _SettingsPageState extends State<SettingsPage> {
               },
             ),
             Divider(),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    // Action à effectuer lorsque le bouton est pressé
+                    _showPrivacyAndSecurityDialog();
+                  },
+                  child: const Text(
+                    'Confidentialité et Sécurité',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Spacer(),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    // Action à effectuer lorsque le bouton est pressé
+                  },
+                  child: const Text(
+                    'Changer mot de pass',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Spacer(),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 20,
+                )
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             const Text(
               'Langue',
               style: TextStyle(

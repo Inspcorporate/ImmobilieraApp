@@ -2,7 +2,7 @@
 
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 
 import 'package:flutter/services.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -47,8 +47,8 @@ class _RegisterPageState extends State<RegisterPage> {
     setState(() {
       _isLoading = true;
     });
-    final response = await http
-        .post(Uri.parse("https://s-p4.com/konan/misoa/insert.php"), body: {
+
+    FormData formData = FormData.fromMap({
       "pseudo": pseudo.text,
       "localisa": localisa.text,
       "nom": nom.text,
@@ -56,8 +56,15 @@ class _RegisterPageState extends State<RegisterPage> {
       "nmero": nmero.text,
       "pass": pass.text,
     });
+
+    Dio dio = Dio();
+    final response = await dio.post(
+      'https://s-p4.com/konan/misoa/insert.php',
+      data: formData,
+    );
+
     setState(() {
-      thereponse = response.body.toString();
+      thereponse = response.data.toString();
       if (thereponse == "New record created successfully") {
         clear();
         Navigator.push(
@@ -93,7 +100,6 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
         title: const Text(
           'Inscription',
           style: TextStyle(
@@ -107,233 +113,281 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('images/blan.jpg'),
+              image: AssetImage('images/co.jpg'),
               fit: BoxFit.cover,
               opacity: 1.0,
               repeat: ImageRepeat.noRepeat,
             ),
           ),
-          child: Column(
-            children: [
-              Stack(children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.17,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage('images/fon.jpg'),
-                        fit: BoxFit.cover,
-                        repeat: ImageRepeat.noRepeat),
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20)),
-                  ),
-                ),
-                const Positioned(
-                  top: 0,
-                  left: 0,
-                  child: Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 100, vertical: 50),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            CircleAvatar(
-                              backgroundImage: AssetImage('images/vrai.png'),
-                              radius: 23,
-                            ),
-                            Text(
-                              'MISOA',
-                              style: TextStyle(
-                                  fontFamily: 'beroKC',
-                                  fontSize: 30,
-                                  color: Colors.white),
-                            )
-                          ],
-                        ),
-                      ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Stack(children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.14,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage('images/fon.jpg'),
+                          fit: BoxFit.cover,
+                          repeat: ImageRepeat.noRepeat),
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20)),
                     ),
                   ),
-                )
-              ]),
-              SingleChildScrollView(
-                child: Padding(
+                  const Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 100, vertical: 50),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: AssetImage('images/vrai.png'),
+                                radius: 23,
+                              ),
+                              Text(
+                                'MISOA',
+                                style: TextStyle(
+                                    fontFamily: 'beroKC',
+                                    fontSize: 30,
+                                    color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ]),
+                Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        margin: const EdgeInsets.only(top: 10),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
-                        ),
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          autocorrect: true,
-                          controller: pseudo,
-                          decoration: const InputDecoration(
-                            label: Text('PRENOM'),
-                            enabledBorder: OutlineInputBorder(),
+                  child: SingleChildScrollView(
+                    child: Form(
+                      key: _formKey,
+                      child: Column(children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: Colors.white,
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Veuillez entrer votre prenom svp';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        margin: const EdgeInsets.only(top: 10),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
-                        ),
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          autocorrect: true,
-                          controller: nom,
-                          decoration: const InputDecoration(
-                            label: Text('NOM'),
-                            enabledBorder: OutlineInputBorder(),
+                          padding: const EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                            autocorrect: true,
+                            controller: pseudo,
+                            decoration: const InputDecoration(
+                              label: Text('PRENOM'),
+                              enabledBorder: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Veuillez entrer votre prenom svp';
+                              }
+                              return null;
+                            },
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Veuillez entrer votre nom svp';
-                            }
-                            return null;
-                          },
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        margin: const EdgeInsets.only(top: 10),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
+                        const SizedBox(
+                          height: 10,
                         ),
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          autocorrect: true,
-                          controller: localisa,
-                          decoration: const InputDecoration(
-                            label: Text('Localisation'),
-                            hintText: 'Abidjan,Côte D\'Ivoire',
-                            enabledBorder: OutlineInputBorder(),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: Colors.white,
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Veuillez entrer une localisation svp';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        margin: const EdgeInsets.only(top: 10),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
-                        ),
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          controller: nmero,
-                          autocorrect: true,
-                          decoration: const InputDecoration(
-                            label: Text('Numero'),
-                            enabledBorder: OutlineInputBorder(),
+                          padding: const EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                            autocorrect: true,
+                            controller: nom,
+                            decoration: const InputDecoration(
+                              label: Text('NOM'),
+                              enabledBorder: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Veuillez entrer votre nom svp';
+                              }
+                              return null;
+                            },
                           ),
-                          keyboardType: TextInputType.phone,
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Veuillez entrer votre numéro svp';
-                            }
-                            if (!value.startsWith("+22501") &&
-                                !value.startsWith("+22505") &&
-                                !value.startsWith("+22507")) {
-                              return 'Le numéro doit commencer par +22501, +22505 ou +22507';
-                            }
-                            if (value.length != 14) {
-                              return 'Le numéro doit contenir 14 caractères au total';
-                            }
-                            return null;
-                          },
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        margin: EdgeInsets.only(top: 10),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
+                        const SizedBox(
+                          height: 10,
                         ),
-                        padding: EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          autocorrect: true,
-                          controller: email,
-                          style: const TextStyle(color: Colors.black),
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            labelStyle: TextStyle(color: Colors.black),
-                            enabledBorder: OutlineInputBorder(),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: Colors.white,
                           ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Veuillez entrer votre email';
-                            } else if (!RegExp(
-                                    r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
-                                .hasMatch(value)) {
-                              return 'Veuillez entrer un email valide';
-                            }
-                            return null;
-                          },
+                          padding: const EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                            autocorrect: true,
+                            controller: localisa,
+                            decoration: const InputDecoration(
+                              label: Text('Localisation'),
+                              hintText: 'Abidjan,Côte D\'Ivoire',
+                              enabledBorder: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Veuillez entrer une localisation svp';
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        margin: const EdgeInsets.only(top: 10),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
+                        const SizedBox(
+                          height: 10,
                         ),
-                        padding: const EdgeInsets.only(left: 10),
-                        child: TextFormField(
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: Colors.white,
+                          ),
+                          padding: const EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                            controller: nmero,
+                            autocorrect: true,
+                            decoration: const InputDecoration(
+                              label: Text('Numero'),
+                              enabledBorder: OutlineInputBorder(),
+                            ),
+                            keyboardType: TextInputType.phone,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Veuillez entrer votre numéro svp';
+                              }
+                              if (!value.startsWith("+22501") &&
+                                  !value.startsWith("+22505") &&
+                                  !value.startsWith("+22507")) {
+                                return 'Le numéro doit commencer par +22501, +22505 ou +22507';
+                              }
+                              if (value.length != 14) {
+                                return 'Le numéro doit contenir 14 caractères au total';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          margin: EdgeInsets.only(top: 10),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                            autocorrect: true,
+                            controller: email,
                             style: const TextStyle(color: Colors.black),
-                            controller: repass,
-                            obscureText: _obscureText,
+                            decoration: const InputDecoration(
+                              labelText: 'Email',
+                              labelStyle: TextStyle(color: Colors.black),
+                              enabledBorder: OutlineInputBorder(),
+                            ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Veuillez entrer votre email';
+                              } else if (!RegExp(
+                                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                                  .hasMatch(value)) {
+                                return 'Veuillez entrer un email valide';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          margin: const EdgeInsets.only(top: 10),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: Colors.white,
+                          ),
+                          padding: const EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                              style: const TextStyle(color: Colors.black),
+                              controller: repass,
+                              obscureText: _obscureText,
+                              decoration: InputDecoration(
+                                labelText: 'Mot de passe',
+                                labelStyle:
+                                    const TextStyle(color: Colors.black),
+                                enabledBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscureText = !_obscureText;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    _obscureText
+                                        ? Icons.visibility
+                                        : Icons.visibility_off,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'Veuillez entrer votre mot de passe';
+                                } else if (value.length < 6) {
+                                  return 'Le mot de passe doit comporter au moins 6 caractères';
+                                } else if (value.length > 10) {
+                                  return 'Le mot de passe doit etre compris entre 6 et 10 caractères';
+                                }
+                                return null;
+                              }),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                          margin: EdgeInsets.only(top: 10),
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            color: Colors.white,
+                          ),
+                          padding: EdgeInsets.only(left: 10),
+                          child: TextFormField(
+                            controller: pass,
+                            style: const TextStyle(color: Colors.black),
+                            obscureText: true,
                             decoration: InputDecoration(
-                              labelText: 'Mot de passe',
-                              labelStyle: const TextStyle(color: Colors.black),
+                              labelText: 'Comfirme Mot de passe',
+                              labelStyle: TextStyle(color: Colors.black),
                               enabledBorder: const OutlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
                               ),
                               suffixIcon: IconButton(
                                 onPressed: () {
                                   setState(() {
-                                    _obscureText = !_obscureText;
+                                    _ferme = !_ferme;
                                   });
                                 },
                                 icon: Icon(
-                                  _obscureText
+                                  _ferme
                                       ? Icons.visibility
                                       : Icons.visibility_off,
                                   color: Colors.black,
@@ -348,112 +402,67 @@ class _RegisterPageState extends State<RegisterPage> {
                               } else if (value.length > 10) {
                                 return 'Le mot de passe doit etre compris entre 6 et 10 caractères';
                               }
-                              return null;
-                            }),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        margin: EdgeInsets.only(top: 10),
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          color: Colors.white,
-                        ),
-                        padding: EdgeInsets.only(left: 10),
-                        child: TextFormField(
-                          controller: pass,
-                          style: const TextStyle(color: Colors.black),
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            labelText: 'Comfirme Mot de passe',
-                            labelStyle: TextStyle(color: Colors.black),
-                            enabledBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  _ferme = !_ferme;
-                                });
-                              },
-                              icon: Icon(
-                                _ferme
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value!.isEmpty) {
-                              return 'Veuillez entrer votre mot de passe';
-                            } else if (value.length < 6) {
-                              return 'Le mot de passe doit comporter au moins 6 caractères';
-                            } else if (value.length > 10) {
-                              return 'Le mot de passe doit etre compris entre 6 et 10 caractères';
-                            }
 
-                            return null;
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Text(
+                            "J'accepte tout les conditions d'utilisation que l'application  "),
+                        SwitchListTile(
+                          title: const Text(
+                              ' Misao offre pour la securité de vos donnée'),
+                          value: _areNotificationsEnabled,
+                          onChanged: (value) {
+                            setState(() {
+                              _areNotificationsEnabled = value;
+                            });
                           },
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                          "J'accepte tout les conditions d'utilisation que l'application  "),
-                      SwitchListTile(
-                        title: const Text(
-                            ' Misao offre pour la securité de vos donnée'),
-                        value: _areNotificationsEnabled,
-                        onChanged: (value) {
-                          setState(() {
-                            _areNotificationsEnabled = value;
-                          });
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          width: MediaQuery.of(context).size.width * 0.8,
-                          color: Colors.red,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.red),
-                            onPressed: _isLoading
-                                ? null
-                                : () async {
-                                    if (_formKey.currentState?.validate() ??
-                                        false) {
-                                      setState(() {
-                                        _isLoading = true;
-                                      });
-
-                                      await userinf().then((value) {
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * 0.05,
+                            width: MediaQuery.of(context).size.width * 0.8,
+                            color: Colors.red,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red),
+                              onPressed: _isLoading
+                                  ? null
+                                  : () async {
+                                      if (_formKey.currentState?.validate() ??
+                                          false) {
                                         setState(() {
-                                          _isLoading = false;
+                                          _isLoading = true;
                                         });
-                                      });
-                                    }
-                                  },
-                            child: _isLoading
-                                ? const CircularProgressIndicator()
-                                : const Text(
-                                    "S'inscrire",
-                                    style: TextStyle(
-                                        fontSize: 20, fontFamily: 'beroKC'),
-                                  ),
+
+                                        await userinf().then((value) {
+                                          setState(() {
+                                            _isLoading = false;
+                                          });
+                                        });
+                                      }
+                                    },
+                              child: _isLoading
+                                  ? const CircularProgressIndicator()
+                                  : const Text(
+                                      "S'inscrire",
+                                      style: TextStyle(
+                                          fontSize: 20, fontFamily: 'beroKC'),
+                                    ),
+                            ),
                           ),
                         ),
-                      ),
-                    ]),
+                      ]),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

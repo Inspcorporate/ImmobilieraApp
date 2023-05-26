@@ -337,8 +337,8 @@ class MODIFER extends StatelessWidget {
                                         ),
                                         Column(
                                           children: [
-                                            Row(
-                                              children: const [
+                                            const Row(
+                                              children: [
                                                 Icon(
                                                   Icons.star,
                                                   color: Colors.yellow,

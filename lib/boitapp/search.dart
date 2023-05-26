@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:misoa/boitapp/menu.dart';
@@ -78,7 +80,7 @@ class _MyPageState extends State<MyPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Recherche'),
+          title: const Text('Recherche'),
         ),
         body: SingleChildScrollView(
           child: Column(
@@ -111,7 +113,7 @@ class _MyPageState extends State<MyPage> {
                   hintText: 'Type de bien (appartement, villa, terrain)',
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               if (_propertyType == 'appartement' || _propertyType == 'villa')
                 Row(
                   children: [
@@ -127,7 +129,7 @@ class _MyPageState extends State<MyPage> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Expanded(
                       child: TextField(
                         onChanged: (value) {
@@ -170,7 +172,7 @@ class _MyPageState extends State<MyPage> {
                         ),
                       ),
                     ),
-                    SizedBox(width: 20),
+                    const SizedBox(width: 20),
                     Expanded(
                       child: TextField(
                         onChanged: (value) {

@@ -113,6 +113,8 @@ class _VillechoisieState extends State<Villechoisie> {
                                                 garage:
                                                     data[index]["garage"] ?? 0,
                                                 dateb: data[index]["datebi"],
+                                                codem: data[index]["id_b"],
+                                                user: data[index]["utlisateur"],
                                               ),
                                             ),
                                           );

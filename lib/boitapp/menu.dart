@@ -117,7 +117,7 @@ class _MenuState extends State<Menu> {
               Container(
                 margin: const EdgeInsets.symmetric(vertical: 20),
                 height: 1,
-                color: Colors.grey[300],
+                color: const Color.fromARGB(255, 71, 70, 70),
               ),
               ListTile(
                 leading: Icon(Icons.settings),

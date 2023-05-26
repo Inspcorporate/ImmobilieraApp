@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -85,6 +87,7 @@ class _ProTestState extends State<ProTest> {
         Stack(children: [
           Container(
             height: MediaQuery.of(context).size.height * 0.3,
+            width: largeur,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                   colors: [Colors.red, Colors.redAccent],
@@ -97,7 +100,7 @@ class _ProTestState extends State<ProTest> {
           ),
           const Positioned(
             top: 10,
-            left: 170,
+            left: 140,
             right: 150,
             child: Text(
               'Profil',
@@ -107,7 +110,7 @@ class _ProTestState extends State<ProTest> {
           ),
           const Positioned(
             top: 40,
-            left: 170,
+            left: 150,
             right: 150,
             child: Center(
               child: CircleAvatar(
@@ -118,8 +121,8 @@ class _ProTestState extends State<ProTest> {
           ),
           Positioned(
             bottom: 30,
-            left: 170,
-            right: 150,
+            left: 40,
+            right: 50,
             child: Text(
               '$prenom $_username',
               style: const TextStyle(

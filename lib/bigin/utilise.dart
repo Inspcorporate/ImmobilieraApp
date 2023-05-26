@@ -62,7 +62,7 @@ class condiPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
@@ -74,7 +74,7 @@ class condiPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
@@ -97,7 +97,7 @@ class condiPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             const Text(
               '3. Propriété intellectuelle',
               style: TextStyle(
@@ -105,7 +105,7 @@ class condiPage extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             const Text(
               'Tous les droits de propriété intellectuelle relatifs à l\'application Misoa sont la propriété de Misoa ou de ses concédants de licence. Vous ne pouvez pas copier, modifier, distribuer ou utiliser l\'application ou son contenu à des fins commerciales sans notre autorisation écrite préalable.',
               style: TextStyle(
@@ -114,7 +114,7 @@ class condiPage extends StatelessWidget {
                 fontFamily: 'beroKC',
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             const Text(
@@ -122,7 +122,7 @@ class condiPage extends StatelessWidget {
               style: TextStyle(
                   fontFamily: 'beroKC', fontSize: 30, color: Colors.red),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             const Text(
@@ -134,92 +134,76 @@ class condiPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              child: const Text(
-                "Collecte d'informations",
-                style: TextStyle(fontFamily: 'beroKC', fontSize: 20),
-              ),
+            const Text(
+              "Collecte d'informations",
+              style: TextStyle(fontFamily: 'beroKC', fontSize: 20),
             ),
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: const Text(
-                  "Nous collectons les informations que vous nous fournissez lorsque vous utilisez notre application, telles que votre nom, votre adresse e-mail, votre numéro de téléphone, votre adresse, votre budget et vos préférences de recherche. Nous collectons également des informations sur l'utilisation de notre application, telles que les pages visitées et les recherches effectuées.",
-                  style: TextStyle(
-                    fontFamily: 'beroKC',
-                  ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Nous collectons les informations que vous nous fournissez lorsque vous utilisez notre application, telles que votre nom, votre adresse e-mail, votre numéro de téléphone, votre adresse, votre budget et vos préférences de recherche. Nous collectons également des informations sur l'utilisation de notre application, telles que les pages visitées et les recherches effectuées.",
+                style: TextStyle(
+                  fontFamily: 'beroKC',
                 ),
               ),
             ),
             const SizedBox(
               height: 20,
             ),
-            Container(
-              child: const Text(
-                "Utilisation des informations",
-                style: TextStyle(fontFamily: 'beroKC', fontSize: 20),
-              ),
+            const Text(
+              "Utilisation des informations",
+              style: TextStyle(fontFamily: 'beroKC', fontSize: 20),
             ),
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: const Text(
-                  "Nous utilisons les informations que nous collectons pour vous fournir des services immobiliers personnalisés, tels que des annonces de propriétés qui correspondent à vos critères de recherche. Nous pouvons également utiliser vos informations pour vous contacter à propos de nouvelles propriétés ou d'autres informations pertinentes pour vous.",
-                  style: TextStyle(
-                    fontFamily: 'beroKC',
-                  ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Nous utilisons les informations que nous collectons pour vous fournir des services immobiliers personnalisés, tels que des annonces de propriétés qui correspondent à vos critères de recherche. Nous pouvons également utiliser vos informations pour vous contacter à propos de nouvelles propriétés ou d'autres informations pertinentes pour vous.",
+                style: TextStyle(
+                  fontFamily: 'beroKC',
                 ),
               ),
             ),
             const SizedBox(
               height: 20,
             ),
-            Container(
-              child: const Text(
-                "Protection des données",
-                style: TextStyle(fontFamily: 'beroKC', fontSize: 20),
-              ),
+            const Text(
+              "Protection des données",
+              style: TextStyle(fontFamily: 'beroKC', fontSize: 20),
             ),
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: const Text(
-                  "Nous prenons des mesures de sécurité raisonnables pour protéger vos informations personnelles contre tout accès non autorisé, toute utilisation ou divulgation. Nous utilisons des protocoles de sécurité standard tels que SSL pour protéger les informations transmises sur notre application.",
-                  style: TextStyle(
-                    fontFamily: 'beroKC',
-                  ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Nous prenons des mesures de sécurité raisonnables pour protéger vos informations personnelles contre tout accès non autorisé, toute utilisation ou divulgation. Nous utilisons des protocoles de sécurité standard tels que SSL pour protéger les informations transmises sur notre application.",
+                style: TextStyle(
+                  fontFamily: 'beroKC',
                 ),
               ),
             ),
             const SizedBox(
               height: 20,
             ),
-            Container(
-              child: const Text(
-                "Partage d'informations",
-                style: TextStyle(fontFamily: 'beroKC', fontSize: 20),
-              ),
+            const Text(
+              "Partage d'informations",
+              style: TextStyle(fontFamily: 'beroKC', fontSize: 20),
             ),
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: const Text(
-                  "Nous ne vendons pas et ne partageons pas vos informations personnelles avec des tiers, sauf dans les cas suivants :Si nous avons votre consentement explicite pour partager vos informations.Si nous sommes tenus de divulguer vos informations en vertu d'une loi, d'un règlement ou d'une ordonnance judiciaire.Si nous sommes obligés de partager vos informations pour protéger nos droits, notre propriété ou la sécurité de nos utilisateurs.",
-                  style: TextStyle(
-                    fontFamily: 'beroKC',
-                  ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Nous ne vendons pas et ne partageons pas vos informations personnelles avec des tiers, sauf dans les cas suivants :Si nous avons votre consentement explicite pour partager vos informations.Si nous sommes tenus de divulguer vos informations en vertu d'une loi, d'un règlement ou d'une ordonnance judiciaire.Si nous sommes obligés de partager vos informations pour protéger nos droits, notre propriété ou la sécurité de nos utilisateurs.",
+                style: TextStyle(
+                  fontFamily: 'beroKC',
                 ),
               ),
             ),
@@ -235,14 +219,12 @@ class condiPage extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                child: const Text(
-                  "Si vous avez des questions ou des préoccupations concernant notre politique de confidentialité ou notre traitement de vos informations personnelles, veuillez nous contacter à l'adresse e-mail suivante : admin&com@inspcorporate.com.",
-                  style: TextStyle(
-                    fontFamily: 'beroKC',
-                  ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                "Si vous avez des questions ou des préoccupations concernant notre politique de confidentialité ou notre traitement de vos informations personnelles, veuillez nous contacter à l'adresse e-mail suivante : admin&com@inspcorporate.com.",
+                style: TextStyle(
+                  fontFamily: 'beroKC',
                 ),
               ),
             ),
