@@ -24,7 +24,7 @@ class _MenuState extends State<Menu> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 7),
           child: Row(
             children: [
               Image.network(
@@ -133,7 +133,7 @@ class _MenuState extends State<Menu> {
               ),
               ListTile(
                 leading: Icon(Icons.help),
-                title: Text('Aide'),
+                title: const Text('Aide'),
                 onTap: () {
                   Navigator.pushReplacement(
                     context,
@@ -185,12 +185,12 @@ class _MenuState extends State<Menu> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        notchMargin: 20,
+        notchMargin: 30,
         child: SizedBox(
           height: MediaQuery.of(context).size.height *
               0.08, // ajustez la hauteur en conséquence
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.only(left: 20, right: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -202,7 +202,7 @@ class _MenuState extends State<Menu> {
                           0.1, // ajustez la largeur en conséquence
                       onPressed: () {
                         setState(() {
-                          currenScreen = FirstPage();
+                          currenScreen = const FirstPage();
                           _selectedIndex = 0;
                         });
                       },

@@ -124,7 +124,7 @@ class _FirstPageState extends State<FirstPage> {
                 decoration: InputDecoration(
                   labelText: "Rechercher.... ",
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
+                      borderRadius: BorderRadius.circular(20)),
                 ),
               ),
             ),
@@ -138,7 +138,7 @@ class _FirstPageState extends State<FirstPage> {
                     final product = filteredProducts[index];
                     return Padding(
                       padding: const EdgeInsets.only(
-                          left: 10, right: 10, bottom: 40),
+                          left: 10, right: 10, bottom: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -169,36 +169,40 @@ class _FirstPageState extends State<FirstPage> {
                                         left: 10.0,
                                         child: Column(
                                           children: [
-                                            ElevatedButton(
-                                                style: ElevatedButton.styleFrom(
-                                                    side: const BorderSide(
-                                                        width: 1),
-                                                    backgroundColor:
-                                                        const Color.fromARGB(
-                                                            18, 12, 11, 19)),
-                                                onPressed: () {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          FullScreenImage(
-                                                              imageUrl:
-                                                                  product.image,
-                                                              descri:
-                                                                  product
-                                                                      .description,
-                                                              loca: product
-                                                                  .location,
-                                                              prix: product
-                                                                  .price
-                                                                  .toString(),
-                                                              status: product
-                                                                  .status),
-                                                    ),
-                                                  );
-                                                },
-                                                child: const Text('Detail')),
-                                            SizedBox(height: 10.0),
+                                            Container(
+                                              height: 40,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(width: 1),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                color: Colors.red,
+                                              ),
+                                              child: ElevatedButton(
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            FullScreenImage(
+                                                                imageUrl:
+                                                                    product
+                                                                        .image,
+                                                                descri: product
+                                                                    .description,
+                                                                loca: product
+                                                                    .location,
+                                                                prix: product
+                                                                    .price
+                                                                    .toString(),
+                                                                status: product
+                                                                    .status),
+                                                      ),
+                                                    );
+                                                  },
+                                                  child: const Text('Detail')),
+                                            ),
+                                            const SizedBox(height: 10.0),
                                             ElevatedButton(
                                               onPressed: () {
                                                 setState(() {
@@ -238,13 +242,12 @@ class _FirstPageState extends State<FirstPage> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                        SizedBox(width: 5.0),
+                                        const SizedBox(width: 5.0),
                                         const Text('FCFA'),
-                                        Spacer(),
+                                        const Spacer(),
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 10.0),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10),
@@ -256,7 +259,7 @@ class _FirstPageState extends State<FirstPage> {
                                               Icons.location_on,
                                               color: Colors.grey,
                                             ),
-                                            SizedBox(width: 5.0),
+                                            const SizedBox(width: 5.0),
                                             Text(
                                               product.location,
                                               style: const TextStyle(
@@ -269,7 +272,6 @@ class _FirstPageState extends State<FirstPage> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 10.0),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10.0),
@@ -316,11 +318,11 @@ class _FirstPageState extends State<FirstPage> {
                                       ],
                                     ),
                                   ),
-                                  SizedBox(height: 5.0),
                                 ],
                               ),
                             ),
                           ),
+                          const SizedBox(height: 20.0),
                         ],
                       ),
                     );

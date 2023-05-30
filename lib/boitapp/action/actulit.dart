@@ -72,6 +72,7 @@ class RoundedButton extends StatelessWidget {
   final VoidCallback onTap;
 
   const RoundedButton({
+    super.key,
     required this.text,
     required this.selected,
     required this.onTap,
@@ -83,7 +84,7 @@ class RoundedButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: 100,
-        height: 50,
+        height: 30,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: selected ? Colors.red.shade200 : Colors.transparent,
@@ -106,7 +107,7 @@ class RoundedButton extends StatelessWidget {
 class BottomBar extends StatelessWidget {
   final String selectedOption;
 
-  const BottomBar({required this.selectedOption});
+  const BottomBar({super.key, required this.selectedOption});
 
   @override
   Widget build(BuildContext context) {
@@ -124,24 +125,50 @@ class BottomBar extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               )),
-          const SizedBox(height: 20),
+          const SizedBox(height: 40),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Container(
+                height: 30,
+                width: 100,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Ouest',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+              ),
+              const Spacer(),
+              Container(
+                height: 40,
+                width: 100,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Centre',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+              ),
+              const Spacer(),
               ElevatedButton(
                   onPressed: () {},
                   child: const Text(
-                    'Ouest',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-              const SizedBox(width: 100),
-              ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Centre',
+                    'EST',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
@@ -149,7 +176,7 @@ class BottomBar extends StatelessWidget {
                   )),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 50),
           ElevatedButton(
               onPressed: () {
                 Navigator.push(context,
@@ -189,7 +216,6 @@ class BottomBar extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   )),
-              const SizedBox(width: 100),
               ElevatedButton(
                   onPressed: () {},
                   child: const Text(
@@ -228,19 +254,21 @@ class BottomBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'l\'Ouest',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-              const SizedBox(width: 100),
+                onPressed: () {},
+                child: const Text(
+                  'l\'Ouest',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => AffichPage()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const AffichPage()));
                   },
                   child: const Text(
                     'SUD',
@@ -381,6 +409,8 @@ class FackPage extends StatelessWidget {
       answer: '+225 0708171734',
     ),
   ];
+
+  FackPage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -19,7 +19,7 @@ class _splashcreenState extends State<splashcreen> {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     Timer(
-      const Duration(seconds: 4),
+      const Duration(seconds: 3),
       () => Navigator.pushReplacement(
         context,
         MaterialPageRoute(
