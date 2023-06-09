@@ -284,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                 ),
                                 const SizedBox(height: 20),
-                                const Row(
+                                 const Row(
                                   children: [
                                     SizedBox(width: 60),
                                     InkWell(

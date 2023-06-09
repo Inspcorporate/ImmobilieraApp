@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/affiche.dart';
-import 'package:misoa/identic/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -113,162 +112,78 @@ class BottomBar extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget content;
     if (selectedOption == 'Appartement') {
-      content = Column(
-        children: [
-          const SizedBox(height: 100),
-          ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'NORD',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              )),
-          const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 30,
-                width: 100,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Ouest',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-              ),
-              const Spacer(),
-              Container(
-                height: 40,
-                width: 100,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Centre',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-              ),
-              const Spacer(),
-              ElevatedButton(
+      content = Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            SizedBox(
+              width: 100,
+              height: 30,
+              child: ElevatedButton(
                   onPressed: () {},
                   child: const Text(
-                    'EST',
+                    'NORD',
                     style: TextStyle(
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold,
                     ),
                   )),
-            ],
-          ),
-          const SizedBox(height: 50),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AffichPage()));
-              },
-              child: const Text(
-                'SUD',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+            ),
+            const SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Ouest',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                 ),
-              )),
-        ],
-      );
-    } else if (selectedOption == 'Terrain') {
-      content = Column(
-        children: [
-          ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'NORD',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+                const Spacer(),
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Centre',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                 ),
-              )),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Ouest',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-              ElevatedButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Centre',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )),
-            ],
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AffichPage()));
-              },
-              child: const Text('SUD')),
-        ],
-      );
-    } else if (selectedOption == 'Villa') {
-      content = Column(
-        children: [
-          const SizedBox(height: 100),
-          ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'Centre',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+                const Spacer(),
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'EST',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                 ),
-              )),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: () {},
-                child: const Text(
-                  'l\'Ouest',
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              ElevatedButton(
+              ],
+            ),
+            const SizedBox(height: 50),
+            SizedBox(
+              height: 30,
+              width: 100,
+              child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const AffichPage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AffichPage()));
                   },
                   child: const Text(
                     'SUD',
@@ -277,19 +192,179 @@ class BottomBar extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   )),
-            ],
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-              onPressed: () {},
-              child: const Text(
-                'Nord',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+            ),
+          ],
+        ),
+      );
+    } else if (selectedOption == 'Terrain') {
+      content = Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            SizedBox(
+              width: 100,
+              height: 30,
+              child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'NORD',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+            ),
+            const SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Ouest',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
                 ),
-              )),
-        ],
+                const Spacer(),
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Centre',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                ),
+                const Spacer(),
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'EST',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                ),
+              ],
+            ),
+            const SizedBox(height: 50),
+            SizedBox(
+              height: 30,
+              width: 100,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AffichPage()));
+                  },
+                  child: const Text(
+                    'SUD',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+            ),
+          ],
+        ),
+      );
+    } else if (selectedOption == 'Villa') {
+      content = Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          children: [
+            SizedBox(
+              width: 100,
+              height: 30,
+              child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'NORD',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+            ),
+            const SizedBox(height: 40),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Ouest',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                ),
+                const Spacer(),
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Centre',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                ),
+                const Spacer(),
+                SizedBox(
+                  height: 30,
+                  width: 100,
+                  child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'EST',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                ),
+              ],
+            ),
+            const SizedBox(height: 50),
+            SizedBox(
+              height: 30,
+              width: 100,
+              child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => AffichPage()));
+                  },
+                  child: const Text(
+                    'SUD',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+            ),
+          ],
+        ),
       );
     } else {
       content = Container(
@@ -333,64 +408,47 @@ class _RelookPgeState extends State<RelookPge> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<bool>(
-      future: checkConnection(),
-      builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-        if (snapshot.hasData && snapshot.data!) {
-          return Scaffold(
-            body: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Form(
-                      key: _formKey,
-                      child: TextFormField(
-                        controller: inform,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Veuillez entrer votre nom svp';
-                          }
-                          return null;
-                        },
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(width: 1, color: Colors.grey)),
-                          labelText: 'Vous souhaitez relooker?',
-                        ),
-                      )),
-                  const SizedBox(height: 16.0),
-                  ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        maximumSize: const Size(100, 50),
-                        backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
-                      ),
-                      onPressed: () {
-                        relook();
-                      },
-                      child: const Text(
-                        'Valider',
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ))
-                ],
-              ),
-            ),
-          );
-        } else {
-          // L'utilisateur n'est pas connecté, rediriger vers la page de connexion
-          return const LoginPage();
-        }
-      },
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: inform,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Veuillez entrer votre nom svp';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderSide: BorderSide(width: 1, color: Colors.grey)),
+                    labelText: 'Vous souhaitez relooker?',
+                  ),
+                )),
+            const SizedBox(height: 16.0),
+            ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  maximumSize: const Size(100, 50),
+                  backgroundColor: const Color.fromRGBO(244, 67, 54, 1),
+                ),
+                onPressed: () {
+                  relook();
+                },
+                child: const Text(
+                  'Valider',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),)
+          ],
+        ),
+      ),
     );
-  }
-
-  Future<bool> checkConnection() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool isConnected = prefs.getBool('isConnected') ?? false;
-    return isConnected;
   }
 }
 
@@ -405,7 +463,7 @@ class FackPage extends StatelessWidget {
       answer: '+225 0708171734',
     ),
     Faq(
-      question: 'Autre?',
+      question: 'Autre?', 
       answer: '+225 0708171734',
     ),
   ];

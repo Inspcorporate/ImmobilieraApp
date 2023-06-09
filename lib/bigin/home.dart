@@ -38,12 +38,15 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  const Text(
-                    'MISOA',
-                    style: TextStyle(
-                      fontFamily: 'beroKC',
-                      fontSize: 30,
-                      color: Colors.white,
+                  const Padding(
+                    padding: EdgeInsets.only(top:30,),
+                    child:  Text(
+                      'MISOA',
+                      style: TextStyle(
+                        fontFamily: 'beroKC',
+                        fontSize: 30,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -53,7 +56,7 @@ class _HomePageState extends State<HomePage> {
                     backgroundImage: AssetImage('images/vrai.png'),
                     radius: 80,
                   ),
-                  const SizedBox(height: 40),
+                  Spacer(),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(280, 50),
@@ -126,6 +129,8 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+                  Spacer()
+                  
                 ],
               ),
             ),

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:misoa/boitapp/action/mesv.dart';
-import 'package:misoa/boitapp/ass.dart';
+import 'package:misoa/boitapp/action/vente.dart';
 import 'package:misoa/boitapp/porfil1.dart';
 import 'package:misoa/identic/login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +23,7 @@ class _ProTestState extends State<ProTest> {
   String numero = "";
   String email = "";
   String localisa = "";
+
   @override
   void initState() {
     super.initState();
@@ -30,25 +31,31 @@ class _ProTestState extends State<ProTest> {
   }
 
   Future<void> _loadUserData() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final int userId = prefs.getInt("userId") ?? -1;
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final int userId = prefs.getInt("userId") ?? -1;
 
-    final response = await http.post(
-      Uri.parse("https://s-p4.com/konan/misoa/mobile.php"),
-      body: {
-        "id": userId.toString(),
-      },
-    );
+      final response = await http.post(
+        Uri.parse("https://s-p4.com/konan/misoa/mobile.php"),
+        body: {
+          "id": userId.toString(),
+        },
+      );
 
-    final data = jsonDecode(response.body);
+      final data = jsonDecode(response.body);
 
-    setState(() {
-      _username = data["username"] ?? '';
-      prenom = data["prenom"] ?? '';
-      numero = data["numero"] ?? '';
-      localisa = data["localisa"] ?? '';
-      email = data["email"] ?? '';
-    });
+      setState(() {
+        _username = data["username"] ?? '';
+        prenom = data["prenom"] ?? '';
+        numero = data["numero"] ?? '';
+        localisa = data["localisa"] ?? '';
+        email = data["email"] ?? '';
+      });
+    } catch (error) {
+      // Gérer l'erreur ici, par exemple, afficher un message d'erreur à l'utilisateur.
+      print(
+          "Une erreur s'est produite lors du chargement des données : $error");
+    }
   }
 
   void disconnectUser(BuildContext context) async {
@@ -64,7 +71,7 @@ class _ProTestState extends State<ProTest> {
   final List<Widget> _widgetOptions = <Widget>[
     Profil1(),
     MesVente(),
-    HelpPge(),
+    Vendre(),
     Text('Contenu 4'),
   ];
 
@@ -157,14 +164,14 @@ class _ProTestState extends State<ProTest> {
             Column(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.sell_rounded),
+                  icon: const Icon(Icons.add_box),
                   color: _selectedIndex == 1 ? Colors.red : Colors.grey,
                   onPressed: () {
                     _onItemTapped(1);
                   },
                 ),
                 Text(
-                  'Mes Ventes',
+                  'Mes Posts',
                   style: TextStyle(
                     color: _selectedIndex == 1 ? Colors.red : Colors.grey,
                   ),
@@ -174,14 +181,14 @@ class _ProTestState extends State<ProTest> {
             Column(
               children: [
                 IconButton(
-                  icon: const Icon(Icons.help_center),
+                  icon: const Icon(Icons.sell_rounded),
                   color: _selectedIndex == 2 ? Colors.red : Colors.grey,
                   onPressed: () {
                     _onItemTapped(2);
                   },
                 ),
                 Text(
-                  'Assistance',
+                  'vendre',
                   style: TextStyle(
                     color: _selectedIndex == 2 ? Colors.red : Colors.grey,
                   ),

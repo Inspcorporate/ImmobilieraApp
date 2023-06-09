@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:misoa/bigin/utilise.dart';
 import 'package:misoa/boitapp/action/Relooking.dart';
 import 'package:misoa/boitapp/action/assis.dart';
-import 'package:misoa/boitapp/action/circuleP.dart';
+
 import 'package:misoa/boitapp/action/wait.dart';
 import 'package:misoa/boitapp/affiche.dart';
 import 'package:misoa/boitapp/visite.dart';
@@ -199,7 +199,7 @@ class _MenuState extends State<Menu> {
                   children: [
                     MaterialButton(
                       minWidth: MediaQuery.of(context).size.width *
-                          0.1, // ajustez la largeur en conséquence
+                          0.3, // ajustez la largeur en conséquence
                       onPressed: () {
                         setState(() {
                           currenScreen = const FirstPage();
@@ -210,6 +210,7 @@ class _MenuState extends State<Menu> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
+                            size: 30,
                             Icons.home,
                             color:
                                 _selectedIndex == 0 ? Colors.red : Colors.grey,
@@ -226,10 +227,10 @@ class _MenuState extends State<Menu> {
                     ),
                     MaterialButton(
                       minWidth: MediaQuery.of(context).size.width *
-                          0.1, // ajustez la largeur en conséquence
+                          0.3, // ajustez la largeur en conséquence
                       onPressed: () {
                         setState(() {
-                          currenScreen = Accueil();
+                          currenScreen = const Accueil();
                           _selectedIndex = 1;
                         });
                       },
@@ -237,6 +238,7 @@ class _MenuState extends State<Menu> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
+                            size: 30,
                             Icons.search_outlined,
                             color:
                                 _selectedIndex == 1 ? Colors.red : Colors.grey,
@@ -253,34 +255,7 @@ class _MenuState extends State<Menu> {
                     ),
                     MaterialButton(
                       minWidth: MediaQuery.of(context).size.width *
-                          0.1, // ajustez la largeur en conséquence
-                      onPressed: () {
-                        setState(() {
-                          currenScreen = const CircilePage();
-                          _selectedIndex = 2;
-                        });
-                      },
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.sell_rounded,
-                            color:
-                                _selectedIndex == 2 ? Colors.red : Colors.grey,
-                          ),
-                          Text(
-                            'Vendre',
-                            style: TextStyle(
-                                color: _selectedIndex == 2
-                                    ? Colors.red
-                                    : Colors.grey),
-                          )
-                        ],
-                      ),
-                    ),
-                    MaterialButton(
-                      minWidth: MediaQuery.of(context).size.width *
-                          0.1, // ajustez la largeur en conséquence
+                          0.2, // ajustez la largeur en conséquence
                       onPressed: () {
                         setState(() {
                           currenScreen = ProTest();
@@ -291,6 +266,7 @@ class _MenuState extends State<Menu> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Icon(
+                            size: 33,
                             Icons.person,
                             color:
                                 _selectedIndex == 3 ? Colors.red : Colors.grey,
